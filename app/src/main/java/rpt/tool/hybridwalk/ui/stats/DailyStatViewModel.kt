@@ -1,7 +1,5 @@
 package rpt.tool.hybridwalk.ui.stats
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,12 +14,9 @@ import java.util.Locale
 
 class StatsViewModel : ViewModel() {
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private val todayEpoch = LocalDate.now().toEpochDay()
-    @RequiresApi(Build.VERSION_CODES.O)
     private val startEpoch = todayEpoch - 6
 
-    @RequiresApi(Build.VERSION_CODES.O)
     val weeklyStats: StateFlow<List<DailyStat>> = RepositoryManager.getRecordsSince(startEpoch)
         .map { records ->
 

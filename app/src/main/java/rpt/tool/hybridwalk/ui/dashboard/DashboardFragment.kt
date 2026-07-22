@@ -5,11 +5,12 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import rpt.com.base.BaseJetComposeFragment
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -37,9 +38,8 @@ import rpt.tool.hybridwalk.utils.extensions.stopStepTrackerService
 import rpt.tool.hybridwalk.utils.view.HybridScaffold
 import rpt.tool.hybridwalk.utils.view.Screen
 
-class DashboardFragment : BaseJetComposeFragment(hideBars = false) {
+class DashboardFragment : BaseJetComposeFragment(hideBars = true) {
 
-    @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     override fun BaseJetCompose() {
 
@@ -124,9 +124,12 @@ fun DashboardScreen(
     ) {
     }
 
+    val scrollState = rememberScrollState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(scrollState)
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

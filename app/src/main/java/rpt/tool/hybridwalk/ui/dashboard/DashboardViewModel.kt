@@ -1,7 +1,5 @@
 package rpt.tool.hybridwalk.ui.dashboard
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,12 +16,10 @@ import java.time.LocalDate
 
 class DashboardViewModel() : ViewModel() {
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private val todayEpoch = LocalDate.now().toEpochDay()
     private val _isWfhActive = MutableStateFlow(SharedPreferencesManager.isWfh)
     var isWfhActive: StateFlow<Boolean> = _isWfhActive.asStateFlow()
 
-    @RequiresApi(Build.VERSION_CODES.O)
     val todayRecord: StateFlow<DailyRecord> = RepositoryManager.getRecordByDate(todayEpoch)
         .map { record ->
             record ?: DailyRecord(dateEpochDay = todayEpoch)
@@ -34,7 +30,6 @@ class DashboardViewModel() : ViewModel() {
             initialValue = DailyRecord(dateEpochDay = todayEpoch)
         )
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun toggleWfh(isWfh: Boolean) {
         SharedPreferencesManager.isWfh = isWfh
         _isWfhActive.value = isWfh
@@ -44,7 +39,6 @@ class DashboardViewModel() : ViewModel() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun toggleGym(isGym: Boolean) {
         viewModelScope.launch {
             val currentRecord = todayRecord.value

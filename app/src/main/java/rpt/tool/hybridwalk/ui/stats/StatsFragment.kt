@@ -21,7 +21,7 @@ import rpt.tool.hybridwalk.utils.view.HybridScaffold
 import rpt.tool.hybridwalk.utils.view.Screen
 import rpt.tool.hybridwalk.utils.view.StatsScreen
 
-class StatsFragment : BaseJetComposeFragment(hideBars = false) {
+class StatsFragment : BaseJetComposeFragment(hideBars = true) {
 
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable

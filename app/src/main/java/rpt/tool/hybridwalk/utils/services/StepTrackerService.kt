@@ -1,5 +1,6 @@
 package rpt.tool.hybridwalk.utils.services
 
+import android.Manifest
 import android.app.AlarmManager
 import android.app.Notification
 import android.app.NotificationChannel
@@ -8,6 +9,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.pm.ServiceInfo
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -15,8 +17,8 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.IBinder
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -28,7 +30,6 @@ import java.time.LocalDate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 import rpt.tool.hybridwalk.MainActivity
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -43,7 +44,6 @@ class StepTrackerService : Service(), SensorEventListener {
     private val INACTIVITY_THRESHOLD = 60L * 60L * 1000L
     private val CHECK_INTERVAL = 5L * 60L * 1000L
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
         super.onCreate()
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -51,22 +51,57 @@ class StepTrackerService : Service(), SensorEventListener {
 
         val notification = createNotification()
 
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACTIVITY_RECOGNITION)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            stopSelf()
+            return
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            startForeground(
-                NOTIFICATION_ID,
-                notification,
-                ServiceInfo.FOREGROUND_SERVICE_TYPE_HEALTH
-            )
+            val hasActivityRecognition = ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACTIVITY_RECOGNITION
+            ) == PackageManager.PERMISSION_GRANTED
+
+            if (hasActivityRecognition) {
+                startForeground(
+                    NOTIFICATION_ID,
+                    notification,
+                    ServiceInfo.FOREGROUND_SERVICE_TYPE_HEALTH
+                )
+            } else {
+                startForeground(NOTIFICATION_ID, notification)
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForeground(NOTIFICATION_ID, notification)
         } else {
+            // startForeground is available since API 5, but usually we don't call it if we don't have notification
             startForeground(NOTIFICATION_ID, notification)
         }
 
-        stepSensor?.let {
-            sensorManager.registerListener(this, it,
-                SensorManager.SENSOR_DELAY_NORMAL)
+        val hasActivityRecognition = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACTIVITY_RECOGNITION
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            true
         }
 
-        createAlertNotificationChannel()
+        if (hasActivityRecognition) {
+            stepSensor?.let {
+                sensorManager.registerListener(
+                    this, it,
+                    SensorManager.SENSOR_DELAY_NORMAL
+                )
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createAlertNotificationChannel()
+        }
         startInactivityTimer()
     }
 
@@ -75,7 +110,6 @@ class StepTrackerService : Service(), SensorEventListener {
         return START_STICKY
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.sensor?.type == Sensor.TYPE_STEP_COUNTER) {
             val currentSensorValue = event.values[0].toInt()
@@ -105,23 +139,26 @@ class StepTrackerService : Service(), SensorEventListener {
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotification(): Notification {
         val channelId = "hybridwalk_tracking_channel"
-        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        val channel = NotificationChannel(
-            channelId,
-            getString(R.string.tracciamento_passi),
-            NotificationManager.IMPORTANCE_LOW
-        )
-        manager.createNotificationChannel(channel)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+            val channel = NotificationChannel(
+                channelId,
+                getString(R.string.tracciamento_passi),
+                NotificationManager.IMPORTANCE_LOW
+            )
+            manager.createNotificationChannel(channel)
+        }
 
         return NotificationCompat.Builder(this, channelId)
             .setContentTitle(getString(R.string.hybridwalk))
             .setContentText(getString(R.string.tracciamento_attivo_in_background))
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setOngoing(true)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
     }
 
@@ -144,24 +181,25 @@ class StepTrackerService : Service(), SensorEventListener {
         inactivityJob?.cancel()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun createAlertNotificationChannel() {
-        val channelId = "hybridwalk_alerts_channel"
-        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channelId = "hybridwalk_alerts_channel"
+            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        val channel = NotificationChannel(
-            channelId,
-            getString(R.string.promemoria_movimento),
-            NotificationManager.IMPORTANCE_HIGH
-        ).apply {
-            description = getString(R.string.
-            ti_ricorda_di_alzarti_se_stai_fermo_per_troppo_tempo)
-            enableVibration(true)
+            val channel = NotificationChannel(
+                channelId,
+                getString(R.string.promemoria_movimento),
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = getString(
+                    R.string.ti_ricorda_di_alzarti_se_stai_fermo_per_troppo_tempo
+                )
+                enableVibration(true)
+            }
+            manager.createNotificationChannel(channel)
         }
-        manager.createNotificationChannel(channel)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun startInactivityTimer() {
         inactivityJob = serviceScope.launch {
             while (isActive) {
