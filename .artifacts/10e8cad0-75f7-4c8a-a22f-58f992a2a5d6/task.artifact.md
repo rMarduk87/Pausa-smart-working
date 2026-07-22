@@ -1,0 +1,6 @@
+- `[x]` Fix root `build.gradle.kts` syntax
+- `[x]` Fix `app/build.gradle.kts` syntax
+    - `[x]` Fix plugins block
+    - `[x]` Fix android block (compileSdk, buildTypes)
+    - `[x]` Fix dependencies block (parentheses, room version)
+- `[x]` Verify sync results

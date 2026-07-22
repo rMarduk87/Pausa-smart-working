@@ -1,0 +1,5 @@
+- [x] Update `libs.versions.toml` with Firebase Crashlytics library and plugin
+- [x] Update project-level `build.gradle.kts` with Crashlytics plugin
+- [x] Update app-level `build.gradle.kts` with Crashlytics plugin and dependency
+- [x] Run Gradle Sync
+- [x] Verify build with `./gradlew :app:compileDebugKotlin`

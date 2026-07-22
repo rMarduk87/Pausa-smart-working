@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "156564481005",
+    "project_id": "hybrid-walk",
+    "storage_bucket": "hybrid-walk.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:156564481005:android:32206173bf004740b17de4",
+        "android_client_info": {
+          "package_name": "rpt.tool.hybridwalk"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoZnu0m9Rj3sHHnfRnCFWzpZC88qdD4nQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

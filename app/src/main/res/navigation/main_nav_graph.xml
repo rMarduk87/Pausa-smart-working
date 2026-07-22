@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="rpt.tool.hybridwalk.ui.dashboard.DashboardFragment"
+        android:label="DashboardFragment">
+
+        <action
+            android:id="@+id/action_dashboardFragment_to_statsFragment"
+            app:destination="@id/statsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/statsFragment"
+        android:name="rpt.tool.hybridwalk.ui.stats.StatsFragment"
+        android:label="Stats" />
+
+    <action
+        android:id="@+id/action_statsFragment_to_dashBoardFragment"
+        app:destination="@id/dashboardFragment" />
+</navigation>

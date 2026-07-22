@@ -1,0 +1,5 @@
+- [x] Fix `Screen` sealed class and `HybridScaffold` in `Screen.kt`
+- [x] Fix state update in `DashboardViewModel.kt`
+- [x] Fix `DashboardFragment.kt` (HybridScaffold content, navigation)
+- [x] Fix `StatsFragment.kt` (HybridScaffold content, navigation)
+- [x] Verify build with `./gradlew :app:compileDebugKotlin`
