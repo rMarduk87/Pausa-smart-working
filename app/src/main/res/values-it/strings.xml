@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">HybridWalk</string>
+    <string name="oggi">Oggi</string>
+    <string name="mantieni_il_ritmo">Mantieni il ritmo</string>
+    <string name="modalit_smart_working">Modalità Smart Working</string>
+    <string name="traccia_i_passi_e_ricorda_di_alzarti">Traccia i passi e ricorda di alzarti</string>
+    <string name="giorno_di_scarico_palestra">Giorno di Scarico / Palestra</string>
+    <string name="disattiva_i_promemoria_per_oggi">Disattiva i promemoria per oggi</string>
+    <string name="passi">/ %1$d passi</string>
+    <string name="tracciamento_passi">Tracciamento Passi</string>
+    <string name="hybridwalk">HybridWalk</string>
+    <string name="tracciamento_attivo_in_background">Tracciamento attivo in background</string>
+    <string name="promemoria_movimento">Promemoria Movimento</string>
+    <string name="ti_ricorda_di_alzarti_se_stai_fermo_per_troppo_tempo">Ti ricorda di alzarti se stai fermo per troppo tempo</string>
+    <string name="ora_di_sgranchirsi_le_gambe">Ora di sgranchirsi le gambe! 🚶‍♂️</string>
+    <string name="sei_seduto_da_60_minuti_alzati_per_bere_un_bicchiere_d_acqua">Sei seduto da 60 minuti. Alzati per bere un bicchiere d\'acqua.</string>
+    <string name="attenzione_il_contapassi_potrebbe_fermarsi">Attenzione: Il contapassi potrebbe fermarsi</string>
+    <string name="il_sistema_operativo_potrebbe_chiudere_l_app">Il sistema operativo potrebbe chiudere l\'app per risparmiare batteria. Tocca qui per disabilitare l\'ottimizzazione per HybridWalk.</string>
+    <string name="apri_impostazioni_batteria">Apri Impostazioni Batteria</string>
+    <string name="telefoni_ottimizzazione">Alcuni telefoni chiudono le app in background. Tocca qui, cerca \'HybridWalk\' nella lista e seleziona \'Senza restrizioni\' (o \'Non ottimizzare\').</string>
+    <string name="andamento">Andamento</string>
+    <string name="ultimi_7_giorni">Ultimi 7 giorni</string>
+    <string name="_oggi">Oggi</string>
+    <string name="impostazioni">Impostazioni</string>
+    <string name="personalizza_la_tua_esperienza">Personalizza la tua esperienza</string>
+    <string name="obiettivo_passi_giornaliero">Obiettivo passi giornaliero</string>
+    <string name="passi_al_giorno">%1$d passi</string>
+    <string name="promemoria_inattività">Promemoria inattività</string>
+    <string name="minuti_di_inattività">%1$d minuti</string>
+    <string name="risparmio_batteria">Risparmio batteria</string>
+    <string name="gestisci_ottimizzazione_batteria">Gestisci ottimizzazione batteria</string>
+</resources>

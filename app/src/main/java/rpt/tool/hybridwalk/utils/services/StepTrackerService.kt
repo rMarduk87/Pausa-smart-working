@@ -41,7 +41,6 @@ class StepTrackerService : Service(), SensorEventListener {
     private var lastSensorValue: Int = -1
     private var lastMovementTime: Long = System.currentTimeMillis()
     private var inactivityJob: Job? = null
-    private val INACTIVITY_THRESHOLD = 60L * 60L * 1000L
     private val CHECK_INTERVAL = 5L * 60L * 1000L
 
     override fun onCreate() {
@@ -206,8 +205,9 @@ class StepTrackerService : Service(), SensorEventListener {
                 delay(CHECK_INTERVAL.milliseconds)
 
                 val timeSinceLastMove = System.currentTimeMillis() - lastMovementTime
+                val threshold = rpt.tool.hybridwalk.utils.managers.SharedPreferencesManager.inactivityThreshold
 
-                if (timeSinceLastMove >= INACTIVITY_THRESHOLD) {
+                if (timeSinceLastMove >= threshold) {
                     val todayEpoch = LocalDate.now().toEpochDay()
                     val todayRecord = RepositoryManager
                         .getRecordByDate(todayEpoch).firstOrNull()

@@ -46,7 +46,11 @@ object RepositoryManager {
             val newCount = currentRecord.stepCount + stepsToAdd
             hybridWalkRepository.updateSteps(epochDay, newCount)
         } else {
-            val newRecord = DailyRecord(dateEpochDay = epochDay, stepCount = stepsToAdd)
+            val newRecord = DailyRecord(
+                dateEpochDay = epochDay,
+                stepCount = stepsToAdd,
+                stepGoal = SharedPreferencesManager.stepGoal
+            )
             hybridWalkRepository.insertOrUpdate(newRecord)
         }
     }

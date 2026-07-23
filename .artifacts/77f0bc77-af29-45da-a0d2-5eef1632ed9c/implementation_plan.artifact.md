@@ -1,42 +1,62 @@
-# Implementation Plan - Fix build errors across the project
+# Implementation Plan - Add Settings Fragment
 
-The project is currently failing to build due to several issues:
-1. `HybridScaffold` is missing its mandatory `content` lambda in `DashboardFragment` and `StatsFragment`.
-2. `Screen` sealed class has an invalid definition that depends on a non-existent `Context`.
-3. `safeNavController()` calls are missing the `navHostId`.
-4. `DashboardFragmentDirections` and `StatsFragmentDirections` are unresolved (Safe Args missing/not working).
-5. `DashboardViewModel` attempts to reassign a `val` property.
+This plan covers adding a new Settings screen to the app, allowing users to customize their daily step goal and inactivity reminder threshold. The settings will be persisted using `SharedPreferencesManager`.
 
 ## Proposed Changes
 
-### [Component: UI Utilities]
+### [Component: Data & Managers]
+
+#### [MODIFY] [AppUtils.kt](file:///C:/Users/Riccardo.Pezzolati/Pausa-smart-working/app/src/main/java/rpt/tool/hybridwalk/utils/AppUtils.kt)
+- Add keys for `STEP_GOAL` and `INACTIVITY_THRESHOLD`.
+
+#### [MODIFY] [SharedPreferencesManager.kt](file:///C:/Users/Riccardo.Pezzolati/Pausa-smart-working/app/src/main/java/rpt/tool/hybridwalk/utils/managers/SharedPreferencesManager.kt)
+- Add `stepGoal` (Int) and `inactivityThreshold` (Long/Int) properties.
+
+#### [MODIFY] [RepositoryManager.kt](file:///C:/Users/Riccardo.Pezzolati/Pausa-smart-working/app/src/main/java/rpt/tool/hybridwalk/utils/managers/RepositoryManager.kt)
+- Use `SharedPreferencesManager.stepGoal` when creating a new `DailyRecord` in `incrementSteps`.
+
+### [Component: UI Shell]
 
 #### [MODIFY] [Screen.kt](file:///C:/Users/Riccardo.Pezzolati/Pausa-smart-working/app/src/main/java/rpt/tool/hybridwalk/utils/view/Screen.kt)
-- Redefine `Screen` to use `@StringRes titleRes: Int` instead of `title: String` and remove the `Context` parameter.
-- Update `Dashboard` and `Stats` objects to pass resource IDs.
-- Update `HybridScaffold` to resolve the title string using `stringResource(screen.titleRes)`.
+- Add `Settings` object to `Screen` sealed class.
+- Update `HybridScaffold` to include the Settings tab in the `NavigationBar`.
 
-### [Component: Dashboard]
+#### [MODIFY] [main_nav_graph.xml](file:///C:/Users/Riccardo.Pezzolati/Pausa-smart-working/app/src/main/res/navigation/main_nav_graph.xml)
+- Add `settingsFragment` destination.
+- Add actions to navigate between Dashboard, Stats, and Settings.
+
+#### [MODIFY] [strings.xml](file:///C:/Users/Riccardo.Pezzolati/Pausa-smart-working/app/src/main/res/values/strings.xml)
+- Add strings for "Impostazioni", "Obiettivo passi", "Promemoria inattività", and other UI elements.
+
+### [Component: Settings Feature]
+
+#### [NEW] [SettingsViewModel.kt](file:///C:/Users/Riccardo.Pezzolati/Pausa-smart-working/app/src/main/java/rpt/tool/hybridwalk/ui/settings/SettingsViewModel.kt)
+- Manage state for step goal and inactivity threshold.
+
+#### [NEW] [SettingsFragment.kt](file:///C:/Users/Riccardo.Pezzolati/Pausa-smart-working/app/src/main/java/rpt/tool/hybridwalk/ui/settings/SettingsFragment.kt)
+- Implement UI using Jetpack Compose, matching the dark theme and style of Dashboard/Stats.
+- Include interactive components for adjusting settings.
+
+### [Component: Existing Screens Update]
 
 #### [MODIFY] [DashboardFragment.kt](file:///C:/Users/Riccardo.Pezzolati/Pausa-smart-working/app/src/main/java/rpt/tool/hybridwalk/ui/dashboard/DashboardFragment.kt)
-- Wrap the main UI content (the `Surface` block) inside the `HybridScaffold` trailing lambda.
-- Pass `R.id.main_activity_nav_host_fragment` to `safeNavController()`.
-- Replace `DashboardFragmentDirections` usage with direct action ID navigation.
-
-#### [MODIFY] [DashboardViewModel.kt](file:///C:/Users/Riccardo.Pezzolati/Pausa-smart-working/app/src/main/java/rpt/tool/hybridwalk/ui/dashboard/DashboardViewModel.kt)
-- Fix `toggleWfh` to update `_isWfhActive.value` instead of `isWfhActive.value`.
-
-### [Component: Stats]
+- Update navigation logic in `HybridScaffold` to handle the new Settings tab.
 
 #### [MODIFY] [StatsFragment.kt](file:///C:/Users/Riccardo.Pezzolati/Pausa-smart-working/app/src/main/java/rpt/tool/hybridwalk/ui/stats/StatsFragment.kt)
-- Wrap the `Surface` content inside `HybridScaffold` trailing lambda.
-- Pass `R.id.main_activity_nav_host_fragment` to `safeNavController()`.
-- Replace `StatsFragmentDirections` usage with direct action ID navigation.
+- Update navigation logic in `HybridScaffold` to handle the new Settings tab.
+
+### [Component: Background Services]
+
+#### [MODIFY] [StepTrackerService.kt](file:///C:/Users/Riccardo.Pezzolati/Pausa-smart-working/app/src/main/java/rpt/tool/hybridwalk/utils/services/StepTrackerService.kt)
+- Use `SharedPreferencesManager.inactivityThreshold` instead of the hardcoded `INACTIVITY_THRESHOLD`.
 
 ## Verification Plan
 
 ### Automated Tests
-- Run `./gradlew :app:compileDebugKotlin` to verify that all reported build errors are resolved.
+- Run `./gradlew :app:compileDebugKotlin` to ensure no regression.
 
 ### Manual Verification
-- Deploy the app to a device/emulator to ensure navigation between Dashboard and Stats works as expected.
+1. Open the app and navigate to the new Settings tab.
+2. Change the daily step goal and verify it reflects on the Dashboard.
+3. Change the inactivity threshold.
+4. Verify that settings persist after app restart.

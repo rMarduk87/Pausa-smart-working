@@ -57,9 +57,16 @@ class DashboardFragment : BaseJetComposeFragment(hideBars = true) {
             HybridScaffold(
                 currentScreen = Screen.Dashboard,
                 onTabSelected = { screen ->
-                    if (screen is Screen.Stats) {
-                        safeNavController(R.id.main_activity_nav_host_fragment)
-                            ?.safeNavigate(R.id.action_dashboardFragment_to_statsFragment)
+                    when (screen) {
+                        is Screen.Stats -> {
+                            safeNavController(R.id.main_activity_nav_host_fragment)
+                                ?.safeNavigate(R.id.action_dashboardFragment_to_statsFragment)
+                        }
+                        is Screen.Settings -> {
+                            safeNavController(R.id.main_activity_nav_host_fragment)
+                                ?.safeNavigate(R.id.action_dashboardFragment_to_settingsFragment)
+                        }
+                        else -> {}
                     }
                 }
             ) { paddingValues ->
