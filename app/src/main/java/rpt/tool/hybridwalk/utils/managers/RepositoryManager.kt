@@ -42,17 +42,15 @@ object RepositoryManager {
     suspend fun incrementSteps(epochDay: Long, stepsToAdd: Int) {
         val currentRecord = hybridWalkRepository.getRecordByDate(epochDay).firstOrNull()
 
-        if (currentRecord != null) {
-            val newCount = currentRecord.stepCount + stepsToAdd
-            hybridWalkRepository.updateSteps(epochDay, newCount)
-        } else {
-            val newRecord = DailyRecord(
-                dateEpochDay = epochDay,
-                stepCount = stepsToAdd,
-                stepGoal = SharedPreferencesManager.stepGoal
-            )
-            hybridWalkRepository.insertOrUpdate(newRecord)
-        }
+        val newCount = (currentRecord?.stepCount ?: 0) + stepsToAdd
+        val newRecord = DailyRecord(
+            dateEpochDay = epochDay,
+            stepCount = newCount,
+            stepGoal = currentRecord?.stepGoal ?: SharedPreferencesManager.stepGoal,
+            isWfhDay = currentRecord?.isWfhDay ?: false,
+            isGymDay = currentRecord?.isGymDay ?: false
+        )
+        hybridWalkRepository.insertOrUpdate(newRecord)
     }
 
     fun getRecordsSince(startEpochDay: Long): Flow<List<DailyRecord>> {

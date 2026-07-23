@@ -94,7 +94,7 @@ fun BarItem(stat: DailyStat, maxSteps: Int) {
     ) {
         if (stat.steps > 0) {
             Text(
-                text = "${stat.steps / 1000}k",
+                text = if (stat.steps < 1000) "${stat.steps}" else "${stat.steps / 1000}k",
                 fontSize = 10.sp,
                 color = Color.Gray,
                 modifier = Modifier.padding(bottom = 4.dp)

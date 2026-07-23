@@ -1,6 +1,5 @@
 package rpt.tool.hybridwalk.utils.services
 
-import android.Manifest
 import android.app.AlarmManager
 import android.app.Notification
 import android.app.NotificationChannel
@@ -9,7 +8,6 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.pm.ServiceInfo
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -18,7 +16,6 @@ import android.hardware.SensorManager
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -30,71 +27,69 @@ import java.time.LocalDate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.isActive
+import rpt.com.base.log.d
 import rpt.tool.hybridwalk.MainActivity
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.math.sqrt
 
 class StepTrackerService : Service(), SensorEventListener {
 
     private lateinit var sensorManager: SensorManager
     private var stepSensor: Sensor? = null
+    private var accelerometerSensor: Sensor? = null
+    private var isUsingAccelerometerFallback = false
+
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private var lastSensorValue: Int = -1
     private var lastMovementTime: Long = System.currentTimeMillis()
+
+    // Variabili dedicate al filtro dell'accelerometro (fallback emulatore / dispositivi privi di pedometro)
+    private var lastStepAccTime: Long = 0
+    private val STEP_TIME_THRESHOLD_MS = 300L // Finestra minima di tempo tra un passo e l'altro (debounce)
+    private val ACCEL_THRESHOLD = 3.0f//11.5f     // Soglia di accelerazione minima per considerare l'impatto di un passo
+
     private var inactivityJob: Job? = null
     private val CHECK_INTERVAL = 5L * 60L * 1000L
 
     override fun onCreate() {
         super.onCreate()
+
+        // 1. Il servizio DEVE dichiararsi Foreground subito
+        val notification = createNotification()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            startForeground(
+                NOTIFICATION_ID,
+                notification,
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_HEALTH
+            )
+        } else {
+            startForeground(NOTIFICATION_ID, notification)
+        }
+
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+
+        // 2. Tentiamo prima di usare il contapassi hardware nativo
         stepSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
 
-        val notification = createNotification()
-
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACTIVITY_RECOGNITION)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            stopSelf()
-            return
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            val hasActivityRecognition = ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACTIVITY_RECOGNITION
-            ) == PackageManager.PERMISSION_GRANTED
-
-            if (hasActivityRecognition) {
-                startForeground(
-                    NOTIFICATION_ID,
-                    notification,
-                    ServiceInfo.FOREGROUND_SERVICE_TYPE_HEALTH
-                )
-            } else {
-                startForeground(NOTIFICATION_ID, notification)
-            }
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForeground(NOTIFICATION_ID, notification)
+        if (stepSensor != null) {
+            isUsingAccelerometerFallback = false
+            sensorManager.registerListener(
+                this, stepSensor,
+                SensorManager.SENSOR_DELAY_NORMAL
+            )
+            d("HybridWalkDebug", "Registrato sensore hardware: TYPE_STEP_COUNTER")
         } else {
-            // startForeground is available since API 5, but usually we don't call it if we don't have notification
-            startForeground(NOTIFICATION_ID, notification)
-        }
-
-        val hasActivityRecognition = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACTIVITY_RECOGNITION
-            ) == PackageManager.PERMISSION_GRANTED
-        } else {
-            true
-        }
-
-        if (hasActivityRecognition) {
-            stepSensor?.let {
+            // 3. Fallback sull'accelerometro se il contapassi hardware non esiste (es. emulatori)
+            accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+            if (accelerometerSensor != null) {
+                isUsingAccelerometerFallback = true
                 sensorManager.registerListener(
-                    this, it,
+                    this, accelerometerSensor,
                     SensorManager.SENSOR_DELAY_NORMAL
                 )
+                d("HybridWalkDebug", "Fallback attivo: registrato Sensor.TYPE_ACCELEROMETER")
+            } else {
+                d("HybridWalkDebug", "Nessun sensore compatibile trovato!")
             }
         }
 
@@ -105,13 +100,16 @@ class StepTrackerService : Service(), SensorEventListener {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
         return START_STICKY
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
-        if (event?.sensor?.type == Sensor.TYPE_STEP_COUNTER) {
+        if (event == null) return
+
+        if (!isUsingAccelerometerFallback && event.sensor.type == Sensor.TYPE_STEP_COUNTER) {
+            // --- GESTIONE CONTAPASSI HARDWARE REALE ---
             val currentSensorValue = event.values[0].toInt()
+            d("HybridWalkDebug", "Sensore hardware attivo! Valore letto: $currentSensorValue")
 
             if (lastSensorValue == -1) {
                 lastSensorValue = currentSensorValue
@@ -121,9 +119,7 @@ class StepTrackerService : Service(), SensorEventListener {
             val deltaSteps = currentSensorValue - lastSensorValue
 
             if (deltaSteps > 0) {
-
                 lastMovementTime = System.currentTimeMillis()
-
                 val todayEpoch = LocalDate.now().toEpochDay()
                 serviceScope.launch {
                     RepositoryManager.incrementSteps(todayEpoch, deltaSteps)
@@ -131,19 +127,42 @@ class StepTrackerService : Service(), SensorEventListener {
             }
 
             lastSensorValue = currentSensorValue
+
+        } else if (isUsingAccelerometerFallback && event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
+            // --- GESTIONE FALLBACK ACCELEROMETRO (Emulatore / Dispositivi senza pedometro) ---
+            val x = event.values[0]
+            val y = event.values[1]
+            val z = event.values[2]
+
+            // Calcolo della magnitudo vettoriale sottraendo la forza di gravità (~9.81)
+            val acceleration = sqrt((x * x + y * y + z * z).toDouble()).toFloat()
+            val netAcceleration = kotlin.math.abs(acceleration - 9.80665f)
+
+            if (netAcceleration > ACCEL_THRESHOLD) {
+                val currentTime = System.currentTimeMillis()
+                // Controllo del debounce temporale per evitare falsi positivi da scuotimenti rapidi
+                if (currentTime - lastStepAccTime > STEP_TIME_THRESHOLD_MS) {
+                    lastStepAccTime = currentTime
+                    lastMovementTime = currentTime
+
+                    d("HybridWalkDebug", "Passo simulato da accelerometro rilevato! Magnitudo: $netAcceleration")
+
+                    val todayEpoch = LocalDate.now().toEpochDay()
+                    serviceScope.launch {
+                        RepositoryManager.incrementSteps(todayEpoch, 1)
+                    }
+                }
+            }
         }
     }
 
-    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-
-    }
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
 
     private fun createNotification(): Notification {
         val channelId = "hybridwalk_tracking_channel"
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
             val channel = NotificationChannel(
                 channelId,
                 getString(R.string.tracciamento_passi),
@@ -155,9 +174,8 @@ class StepTrackerService : Service(), SensorEventListener {
         return NotificationCompat.Builder(this, channelId)
             .setContentTitle(getString(R.string.hybridwalk))
             .setContentText(getString(R.string.tracciamento_attivo_in_background))
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.mipmap.ic_launcher_foreground)
             .setOngoing(true)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
     }
 
@@ -166,7 +184,9 @@ class StepTrackerService : Service(), SensorEventListener {
     override fun onDestroy() {
         super.onDestroy()
 
-        sensorManager.unregisterListener(this)
+        if (::sensorManager.isInitialized) {
+            sensorManager.unregisterListener(this)
+        }
 
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, MidnightResetReceiver::class.java)

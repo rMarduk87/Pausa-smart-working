@@ -19,7 +19,7 @@ object SharedPreferencesManager {
     private val sharedPreferences by lazy { createSharedPreferences() }
 
     var isWfh: Boolean
-        get() = sharedPreferences.getBoolean(AppUtils.IS_WFH, true)
+        get() = sharedPreferences.getBoolean(AppUtils.IS_WFH, false)
         set(value) = sharedPreferences.edit { putBoolean(AppUtils.IS_WFH, value) }
 
     var stepGoal: Int

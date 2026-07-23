@@ -16,8 +16,7 @@
     <string name="sei_seduto_da_60_minuti_alzati_per_bere_un_bicchiere_d_acqua">You’ve been sitting for 60 minutes. Get up and drink a glass of water.</string>
     <string name="attenzione_il_contapassi_potrebbe_fermarsi">Warning: The step counter may stop</string>
     <string name="il_sistema_operativo_potrebbe_chiudere_l_app">The operating system may close the app to save battery. Tap here to disable optimization for HybridWalk.</string>
-    <string name="apri_impostazioni_batteria">Open Battery Settings</string>
-    <string name="telefoni_ottimizzazione">Some phones close apps in the background. Tap here, find \'HybridWalk\' in the list, and select 'No restrictions' (or 'Do not optimize').</string>
+    <string name="telefoni_ottimizzazione">To ensure the step counter works correctly, please go to your phone\'s Settings > Apps > HybridWalk > Battery, and select \'Unrestricted\' (or \'Do not optimize\').</string>
     <string name="andamento">Progress</string>
     <string name="ultimi_7_giorni">Last 7 days</string>
     <string name="_oggi">Today</string>

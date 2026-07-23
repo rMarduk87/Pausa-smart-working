@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import rpt.com.base.BaseJetComposeFragment
 import androidx.compose.foundation.layout.*
@@ -28,24 +29,27 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import rpt.com.base.log.d
 import rpt.com.base.navigation.safeNavController
 import rpt.com.base.navigation.safeNavigate
 import rpt.tool.hybridwalk.R
-import rpt.tool.hybridwalk.utils.extensions.createSafeBatterySettingsIntent
 import rpt.tool.hybridwalk.utils.extensions.isIgnoringBatteryOptimizations
 import rpt.tool.hybridwalk.utils.extensions.startStepTrackerService
 import rpt.tool.hybridwalk.utils.extensions.stopStepTrackerService
+import rpt.tool.hybridwalk.utils.managers.SharedPreferencesManager
 import rpt.tool.hybridwalk.utils.view.HybridScaffold
 import rpt.tool.hybridwalk.utils.view.Screen
 
 class DashboardFragment : BaseJetComposeFragment(hideBars = true) {
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     @Composable
     override fun BaseJetCompose() {
 
         val viewModel: DashboardViewModel = viewModel()
 
         val todayRecord by viewModel.todayRecord.collectAsStateWithLifecycle()
+        val isWfhActive by viewModel.isWfhActive.collectAsStateWithLifecycle()
 
         MaterialTheme(
             colorScheme = darkColorScheme(
@@ -79,7 +83,7 @@ class DashboardFragment : BaseJetComposeFragment(hideBars = true) {
                     DashboardScreen(
                         stepCount = todayRecord.stepCount,
                         stepGoal = todayRecord.stepGoal,
-                        isWfhDay = todayRecord.isWfhDay,
+                        isWfhDay = isWfhActive, // <--- Sostituisci todayRecord.isWfhDay con isWfhActive
                         isGymDay = todayRecord.isGymDay,
                         onWfhToggled = { isWfh -> viewModel.toggleWfh(isWfh) },
                         onGymToggled = { isGym -> viewModel.toggleGym(isGym) }
@@ -90,6 +94,7 @@ class DashboardFragment : BaseJetComposeFragment(hideBars = true) {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun DashboardScreen(
     stepCount: Int,
@@ -103,6 +108,7 @@ fun DashboardScreen(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
+    // Launcher corretto che aggiorna anche lo stato del ViewModel quando viene concesso il permesso
     val activityRecognitionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -111,10 +117,12 @@ fun DashboardScreen(
             context.startStepTrackerService()
         } else {
             onWfhToggled(false)
+            context.stopStepTrackerService()
         }
     }
 
-    var isBatteryOptimized by remember { mutableStateOf(!context.isIgnoringBatteryOptimizations()) }
+    var isBatteryOptimized by remember { mutableStateOf(
+        !context.isIgnoringBatteryOptimizations()) }
 
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
@@ -126,10 +134,8 @@ fun DashboardScreen(
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
-    val batterySettingsLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) {
-    }
+    // Nota: Rimosso il LaunchedEffect(Unit) automatico all'avvio che veniva bloccato da Android.
+    // La gestione passa interamente all'interazione sicura sul toggle.
 
     val scrollState = rememberScrollState()
 
@@ -166,22 +172,18 @@ fun DashboardScreen(
             isChecked = isWfhDay,
             onCheckedChange = { isChecked ->
                 if (isChecked) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                        val hasPermission = ContextCompat.checkSelfPermission(
-                            context,
-                            Manifest.permission.ACTIVITY_RECOGNITION
-                        ) == PackageManager.PERMISSION_GRANTED
+                    val hasPermission = ContextCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.ACTIVITY_RECOGNITION
+                    ) == PackageManager.PERMISSION_GRANTED
 
-                        if (hasPermission) {
-                            onWfhToggled(true)
-                            context.startStepTrackerService()
-                        } else {
-                            activityRecognitionLauncher.launch(
-                                Manifest.permission.ACTIVITY_RECOGNITION)
-                        }
-                    } else {
+                    if (hasPermission) {
                         onWfhToggled(true)
                         context.startStepTrackerService()
+                    } else {
+                        // L'interazione fisica sul toggle sblocca la richiesta nativa di Android
+                        activityRecognitionLauncher.launch(
+                            Manifest.permission.ACTIVITY_RECOGNITION)
                     }
                 } else {
                     onWfhToggled(false)
@@ -200,18 +202,14 @@ fun DashboardScreen(
         )
 
         if (isBatteryOptimized) {
-            BatteryWarningCard(
-                onClick = {
-                    batterySettingsLauncher.launch(context.createSafeBatterySettingsIntent())
-                }
-            )
+            BatteryWarningCard()
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
 
 @Composable
-fun BatteryWarningCard(onClick: () -> Unit) {
+fun BatteryWarningCard() {
     Card(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
         modifier = Modifier.fillMaxWidth()
@@ -228,14 +226,6 @@ fun BatteryWarningCard(onClick: () -> Unit) {
                 color = MaterialTheme.colorScheme.onErrorContainer,
                 style = MaterialTheme.typography.bodyMedium
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            Button(
-                onClick = onClick,
-                colors = ButtonDefaults.buttonColors(containerColor =
-                    MaterialTheme.colorScheme.error)
-            ) {
-                Text(stringResource(R.string.apri_impostazioni_batteria))
-            }
         }
     }
 }

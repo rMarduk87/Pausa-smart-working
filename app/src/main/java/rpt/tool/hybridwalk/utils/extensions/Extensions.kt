@@ -11,8 +11,11 @@ import java.util.Calendar
 import android.net.Uri
 import android.os.PowerManager
 import android.provider.Settings
+import androidx.core.content.ContextCompat
+import rpt.com.base.log.d
 
 fun Context.startStepTrackerService() {
+    d("HybridWalkDebug", "Avvio effettivo del ForegroundService in corso...")
     val intent = Intent(this, StepTrackerService::class.java)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         startForegroundService(intent)

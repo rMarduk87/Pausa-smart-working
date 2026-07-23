@@ -20,7 +20,7 @@ class DailyRecordModel(
     val stepGoal: Int = 7000,
 
     @ColumnInfo(name = "is_wfh_day")
-    val isWfhDay: Boolean = true,
+    val isWfhDay: Boolean = false,
 
     @ColumnInfo(name = "is_gym_day")
     val isGymDay: Boolean = false

@@ -15,7 +15,7 @@ data class DailyRecord(
     val dateEpochDay: Long,
     val stepCount: Int = 0,
     val stepGoal: Int = 7000,
-    val isWfhDay: Boolean = true,
+    val isWfhDay: Boolean = false,
     val isGymDay: Boolean = false
 ) : AppModel(), Serializable {
 

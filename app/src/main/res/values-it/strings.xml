@@ -16,8 +16,7 @@
     <string name="sei_seduto_da_60_minuti_alzati_per_bere_un_bicchiere_d_acqua">Sei seduto da 60 minuti. Alzati per bere un bicchiere d\'acqua.</string>
     <string name="attenzione_il_contapassi_potrebbe_fermarsi">Attenzione: Il contapassi potrebbe fermarsi</string>
     <string name="il_sistema_operativo_potrebbe_chiudere_l_app">Il sistema operativo potrebbe chiudere l\'app per risparmiare batteria. Tocca qui per disabilitare l\'ottimizzazione per HybridWalk.</string>
-    <string name="apri_impostazioni_batteria">Apri Impostazioni Batteria</string>
-    <string name="telefoni_ottimizzazione">Alcuni telefoni chiudono le app in background. Tocca qui, cerca \'HybridWalk\' nella lista e seleziona \'Senza restrizioni\' (o \'Non ottimizzare\').</string>
+    <string name="telefoni_ottimizzazione">Per assicurarti che il contapassi funzioni correttamente, vai nelle Impostazioni del telefono > App > HybridWalk > Batteria, e seleziona \'Senza restrizioni\' (o \'Non ottimizzare\').</string>
     <string name="andamento">Andamento</string>
     <string name="ultimi_7_giorni">Ultimi 7 giorni</string>
     <string name="_oggi">Oggi</string>
