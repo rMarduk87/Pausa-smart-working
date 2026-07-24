@@ -1,9 +1,11 @@
 package rpt.tool.hybridwalk.utils.data.repositories
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import rpt.tool.hybridwalk.utils.data.appmodels.DailyRecord
 import rpt.tool.hybridwalk.utils.data.database.dao.HybridWalkDao
+import rpt.tool.hybridwalk.utils.managers.SharedPreferencesManager
 
 class HybridWalkRepository(
     private val hybridWalkDao: HybridWalkDao
@@ -28,5 +30,25 @@ class HybridWalkRepository(
         return hybridWalkDao.getRecordsSince(startEpochDay).map { records ->
             records.map { it.toAppModel() }
         }
+    }
+
+    fun getAllRecords(): Flow<List<DailyRecord>> {
+        return hybridWalkDao.getAllRecords().map { records ->
+            records.map { it.toAppModel() }
+        }
+    }
+
+    suspend fun incrementSteps(epochDay: Long, stepsToAdd: Int) {
+        val currentRecord = getRecordByDate(epochDay).firstOrNull()
+
+        val newCount = (currentRecord?.stepCount ?: 0) + stepsToAdd
+        val newRecord = DailyRecord(
+            dateEpochDay = epochDay,
+            stepCount = newCount,
+            stepGoal = currentRecord?.stepGoal ?: SharedPreferencesManager.stepGoal,
+            isWfhDay = currentRecord?.isWfhDay ?: false,
+            isGymDay = currentRecord?.isGymDay ?: false
+        )
+        insertOrUpdate(newRecord)
     }
 }

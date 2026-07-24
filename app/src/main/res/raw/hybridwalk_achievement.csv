@@ -1,0 +1,21 @@
+id,code,title,description,category,image,color,earned,acquired_date,order
+1,first_steps,R.string.ach_tit_1,R.string.ach_desc_1,Steps,R.string.ach_1,#4ade80,False,,1
+2,steps_5k,R.string.ach_tit_2,R.string.ach_desc_2,Steps,R.string.ach_2,#22c55e,False,,2
+3,steps_10k,R.string.ach_tit_3,R.string.ach_desc_3,Steps,R.string.ach_3,#16a34a,False,,3
+4,steps_50k,R.string.ach_tit_4,R.string.ach_desc_4,Steps,R.string.ach_4,#15803d,False,,4
+5,steps_100k,R.string.ach_tit_5,R.string.ach_desc_5,Steps,R.string.ach_5,#166534,False,,5
+6,first_wfh,R.string.ach_tit_6,R.string.ach_desc_6,Smart Working,R.string.ach_6,#60a5fa,False,,6
+7,wfh_5_days,R.string.ach_tit_7,R.string.ach_desc_7,Smart Working,R.string.ach_7,#3b82f6,False,,7
+8,wfh_10_days,R.string.ach_tit_8,R.string.ach_desc_8,Smart Working,R.string.ach_8,#2563eb,False,,8
+9,wfh_50_days,R.string.ach_tit_9,R.string.ach_desc_9,Smart Working,R.string.ach_9,#1d4ed8,False,,9
+10,first_gym,R.string.ach_tit_10,R.string.ach_desc_10,Gym,R.string.ach_10,#f87171,False,,10
+11,gym_5_days,R.string.ach_tit_11,R.string.ach_desc_11,Gym,R.string.ach_11,#ef4444,False,,11
+12,gym_10_days,R.string.ach_tit_12,R.string.ach_desc_12,Gym,R.string.ach_12,#dc2626,False,,12
+13,gym_50_days,R.string.ach_tit_13,R.string.ach_desc_13,Gym,R.string.ach_13,#b91c1c,False,,13
+14,streak_3,R.string.ach_tit_14,R.string.ach_desc_14,Streak,R.string.ach_14,#fbbf24,False,,14
+15,streak_7,R.string.ach_tit_15,R.string.ach_desc_15,Streak,R.string.ach_15,#f59e0b,False,,15
+16,streak_30,R.string.ach_tit_16,R.string.ach_desc_16,Streak,R.string.ach_16,#d97706,False,,16
+17,goal_1,R.string.ach_tit_17,R.string.ach_desc_17,Goals,R.string.ach_17,#c084fc,False,,17
+18,goal_10,R.string.ach_tit_18,R.string.ach_desc_18,Goals,R.string.ach_18,#a855f7,False,,18
+19,goal_50,R.string.ach_tit_19,R.string.ach_desc_19,Goals,R.string.ach_19,#9333ea,False,,19
+20,goal_100,R.string.ach_tit_20,R.string.ach_desc_20,Goals,R.string.ach_20,#7e22ce,False,,20

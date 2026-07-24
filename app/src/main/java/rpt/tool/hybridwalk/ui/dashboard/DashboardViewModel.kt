@@ -20,7 +20,7 @@ class DashboardViewModel() : ViewModel() {
     private val _isWfhActive = MutableStateFlow(SharedPreferencesManager.isWfh)
     var isWfhActive: StateFlow<Boolean> = _isWfhActive.asStateFlow()
 
-    val todayRecord: StateFlow<DailyRecord> = RepositoryManager.getRecordByDate(todayEpoch)
+    val todayRecord: StateFlow<DailyRecord> = RepositoryManager.hybridWalkRepository.getRecordByDate(todayEpoch)
         .map { record ->
             record ?: DailyRecord(dateEpochDay = todayEpoch)
         }
@@ -35,14 +35,14 @@ class DashboardViewModel() : ViewModel() {
         _isWfhActive.value = isWfh
         viewModelScope.launch {
             val currentRecord = todayRecord.value
-            RepositoryManager.insertOrUpdate(currentRecord.copy(isWfhDay = isWfh))
+            RepositoryManager.hybridWalkRepository.insertOrUpdate(currentRecord.copy(isWfhDay = isWfh))
         }
     }
 
     fun toggleGym(isGym: Boolean) {
         viewModelScope.launch {
             val currentRecord = todayRecord.value
-            RepositoryManager.insertOrUpdate(currentRecord.copy(isGymDay = isGym))
+            RepositoryManager.hybridWalkRepository.insertOrUpdate(currentRecord.copy(isGymDay = isGym))
         }
     }
 

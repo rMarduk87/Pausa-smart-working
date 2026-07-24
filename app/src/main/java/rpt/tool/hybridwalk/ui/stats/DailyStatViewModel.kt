@@ -17,7 +17,7 @@ class StatsViewModel : ViewModel() {
     private val todayEpoch = LocalDate.now().toEpochDay()
     private val startEpoch = todayEpoch - 6
 
-    val weeklyStats: StateFlow<List<DailyStat>> = RepositoryManager.getRecordsSince(startEpoch)
+    val weeklyStats: StateFlow<List<DailyStat>> = RepositoryManager.hybridWalkRepository.getRecordsSince(startEpoch)
         .map { records ->
 
             (startEpoch..todayEpoch).map { currentEpoch ->

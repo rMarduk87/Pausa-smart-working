@@ -19,6 +19,9 @@ interface HybridWalkDao {
     @Query("SELECT * FROM daily_records WHERE date_epoch_day >= :startEpochDay ORDER BY date_epoch_day DESC")
     fun getRecordsSince(startEpochDay: Long): Flow<List<DailyRecordModel>>
 
+    @Query("SELECT * FROM daily_records ORDER BY date_epoch_day DESC")
+    fun getAllRecords(): Flow<List<DailyRecordModel>>
+
 
     @Query("UPDATE daily_records SET step_count = :steps WHERE date_epoch_day = :epochDay")
     suspend fun updateSteps(epochDay: Long, steps: Int)

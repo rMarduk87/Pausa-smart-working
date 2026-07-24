@@ -29,14 +29,12 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import rpt.com.base.log.d
 import rpt.com.base.navigation.safeNavController
 import rpt.com.base.navigation.safeNavigate
 import rpt.tool.hybridwalk.R
 import rpt.tool.hybridwalk.utils.extensions.isIgnoringBatteryOptimizations
 import rpt.tool.hybridwalk.utils.extensions.startStepTrackerService
 import rpt.tool.hybridwalk.utils.extensions.stopStepTrackerService
-import rpt.tool.hybridwalk.utils.managers.SharedPreferencesManager
 import rpt.tool.hybridwalk.utils.view.HybridScaffold
 import rpt.tool.hybridwalk.utils.view.Screen
 
@@ -168,7 +166,7 @@ fun DashboardScreen(
 
         ToggleSettingCard(
             title = stringResource(R.string.modalit_smart_working),
-            description = stringResource(R.string.traccia_i_passi_e_ricorda_di_alzarti),
+            description = stringResource(R.string.traccia_i_passi),
             isChecked = isWfhDay,
             onCheckedChange = { isChecked ->
                 if (isChecked) {

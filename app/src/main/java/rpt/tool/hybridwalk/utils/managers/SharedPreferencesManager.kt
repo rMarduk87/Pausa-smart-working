@@ -32,4 +32,7 @@ object SharedPreferencesManager {
         set(value) = sharedPreferences.edit { putLong(AppUtils.INACTIVITY_THRESHOLD,
             value) }
 
+    var showAchievement : Boolean
+        get() = sharedPreferences.getBoolean(AppUtils.SHOW_ACHIEVEMENT, false)
+        set(value) = sharedPreferences.edit { putBoolean(AppUtils.SHOW_ACHIEVEMENT, value) }
 }

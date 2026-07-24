@@ -12,6 +12,7 @@ import androidx.work.WorkManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import rpt.tool.hybridwalk.utils.workers.AchievementWorker
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 class HybridWalkApplication : Application() {
@@ -37,6 +38,25 @@ class HybridWalkApplication : Application() {
         } else {
             FirebaseCrashlytics.getInstance().isCrashlyticsCollectionEnabled = true
         }
+
+        scheduleAchievementWorker(this)
+    }
+
+    private fun scheduleAchievementWorker(context: Context) {
+        val request = PeriodicWorkRequestBuilder<AchievementWorker>(6,
+            TimeUnit.HOURS)
+            .setConstraints(
+                Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
+                    .build()
+            )
+            .build()
+
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+            "AchievementWorker",
+            ExistingPeriodicWorkPolicy.UPDATE,
+            request
+        )
     }
 
 }

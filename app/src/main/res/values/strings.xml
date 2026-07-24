@@ -3,20 +3,20 @@
     <string name="oggi">Today</string>
     <string name="mantieni_il_ritmo">Keep the pace</string>
     <string name="modalit_smart_working">Smart Working Mode</string>
-    <string name="traccia_i_passi_e_ricorda_di_alzarti">Track your steps and remember to stand up</string>
+    <string name="traccia_i_passi">Track your steps and remember to stand up</string>
     <string name="giorno_di_scarico_palestra">Rest Day / Gym</string>
     <string name="disattiva_i_promemoria_per_oggi">Disable reminders for today</string>
-    <string name="passi">/ %1$d steps</string>
-    <string name="tracciamento_passi">Step Tracking</string>
+    <string name="passi">%1$d steps</string>
+    <string name="tracciamento_passi">Step tracking</string>
     <string name="hybridwalk">HybridWalk</string>
     <string name="tracciamento_attivo_in_background">Tracking active in background</string>
-    <string name="promemoria_movimento">Movement Reminder</string>
-    <string name="ti_ricorda_di_alzarti_se_stai_fermo_per_troppo_tempo">Reminds you to stand up if you stay still for too long</string>
+    <string name="promemoria_movimento">Movement reminders</string>
+    <string name="ti_ricorda_di_alzarti_se_stai_fermo_per_troppo_tempo">Reminds you to stand up if you stay inactive for too long</string>
     <string name="ora_di_sgranchirsi_le_gambe">Time to stretch your legs! 🚶‍♂️</string>
-    <string name="sei_seduto_da_60_minuti_alzati_per_bere_un_bicchiere_d_acqua">You’ve been sitting for 60 minutes. Get up and drink a glass of water.</string>
-    <string name="attenzione_il_contapassi_potrebbe_fermarsi">Warning: The step counter may stop</string>
-    <string name="il_sistema_operativo_potrebbe_chiudere_l_app">The operating system may close the app to save battery. Tap here to disable optimization for HybridWalk.</string>
-    <string name="telefoni_ottimizzazione">To ensure the step counter works correctly, please go to your phone\'s Settings > Apps > HybridWalk > Battery, and select \'Unrestricted\' (or \'Do not optimize\').</string>
+    <string name="sedentario">You’ve been sitting for 60 minutes. Get up and grab a glass of water.</string>
+    <string name="attenzione_il_contapassi_potrebbe_fermarsi">Warning: the step counter may stop</string>
+    <string name="il_sistema_operativo_potrebbe_chiudere_l_app">The system may close the app to save battery. Tap here to disable optimization for HybridWalk.</string>
+    <string name="telefoni_ottimizzazione">To ensure proper tracking, go to Settings &gt; Apps &gt; HybridWalk &gt; Battery and select "Unrestricted" (or "Don’t optimize").</string>
     <string name="andamento">Progress</string>
     <string name="ultimi_7_giorni">Last 7 days</string>
     <string name="_oggi">Today</string>
@@ -28,4 +28,97 @@
     <string name="minuti_di_inattività">%1$d minutes</string>
     <string name="risparmio_batteria">Battery saving</string>
     <string name="gestisci_ottimizzazione_batteria">Manage battery optimization</string>
+    <string name="ach_1" translatable="false">👟</string>
+    <string name="ach_2" translatable="false">🚶</string>
+    <string name="ach_3" translatable="false">🏃</string>
+    <string name="ach_4" translatable="false">🔥</string>
+    <string name="ach_5" translatable="false">⚡</string>
+    <string name="ach_6" translatable="false">💻</string>
+    <string name="ach_7" translatable="false">🏠</string>
+    <string name="ach_8" translatable="false">☕</string>
+    <string name="ach_9" translatable="false">🛋️</string>
+    <string name="ach_10" translatable="false">🏋️</string>
+    <string name="ach_11" translatable="false">💪</string>
+    <string name="ach_12" translatable="false">🏅</string>
+    <string name="ach_13" translatable="false">🏆</string>
+    <string name="ach_14" translatable="false">📅</string>
+    <string name="ach_15" translatable="false">📆</string>
+    <string name="ach_16" translatable="false">🗓️</string>
+    <string name="ach_17" translatable="false">🎯</string>
+    <string name="ach_18" translatable="false">🎯</string>
+    <string name="ach_19" translatable="false">🌟</string>
+    <string name="ach_20" translatable="false">👑</string>
+    <string name="ach_tit_1">First Steps</string>
+    <string name="ach_tit_2">Walker</string>
+    <string name="ach_tit_3">Marathoner</string>
+    <string name="ach_tit_4">Calorie Burner</string>
+    <string name="ach_tit_5">War Machine</string>
+    <string name="ach_tit_6">Smart Worker</string>
+    <string name="ach_tit_7">Home Office</string>
+    <string name="ach_tit_8">Active Break</string>
+    <string name="ach_tit_9">Remote Worker</string>
+    <string name="ach_tit_10">Rest Day</string>
+    <string name="ach_tit_11">Gym Regular</string>
+    <string name="ach_tit_12">Warrior</string>
+    <string name="ach_tit_13">Fitness Champion</string>
+    <string name="ach_tit_14">Consistency</string>
+    <string name="ach_tit_15">Fire Week</string>
+    <string name="ach_tit_16">Perfect Month</string>
+    <string name="ach_tit_17">Bullseye!</string>
+    <string name="ach_tit_18">Sharpshooter</string>
+    <string name="ach_tit_19">Achievement Collector</string>
+    <string name="ach_tit_20">Legend</string>
+    <string name="ach_desc_1">You logged your first 1,000 steps. Great start!</string>
+    <string name="ach_desc_2">You reached 5,000 total steps. Keep moving!</string>
+    <string name="ach_desc_3">10,000 steps! You’re going the distance.</string>
+    <string name="ach_desc_4">50,000 steps! Incredible energy.</string>
+    <string name="ach_desc_5">100,000 total steps! An outstanding milestone.</string>
+    <string name="ach_desc_6">You completed your first work-from-home day.</string>
+    <string name="ach_desc_7">5 active work-from-home days completed.</string>
+    <string name="ach_desc_8">10 work-from-home days logged.</string>
+    <string name="ach_desc_9">50 work-from-home days. Your desk thanks you!</string>
+    <string name="ach_desc_10">First gym/rest day recorded.</string>
+    <string name="ach_desc_11">5 gym days logged. Great habit forming.</string>
+    <string name="ach_desc_12">10 training days completed. Well done!</string>
+    <string name="ach_desc_13">50 gym days. Impressive dedication.</string>
+    <string name="ach_desc_14">3 days in a row hitting your goal!</string>
+    <string name="ach_desc_15">A full week without missing your goal.</string>
+    <string name="ach_desc_16">30 consecutive days. Iron consistency!</string>
+    <string name="ach_desc_17">You reached your daily goal for the first time.</string>
+    <string name="ach_desc_18">You reached your goal 10 times.</string>
+    <string name="ach_desc_19">Goal achieved 50 times.</string>
+    <string name="ach_desc_20">100 daily goals completed. Unstoppable!</string>
+    <string name="ach_des_1">Reach 1,000 total steps.</string>
+    <string name="ach_des_2">Reach 5,000 total steps.</string>
+    <string name="ach_des_3">Reach 10,000 total steps.</string>
+    <string name="ach_des_4">Reach 50,000 total steps.</string>
+    <string name="ach_des_5">Reach 100,000 total steps.</string>
+    <string name="ach_des_6">Log 1 work-from-home day.</string>
+    <string name="ach_des_7">Log 5 work-from-home days.</string>
+    <string name="ach_des_8">Log 10 work-from-home days.</string>
+    <string name="ach_des_9">Log 50 work-from-home days.</string>
+    <string name="ach_des_10">Log 1 gym day.</string>
+    <string name="ach_des_11">Log 5 gym days.</string>
+    <string name="ach_des_12">Log 10 gym days.</string>
+    <string name="ach_des_13">Log 50 gym days.</string>
+    <string name="ach_des_14">Reach your goal for 3 consecutive days.</string>
+    <string name="ach_des_15">Reach your goal for 7 consecutive days.</string>
+    <string name="ach_des_16">Reach your goal for 30 consecutive days.</string>
+    <string name="ach_des_17">Reach your goal once.</string>
+    <string name="ach_des_18">Reach your goal 10 times.</string>
+    <string name="ach_des_19">Reach your goal 50 times.</string>
+    <string name="ach_des_20">Reach your goal 100 times.</string>
+    <string name="ach_type_steps">total steps</string>
+    <string name="ach_type_wfh">WFH days</string>
+    <string name="ach_type_gym">gym days</string>
+    <string name="ach_type_streak">streak days</string>
+    <string name="ach_type_goal">goals achieved</string>
+    <string name="unit_type_steps">steps</string>
+    <string name="unit_type_days">days</string>
+    <string name="unit_type_sessions">sessions</string>
+    <string name="unit_type_goals">goals</string>
+    <string name="achievement_balloon">As you walk, work remotely, and stay active, you’ll unlock amazing achievements! Tap here to check your progress.</string>
+    <string name="unlocked">UNLOCKED!</string>
+    <string name="awesome">AWESOME</string>
+    <string name="img">img</string>
 </resources>

@@ -122,7 +122,7 @@ class StepTrackerService : Service(), SensorEventListener {
                 lastMovementTime = System.currentTimeMillis()
                 val todayEpoch = LocalDate.now().toEpochDay()
                 serviceScope.launch {
-                    RepositoryManager.incrementSteps(todayEpoch, deltaSteps)
+                    RepositoryManager.hybridWalkRepository.incrementSteps(todayEpoch, deltaSteps)
                 }
             }
 
@@ -149,7 +149,7 @@ class StepTrackerService : Service(), SensorEventListener {
 
                     val todayEpoch = LocalDate.now().toEpochDay()
                     serviceScope.launch {
-                        RepositoryManager.incrementSteps(todayEpoch, 1)
+                        RepositoryManager.hybridWalkRepository.incrementSteps(todayEpoch, 1)
                     }
                 }
             }
@@ -229,7 +229,7 @@ class StepTrackerService : Service(), SensorEventListener {
 
                 if (timeSinceLastMove >= threshold) {
                     val todayEpoch = LocalDate.now().toEpochDay()
-                    val todayRecord = RepositoryManager
+                    val todayRecord = RepositoryManager.hybridWalkRepository
                         .getRecordByDate(todayEpoch).firstOrNull()
 
                     val isGymDay = todayRecord?.isGymDay ?: false
@@ -258,7 +258,7 @@ class StepTrackerService : Service(), SensorEventListener {
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle(getString(R.string.ora_di_sgranchirsi_le_gambe))
             .setContentText(getString(
-                R.string.sei_seduto_da_60_minuti_alzati_per_bere_un_bicchiere_d_acqua))
+                R.string.sedentario))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_REMINDER)
             .setAutoCancel(true)
