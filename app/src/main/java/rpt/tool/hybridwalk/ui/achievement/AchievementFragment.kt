@@ -4,25 +4,13 @@ package rpt.tool.hybridwalk.ui.achievement
 import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.core.graphics.toColorInt
+import androidx.compose.ui.res.colorResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
@@ -30,11 +18,12 @@ import rpt.com.base.BaseJetComposeFragment
 import rpt.com.base.navigation.safeNavController
 import rpt.com.base.navigation.safeNavigate
 import rpt.tool.hybridwalk.R
-import rpt.tool.hybridwalk.utils.data.appmodels.AchievementComplex
 import rpt.tool.hybridwalk.utils.managers.AchievementManager
+import rpt.tool.hybridwalk.utils.managers.SharedPreferencesManager
 import rpt.tool.hybridwalk.utils.view.AchievementScreen
 import rpt.tool.hybridwalk.utils.view.HybridScaffold
 import rpt.tool.hybridwalk.utils.view.Screen
+import androidx.core.graphics.toColorInt
 
 class AchievementFragment : BaseJetComposeFragment(hideBars = true),
     AchievementManager.AchievementListener {
@@ -62,11 +51,17 @@ class AchievementFragment : BaseJetComposeFragment(hideBars = true),
             }
         }
 
+        val dynamicPrimary = try {
+            Color(SharedPreferencesManager.primaryColorHex.toColorInt())
+        } catch (e: Exception) {
+            colorResource(R.color.primary_default)
+        }
+
         MaterialTheme(
             colorScheme = darkColorScheme(
-                primary = Color(0xFF81B29A),
-                background = Color(0xFF1E1E24),
-                surface = Color(0xFF2B2B33)
+                primary = dynamicPrimary,
+                background = colorResource(R.color.background_dark),
+                surface = colorResource(R.color.surface_dark)
             )
         ) {
             HybridScaffold(

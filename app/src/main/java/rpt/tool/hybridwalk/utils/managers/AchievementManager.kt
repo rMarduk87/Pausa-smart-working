@@ -121,7 +121,8 @@ class AchievementManager {
                     "gym_5" -> minOf(gymDays, 5)
                     "customized_settings" -> {
                         val isCustomized = SharedPreferencesManager.stepGoal != 7000 ||
-                                SharedPreferencesManager.inactivityThreshold != 3600000L
+                                SharedPreferencesManager.inactivityThreshold != 3600000L ||
+                                SharedPreferencesManager.primaryColorHex != "#81B29A"
                         if (isCustomized || userMeta["customized_settings"] == true) 1 else null
                     }
                     "stats_viewer" -> if (userMeta["stats_viewer"] == true) 1 else null
@@ -146,6 +147,8 @@ class AchievementManager {
                         userMeta["early_bird"] == true) 1 else null
                     "night_owl" -> if (SharedPreferencesManager.hasNightOwlSteps ||
                         userMeta["night_owl"] == true) 1 else null
+                    "export_csv" -> if (userMeta["export_csv"] == true) 1 else null
+                    "export_pdf" -> if (userMeta["export_pdf"] == true) 1 else null
                     "milestone_15" -> minOf(totalEarnedCount, 15)
                     "milestone_25" -> minOf(totalEarnedCount, 25)
 

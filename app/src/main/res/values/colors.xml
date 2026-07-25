@@ -8,4 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="navy_dark_alt">#0A192F</color>
+
+    <!-- HybridWalk Theme Colors -->
+    <color name="primary_default">#81B29A</color>
+    <color name="background_dark">#1E1E24</color>
+    <color name="surface_dark">#2B2B33</color>
+    <color name="secondary_stats">#E07A5F</color>
+    <color name="error_red">#EF4444</color>
 </resources>

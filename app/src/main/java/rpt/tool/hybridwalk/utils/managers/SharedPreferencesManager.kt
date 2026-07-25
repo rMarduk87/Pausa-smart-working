@@ -33,14 +33,18 @@ object SharedPreferencesManager {
             value) }
 
     var showAchievement : Boolean
-        get() = sharedPreferences.getBoolean(AppUtils.SHOW_ACHIEVEMENT, false)
+        get() = sharedPreferences.getBoolean(AppUtils.SHOW_ACHIEVEMENT, true)
         set(value) = sharedPreferences.edit { putBoolean(AppUtils.SHOW_ACHIEVEMENT, value) }
 
     var hasEarlyBirdSteps: Boolean
-        get() = sharedPreferences.getBoolean("has_early_bird_steps", false)
-        set(value) = sharedPreferences.edit { putBoolean("has_early_bird_steps", value) }
+        get() = sharedPreferences.getBoolean(AppUtils.HAS_EARLY_BIRD_STEPS, false)
+        set(value) = sharedPreferences.edit { putBoolean(AppUtils.HAS_EARLY_BIRD_STEPS, value) }
 
     var hasNightOwlSteps: Boolean
-        get() = sharedPreferences.getBoolean("has_night_owl_steps", false)
-        set(value) = sharedPreferences.edit { putBoolean("has_night_owl_steps", value) }
+        get() = sharedPreferences.getBoolean(AppUtils.HAS_NIGHT_OWL_STEPS, false)
+        set(value) = sharedPreferences.edit { putBoolean(AppUtils.HAS_NIGHT_OWL_STEPS, value) }
+
+    var primaryColorHex: String
+        get() = sharedPreferences.getString(AppUtils.PRIMARY_COLOR, "#81B29A") ?: "#81B29A"
+        set(value) = sharedPreferences.edit { putString(AppUtils.PRIMARY_COLOR, value) }
 }

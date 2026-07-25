@@ -65,6 +65,8 @@
     <string name="ach_tit_32">Mattiniero</string>
     <string name="ach_tit_33">Gufo Notturno</string>
     <string name="ach_tit_34">Appena Iniziato</string>
+    <string name="ach_tit_35">Reporter CSV</string>
+    <string name="ach_tit_36">Architetto PDF</string>
     <string name="ach_desc_1">Hai registrato i tuoi primi 1.000 passi. Un ottimo inizio!</string>
     <string name="ach_desc_2">Hai raggiunto 5.000 passi totali. Continua a muoverti!</string>
     <string name="ach_desc_3">10.000 passi totali! Stai macinando chilometri.</string>
@@ -99,6 +101,8 @@
     <string name="ach_desc_32">Hai registrato dei passi la mattina presto.</string>
     <string name="ach_desc_33">Sei rimasto attivo anche a tarda notte.</string>
     <string name="ach_desc_34">Hai raggiunto i tuoi primi 100 passi!</string>
+    <string name="ach_desc_35">Hai esportato con successo i tuoi dati in formato CSV.</string>
+    <string name="ach_desc_36">Hai creato un report PDF professionale dei tuoi progressi.</string>
     <string name="ach_des_1">Raggiungi 1.000 passi totali.</string>
     <string name="ach_des_2">Raggiungi 5.000 passi totali.</string>
     <string name="ach_des_3">Raggiungi 10.000 passi totali.</string>
@@ -133,6 +137,8 @@
     <string name="ach_des_32">Registra passi tra le 5:00 e le 8:00.</string>
     <string name="ach_des_33">Registra passi tra le 23:00 e le 02:00.</string>
     <string name="ach_des_34">Raggiungi 100 passi totali.</string>
+    <string name="ach_des_35">Esporta i dati in CSV.</string>
+    <string name="ach_des_36">Esporta i dati in PDF.</string>
     <string name="ach_type_app">utilizzo app</string>
     <string name="unit_type_unlocked">sbloccato</string>
     <string name="unit_type_milestones">obiettivi</string>
@@ -149,4 +155,22 @@
     <string name="unlocked">SBLOCCATO!</string>
     <string name="awesome">FANTASTICO</string>
     <string name="img">img</string>
+
+    <!-- Stats Screen -->
+    <string name="stats_title">Statistiche</string>
+    <string name="stats_subtitle">Analizza i tuoi progressi</string>
+    <string name="last_3_months">Ultimi 3 Mesi</string>
+    <string name="less">Meno</string>
+    <string name="more">Di più</string>
+    <string name="avg_steps_context">Media Passi per Contesto</string>
+    <string name="smart_working_label">Smart Working \uD83D\uDCBB</string>
+    <string name="standard_day_label">Giornata Standard \uD83C\uDFE2</string>
+    <string name="rest_day_gym_label">Giorno di Scarico (Palestra) \uD83C\uDFCB\uFE0F</string>
+    <string name="steps_label"> passi</string>
+    <string name="esportazione_ok">Esportazione completata con successo</string>
+    <string name="esportazione_ko">Errore durante l\'esportazione</string>
+    <string name="colore_tema">Colore Tema</string>
+    <string name="esporta_dati">Esporta Dati</string>
+    <string name="esporta_csv">Esporta CSV</string>
+    <string name="esporta_pdf">Esporta PDF</string>
 </resources>

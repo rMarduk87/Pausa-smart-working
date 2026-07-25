@@ -7,6 +7,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import kotlinx.coroutines.launch
 import rpt.com.base.BaseJetComposeFragment
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -19,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -35,10 +37,12 @@ import rpt.tool.hybridwalk.R
 import rpt.tool.hybridwalk.utils.extensions.isIgnoringBatteryOptimizations
 import rpt.tool.hybridwalk.utils.extensions.startStepTrackerService
 import rpt.tool.hybridwalk.utils.extensions.stopStepTrackerService
+import rpt.tool.hybridwalk.utils.managers.AchievementManager
 import rpt.tool.hybridwalk.utils.managers.RepositoryManager
 import rpt.tool.hybridwalk.utils.managers.SharedPreferencesManager
 import rpt.tool.hybridwalk.utils.view.HybridScaffold
 import rpt.tool.hybridwalk.utils.view.Screen
+import androidx.core.graphics.toColorInt
 
 class DashboardFragment : BaseJetComposeFragment(hideBars = true) {
 
@@ -65,11 +69,21 @@ class DashboardFragment : BaseJetComposeFragment(hideBars = true) {
 
         }
 
+        LaunchedEffect(Unit) {
+            AchievementManager.recalculateAll(showDialogEarned = true, context = context)
+        }
+
+        val dynamicPrimary = try {
+            Color(SharedPreferencesManager.primaryColorHex.toColorInt())
+        } catch (e: Exception) {
+            colorResource(R.color.primary_default)
+        }
+
         MaterialTheme(
             colorScheme = darkColorScheme(
-                primary = Color(0xFF81B29A),
-                background = Color(0xFF1E1E24),
-                surface = Color(0xFF2B2B33)
+                primary = dynamicPrimary,
+                background = colorResource(R.color.background_dark),
+                surface = colorResource(R.color.surface_dark)
             )
         ) {
             HybridScaffold(
@@ -125,6 +139,7 @@ fun DashboardScreen(
 
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+    val scope = rememberCoroutineScope()
 
     val activityRecognitionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
@@ -132,6 +147,9 @@ fun DashboardScreen(
         if (isGranted) {
             onWfhToggled(true)
             context.startStepTrackerService()
+            scope.launch {
+                AchievementManager.recalculateAll(showDialogEarned = true, context = context)
+            }
         } else {
             onWfhToggled(false)
             context.stopStepTrackerService()
@@ -144,7 +162,13 @@ fun DashboardScreen(
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
+                val wasOptimized = isBatteryOptimized
                 isBatteryOptimized = !context.isIgnoringBatteryOptimizations()
+                if (wasOptimized && !isBatteryOptimized) {
+                    scope.launch {
+                        AchievementManager.recalculateAll(showDialogEarned = true, context = context)
+                    }
+                }
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
@@ -215,6 +239,7 @@ fun DashboardScreen(
         )
 
         if (isBatteryOptimized) {
+            Spacer(modifier = Modifier.height(16.dp))
             BatteryWarningCard()
             Spacer(modifier = Modifier.height(16.dp))
         }

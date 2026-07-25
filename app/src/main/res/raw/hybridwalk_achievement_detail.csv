@@ -26,3 +26,5 @@ achievement_id,desc,type,typeDescription,unit,unitDescription,current,target
 25,R.string.ach_des_33,6,R.string.ach_type_app,6,R.string.unit_type_unlocked,0,1
 26,R.string.ach_des_30,6,R.string.ach_type_app,5,R.string.unit_type_milestones,0,15
 27,R.string.ach_des_31,6,R.string.ach_type_app,5,R.string.unit_type_milestones,0,25
+28,R.string.ach_des_35,6,R.string.ach_type_app,6,R.string.unit_type_unlocked,0,1
+29,R.string.ach_des_36,6,R.string.ach_type_app,6,R.string.unit_type_unlocked,0,1

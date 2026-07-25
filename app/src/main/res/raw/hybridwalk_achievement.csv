@@ -26,3 +26,5 @@ id,code,title,description,category,image,color,earned,acquired_date,order
 25,night_owl,R.string.ach_tit_33,R.string.ach_desc_33,Lifestyle,R.string.ach_33,#6366f1,False,,25
 26,milestone_15,R.string.ach_tit_30,R.string.ach_desc_30,Milestones,R.string.ach_30,#fde047,False,,26
 27,milestone_25,R.string.ach_tit_31,R.string.ach_desc_31,Milestones,R.string.ach_31,#facc15,False,,27
+28,export_csv,R.string.ach_tit_35,R.string.ach_desc_35,Export,R.string.ach_35,#10b981,False,,28
+29,export_pdf,R.string.ach_tit_36,R.string.ach_desc_36,Export,R.string.ach_36,#ef4444,False,,29

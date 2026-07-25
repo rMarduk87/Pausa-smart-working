@@ -65,6 +65,8 @@
     <string name="ach_32" translatable="false">🌅</string>
     <string name="ach_33" translatable="false">🌃</string>
     <string name="ach_34" translatable="false">👣</string>
+    <string name="ach_35" translatable="false">📊</string>
+    <string name="ach_36" translatable="false">📄</string>
     <string name="ach_tit_1">First Steps</string>
     <string name="ach_tit_2">Walker</string>
     <string name="ach_tit_3">Marathoner</string>
@@ -99,6 +101,8 @@
     <string name="ach_tit_32">Early Bird</string>
     <string name="ach_tit_33">Night Owl</string>
     <string name="ach_tit_34">Just Starting</string>
+    <string name="ach_tit_35">CSV Reporter</string>
+    <string name="ach_tit_36">PDF Architect</string>
     <string name="ach_desc_1">You logged your first 1,000 steps. Great start!</string>
     <string name="ach_desc_2">You reached 5,000 total steps. Keep moving!</string>
     <string name="ach_desc_3">10,000 steps! You’re going the distance.</string>
@@ -133,6 +137,8 @@
     <string name="ach_desc_32">You logged steps early in the morning.</string>
     <string name="ach_desc_33">You stayed active even late at night.</string>
     <string name="ach_desc_34">You reached your first 100 steps!</string>
+    <string name="ach_desc_35">You successfully exported your data in CSV format.</string>
+    <string name="ach_desc_36">You created a professional PDF report of your progress.</string>
     <string name="ach_des_1">Reach 1,000 total steps.</string>
     <string name="ach_des_2">Reach 5,000 total steps.</string>
     <string name="ach_des_3">Reach 10,000 total steps.</string>
@@ -167,6 +173,8 @@
     <string name="ach_des_32">Log steps between 5:00 and 8:00 AM.</string>
     <string name="ach_des_33">Log steps between 11:00 PM and 2:00 AM.</string>
     <string name="ach_des_34">Reach 100 total steps.</string>
+    <string name="ach_des_35">Export data to CSV.</string>
+    <string name="ach_des_36">Export data to PDF.</string>
     <string name="ach_type_app">app usage</string>
     <string name="unit_type_unlocked">unlocked</string>
     <string name="unit_type_milestones">achievements</string>
@@ -183,4 +191,20 @@
     <string name="unlocked">UNLOCKED!</string>
     <string name="awesome">AWESOME</string>
     <string name="img">img</string>
+    <string name="stats_title">Statistics</string>
+    <string name="stats_subtitle">Analyze your progress</string>
+    <string name="last_3_months">Last 3 Months</string>
+    <string name="less">Less</string>
+    <string name="more">More</string>
+    <string name="avg_steps_context">Average Steps per Context</string>
+    <string name="smart_working_label">Smart Working \uD83D\uDCBB</string>
+    <string name="standard_day_label">Standard Day \uD83C\uDFE2</string>
+    <string name="rest_day_gym_label">Rest Day (Gym) \uD83C\uDFCB\uFE0F</string>
+    <string name="steps_label"> steps</string>
+    <string name="esportazione_ok">Export completed successfully</string>
+    <string name="esportazione_ko">Error during export</string>
+    <string name="colore_tema">Color Theme</string>
+    <string name="esporta_dati">Export Data</string>
+    <string name="esporta_csv">Export CSV</string>
+    <string name="esporta_pdf">Export PDF</string>
 </resources>

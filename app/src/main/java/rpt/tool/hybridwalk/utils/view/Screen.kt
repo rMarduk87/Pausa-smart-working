@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -29,7 +30,7 @@ fun HybridScaffold(
         containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
             NavigationBar(
-                containerColor = Color(0xFF2B2B33),
+                containerColor = colorResource(R.color.surface_dark),
                 contentColor = Color.White
             ) {
                 val items = listOf(Screen.Dashboard, Screen.Stats, Screen.Achievement, Screen.Settings)

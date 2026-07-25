@@ -23,5 +23,9 @@ class AppUtils {
         const val STEP_GOAL : String = "step_goal"
         const val INACTIVITY_THRESHOLD : String = "inactivity_threshold"
 
+        const val HAS_EARLY_BIRD_STEPS : String ="has_early_bird_steps"
+        const val HAS_NIGHT_OWL_STEPS : String ="has_night_owl_steps"
+        const val PRIMARY_COLOR : String ="primary_color"
+
     }
 }

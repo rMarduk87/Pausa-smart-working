@@ -1,13 +1,20 @@
 package rpt.tool.hybridwalk.ui.settings
 
 import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -27,18 +34,51 @@ import rpt.tool.hybridwalk.R
 import rpt.tool.hybridwalk.utils.extensions.createSafeBatterySettingsIntent
 import rpt.tool.hybridwalk.utils.view.HybridScaffold
 import rpt.tool.hybridwalk.utils.view.Screen
+import androidx.core.graphics.toColorInt
 
 class SettingsFragment : BaseJetComposeFragment(hideBars = true) {
 
     @Composable
     override fun BaseJetCompose() {
         val viewModel: SettingsViewModel = viewModel()
+
         val stepGoal by viewModel.stepGoal.collectAsStateWithLifecycle()
         val inactivityThreshold by viewModel.inactivityThreshold.collectAsStateWithLifecycle()
+        val selectedColorHex by viewModel.selectedColor.collectAsStateWithLifecycle()
+
+        val context = LocalContext.current
+
+        // Launcher per Esportazione Documenti
+        val csvExportLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.CreateDocument("text/csv")
+        ) { uri ->
+            uri?.let {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    viewModel.exportData(context, it, "csv")
+                }
+            }
+        }
+
+        val pdfExportLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.CreateDocument("application/pdf")
+        ) { uri ->
+            uri?.let {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    viewModel.exportData(context, it, "pdf")
+                }
+            }
+        }
+
+        // Colore primario dinamico
+        val primaryColor = try {
+            Color(selectedColorHex.toColorInt())
+        } catch (e: Exception) {
+            Color(0xFF81B29A)
+        }
 
         MaterialTheme(
             colorScheme = darkColorScheme(
-                primary = Color(0xFF81B29A),
+                primary = primaryColor,
                 background = Color(0xFF1E1E24),
                 surface = Color(0xFF2B2B33)
             )
@@ -47,18 +87,12 @@ class SettingsFragment : BaseJetComposeFragment(hideBars = true) {
                 currentScreen = Screen.Settings,
                 onTabSelected = { screen ->
                     when (screen) {
-                        is Screen.Dashboard -> {
-                            safeNavController(R.id.main_activity_nav_host_fragment)
-                                ?.safeNavigate(R.id.action_settingsFragment_to_dashboardFragment)
-                        }
-                        is Screen.Stats -> {
-                            safeNavController(R.id.main_activity_nav_host_fragment)
-                                ?.safeNavigate(R.id.action_settingsFragment_to_statsFragment)
-                        }
-                        is Screen.Achievement -> {
-                            safeNavController(R.id.main_activity_nav_host_fragment)
-                                ?.safeNavigate(R.id.action_settingsFragment_to_achievementFragment)
-                        }
+                        is Screen.Dashboard -> safeNavController(R.id.main_activity_nav_host_fragment)
+                            ?.safeNavigate(R.id.action_settingsFragment_to_dashboardFragment)
+                        is Screen.Stats -> safeNavController(R.id.main_activity_nav_host_fragment)
+                            ?.safeNavigate(R.id.action_settingsFragment_to_statsFragment)
+                        is Screen.Achievement -> safeNavController(R.id.main_activity_nav_host_fragment)
+                            ?.safeNavigate(R.id.action_settingsFragment_to_achievementFragment)
                         else -> {}
                     }
                 }
@@ -72,13 +106,17 @@ class SettingsFragment : BaseJetComposeFragment(hideBars = true) {
                     SettingsScreen(
                         stepGoal = stepGoal,
                         inactivityThreshold = inactivityThreshold,
+                        selectedColorHex = selectedColorHex,
                         onStepGoalChanged = viewModel::updateStepGoal,
                         onInactivityThresholdChanged = viewModel::updateInactivityThreshold,
+                        onColorSelected = viewModel::updatePrimaryColor,
                         onRecalculateAchievements = { ctx ->
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 viewModel.recalculateAchievements(ctx)
                             }
-                        }
+                        },
+                        onExportCsv = { csvExportLauncher.launch("HybridWalk_Report.csv") },
+                        onExportPdf = { pdfExportLauncher.launch("HybridWalk_Report.pdf") }
                     )
                 }
             }
@@ -86,20 +124,28 @@ class SettingsFragment : BaseJetComposeFragment(hideBars = true) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     stepGoal: Int,
     inactivityThreshold: Int,
+    selectedColorHex: String,
     onStepGoalChanged: (Int) -> Unit,
     onInactivityThresholdChanged: (Int) -> Unit,
-    onRecalculateAchievements: (android.content.Context) -> Unit
+    onColorSelected: (String) -> Unit,
+    onRecalculateAchievements: (android.content.Context) -> Unit,
+    onExportCsv: () -> Unit,
+    onExportPdf: () -> Unit
 ) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
 
-    val batterySettingsLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+    val batterySettingsLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) {}
+
+    // Colori selezionabili per il tema (es. Verde, Blu, Arancione, Rosso, Viola, Rosa)
+    val colorOptions = listOf("#81B29A", "#3B82F6", "#F59E0B", "#EF4444", "#8B5CF6", "#EC4899")
 
     Column(
         modifier = Modifier
@@ -122,20 +168,67 @@ fun SettingsScreen(
             color = Color.Gray
         )
 
-        Spacer(modifier = Modifier.height(48.dp))
+        Spacer(modifier = Modifier.height(32.dp))
 
+        // --- SEZIONE: SELEZIONE COLORE TEMA ---
+        Text(
+            text = stringResource(R.string.colore_tema),
+            fontSize = 18.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
+
+        Card(
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                colorOptions.forEach { hex ->
+                    val colorObj = try {
+                        Color(hex.toColorInt())
+                    } catch (e: Exception) { Color.Gray }
+
+                    val isSelected = hex.equals(selectedColorHex, ignoreCase = true)
+
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .background(colorObj, CircleShape)
+                            .then(
+                                if (isSelected) {
+                                    Modifier.border(3.dp, Color.White, CircleShape)
+                                } else {
+                                    Modifier
+                                }
+                            )
+                            .clickable {
+                                onColorSelected(hex)
+                                onRecalculateAchievements(context)
+                            }
+                    )
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // --- SEZIONE: SLIDER OBIETTIVI ---
         SettingSliderCard(
             title = stringResource(R.string.obiettivo_passi_giornaliero),
             value = stepGoal.toFloat(),
             range = 2000f..15000f,
-            steps = 13, // (15000-2000)/1000 = 13 steps
+            steps = 13,
             displayValue = stringResource(R.string.passi_al_giorno, stepGoal),
             onValueChange = { onStepGoalChanged(it.toInt()) },
-            onValueChangeFinished = {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    onRecalculateAchievements(context)
-                }
-            }
+            onValueChangeFinished = { onRecalculateAchievements(context) }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -144,33 +237,30 @@ fun SettingsScreen(
             title = stringResource(R.string.promemoria_inattività),
             value = inactivityThreshold.toFloat(),
             range = 15f..120f,
-            steps = 7, // (120-15)/15 = 7 steps
-            displayValue = stringResource(R.string.minuti_di_inattività, inactivityThreshold),
+            steps = 7,
+            displayValue = stringResource(R.string.minuti_di_inattività,
+                inactivityThreshold),
             onValueChange = { onInactivityThresholdChanged(it.toInt()) },
-            onValueChangeFinished = {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    onRecalculateAchievements(context)
-                }
-            }
+            onValueChangeFinished = { onRecalculateAchievements(context) }
         )
 
         Spacer(modifier = Modifier.height(32.dp))
 
+        // --- SEZIONE: RISPARMIO BATTERIA ---
         Text(
             text = stringResource(R.string.risparmio_batteria),
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 12.dp)
         )
 
         Card(
             shape = RoundedCornerShape(16.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             modifier = Modifier.fillMaxWidth(),
-            onClick = {
-                batterySettingsLauncher.launch(context.createSafeBatterySettingsIntent())
-            }
+            onClick = { batterySettingsLauncher.launch(
+                context.createSafeBatterySettingsIntent()) }
         ) {
             Row(
                 modifier = Modifier
@@ -179,14 +269,13 @@ fun SettingsScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = stringResource(R.string.gestisci_ottimizzazione_batteria),
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
+                Text(
+                    text = stringResource(R.string.gestisci_ottimizzazione_batteria),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.weight(1f)
+                )
                 Icon(
                     imageVector = Icons.Default.Settings,
                     contentDescription = null,
@@ -194,6 +283,80 @@ fun SettingsScreen(
                 )
             }
         }
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        // --- SEZIONE: ESPORTAZIONE DATI ---
+        Text(
+            text = stringResource(R.string.esporta_dati),
+            fontSize = 18.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Card(
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                modifier = Modifier.weight(1f),
+                onClick = onExportCsv
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.List,
+                        contentDescription = stringResource(R.string.esporta_csv),
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(32.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "CSV",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            }
+
+            Card(
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                modifier = Modifier.weight(1f),
+                onClick = onExportPdf
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Share,
+                        contentDescription = stringResource(R.string.esporta_pdf),
+                        tint = Color(0xFFEF4444), // Rosso
+                        modifier = Modifier.size(32.dp)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "PDF",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(48.dp))
     }
 }
 
@@ -223,7 +386,7 @@ fun SettingSliderCard(
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface
             )
-            
+
             Spacer(modifier = Modifier.height(8.dp))
 
             Row(
@@ -244,7 +407,7 @@ fun SettingSliderCard(
                         inactiveTrackColor = Color.Gray.copy(alpha = 0.3f)
                     )
                 )
-                
+
                 Text(
                     text = displayValue,
                     fontSize = 14.sp,
