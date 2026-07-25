@@ -3,6 +3,8 @@ package rpt.tool.hybridwalk.utils.managers
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
@@ -10,6 +12,7 @@ import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import rpt.tool.hybridwalk.HybridWalkApplication
 import rpt.tool.hybridwalk.R
 import rpt.tool.hybridwalk.utils.AppUtils
@@ -18,8 +21,10 @@ import rpt.tool.hybridwalk.utils.data.appmodels.DailyRecord // Assicurati che l'
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.graphics.toColorInt
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import rpt.tool.hybridwalk.utils.extensions.isIgnoringBatteryOptimizations
 
 class AchievementManager {
     interface AchievementListener {
@@ -38,19 +43,18 @@ class AchievementManager {
 
         @RequiresApi(Build.VERSION_CODES.O)
         suspend fun recalculateAll(
-            dailyRecords: List<DailyRecord>,
+            dailyRecords: List<DailyRecord>? = null,
             showDialogEarned: Boolean = false,
             userMeta: Map<String, Any> = emptyMap(),
             context: Context = HybridWalkApplication.instance
         ) {
-            if (SharedPreferencesManager.showAchievement) return
-
+            val records = dailyRecords ?: RepositoryManager.hybridWalkRepository.getAllRecords().first()
             val achievements = RepositoryManager.achievementRepository.getAllAchievement()
 
             calculateAchievement(
                 context = context,
                 achievements = achievements,
-                dailyRecords = dailyRecords,
+                dailyRecords = records,
                 showDialogEarned = showDialogEarned,
                 userMeta = userMeta
             )
@@ -71,7 +75,8 @@ class AchievementManager {
             val maxStepsInDay = dailyRecords.maxOfOrNull { it.stepCount } ?: 0
             val wfhDays = dailyRecords.count { it.isWfhDay }
             val gymDays = dailyRecords.count { it.isGymDay }
-            val goalsReachedCount = dailyRecords.count { it.stepCount > 0 && it.stepCount >= it.stepGoal }
+            val goalsReachedCount = dailyRecords.count { it.stepCount > 0 && it.stepCount >=
+                    it.stepGoal }
             var currentStreak = 0
             var maxStreak = 0
             val sortedRecords = dailyRecords.sortedBy { it.dateEpochDay }
@@ -102,8 +107,8 @@ class AchievementManager {
                     "steps_10k" -> minOf(maxStepsInDay, 10000)
                     "steps_15k" -> minOf(maxStepsInDay, 15000)
                     "steps_20k" -> minOf(maxStepsInDay, 20000)
-                    "goal_5" -> minOf(goalsReachedCount, 5)
                     "goal_1" -> minOf(goalsReachedCount, 1)
+                    "goal_5" -> minOf(goalsReachedCount, 5)
                     "goal_10" -> minOf(goalsReachedCount, 10)
                     "streak_3" -> minOf(maxStreak, 3)
                     "streak_7" -> minOf(maxStreak, 7)
@@ -114,14 +119,33 @@ class AchievementManager {
                     "wfh_50" -> minOf(wfhDays, 50)
                     "gym_1" -> minOf(gymDays, 1)
                     "gym_5" -> minOf(gymDays, 5)
-                    "early_bird" -> if (userMeta["early_bird"] == true) 1 else null
-                    "night_owl" -> if (userMeta["night_owl"] == true) 1 else null
-                    "settings_explorer" -> if (userMeta["settings_explorer"] == true) 1 else null
+                    "customized_settings" -> {
+                        val isCustomized = SharedPreferencesManager.stepGoal != 7000 ||
+                                SharedPreferencesManager.inactivityThreshold != 3600000L
+                        if (isCustomized || userMeta["customized_settings"] == true) 1 else null
+                    }
                     "stats_viewer" -> if (userMeta["stats_viewer"] == true) 1 else null
-                    "permissions_ok" -> if (userMeta["permissions_ok"] == true) 1 else null
-                    "battery_ok" -> if (userMeta["battery_ok"] == true) 1 else null
+                    "permissions_ok" -> {
+                        val hasPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            ContextCompat.checkSelfPermission(
+                                context,
+                                Manifest.permission.ACTIVITY_RECOGNITION
+                            ) == PackageManager.PERMISSION_GRANTED
+                        } else {
+                            true
+                        }
+                        if (hasPermission || userMeta["permissions_ok"] == true) 1 else null
+                    }
+                    "battery_ok" -> {
+                        val isIgnoring = context.isIgnoringBatteryOptimizations()
+                        if (isIgnoring || userMeta["battery_ok"] == true) 1 else null
+                    }
                     "wfh_reminders" -> if (userMeta["wfh_reminders"] == true) 1 else null
                     "wfh_pauses" -> if (userMeta["wfh_pauses"] == true) 1 else null
+                    "early_bird" -> if (SharedPreferencesManager.hasEarlyBirdSteps ||
+                        userMeta["early_bird"] == true) 1 else null
+                    "night_owl" -> if (SharedPreferencesManager.hasNightOwlSteps ||
+                        userMeta["night_owl"] == true) 1 else null
                     "milestone_15" -> minOf(totalEarnedCount, 15)
                     "milestone_25" -> minOf(totalEarnedCount, 25)
 
@@ -143,6 +167,11 @@ class AchievementManager {
 
         suspend fun earnAchievement(id: Int, date: String, showDialogEarned: Boolean,
                                     context: Context = HybridWalkApplication.instance) {
+            val achievements = RepositoryManager.achievementRepository.getAllAchievement()
+            val currentAchievement = achievements.find { it.id == id }
+
+            if (currentAchievement?.earned == 1) return
+
             RepositoryManager.achievementRepository.earnAchievement(id, date)
             if (showDialogEarned) {
                 showAchievementEarnedDialog(context, id)
@@ -156,6 +185,11 @@ class AchievementManager {
         @RequiresApi(Build.VERSION_CODES.O)
         suspend fun updateProgressForAchievement(id: Int, current: Int, showDialogEarned: Boolean,
                                                  context: Context = HybridWalkApplication.instance) {
+            val achievements = RepositoryManager.achievementRepository.getAllAchievement()
+            val currentAchievement = achievements.find { it.id == id }
+
+            if (currentAchievement?.earned == 1) return
+
             val earned = RepositoryManager.achievementRepository.updateAchievementDetail(id, current)
             if (earned) {
                 earnAchievement(id, AppUtils.getCurrentDate(), showDialogEarned, context)

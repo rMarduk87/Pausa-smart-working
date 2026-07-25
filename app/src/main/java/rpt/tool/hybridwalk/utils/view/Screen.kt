@@ -9,11 +9,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Star
 import rpt.tool.hybridwalk.R
 
 sealed class Screen(val route: String, @androidx.annotation.StringRes val titleRes: Int, val icon: ImageVector) {
     object Dashboard : Screen("dashboard", R.string.oggi, Icons.Default.Home)
     object Stats : Screen("stats", R.string.andamento, Icons.Default.Info)
+    object Achievement : Screen("achievement", R.string.obiettivi, Icons.Default.Star)
     object Settings : Screen("settings", R.string.impostazioni, Icons.Default.Settings)
 }
 
@@ -30,7 +32,7 @@ fun HybridScaffold(
                 containerColor = Color(0xFF2B2B33),
                 contentColor = Color.White
             ) {
-                val items = listOf(Screen.Dashboard, Screen.Stats, Screen.Settings)
+                val items = listOf(Screen.Dashboard, Screen.Stats, Screen.Achievement, Screen.Settings)
                 items.forEach { screen ->
                     val title = androidx.compose.ui.res.stringResource(screen.titleRes)
                     NavigationBarItem(

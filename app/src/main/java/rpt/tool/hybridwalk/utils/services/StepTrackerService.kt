@@ -23,7 +23,9 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import rpt.tool.hybridwalk.R
 import rpt.tool.hybridwalk.utils.managers.RepositoryManager
+import rpt.tool.hybridwalk.utils.managers.SharedPreferencesManager
 import java.time.LocalDate
+import java.time.LocalTime
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.isActive
@@ -120,6 +122,7 @@ class StepTrackerService : Service(), SensorEventListener {
 
             if (deltaSteps > 0) {
                 lastMovementTime = System.currentTimeMillis()
+                checkTimeAchievements()
                 val todayEpoch = LocalDate.now().toEpochDay()
                 serviceScope.launch {
                     RepositoryManager.hybridWalkRepository.incrementSteps(todayEpoch, deltaSteps)
@@ -144,6 +147,7 @@ class StepTrackerService : Service(), SensorEventListener {
                 if (currentTime - lastStepAccTime > STEP_TIME_THRESHOLD_MS) {
                     lastStepAccTime = currentTime
                     lastMovementTime = currentTime
+                    checkTimeAchievements()
 
                     d("HybridWalkDebug", "Passo simulato da accelerometro rilevato! Magnitudo: $netAcceleration")
 
@@ -162,7 +166,8 @@ class StepTrackerService : Service(), SensorEventListener {
         val channelId = "hybridwalk_tracking_channel"
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as
+                    NotificationManager
             val channel = NotificationChannel(
                 channelId,
                 getString(R.string.tracciamento_passi),
@@ -203,7 +208,8 @@ class StepTrackerService : Service(), SensorEventListener {
     private fun createAlertNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channelId = "hybridwalk_alerts_channel"
-            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as
+                    NotificationManager
 
             val channel = NotificationChannel(
                 channelId,
@@ -225,7 +231,7 @@ class StepTrackerService : Service(), SensorEventListener {
                 delay(CHECK_INTERVAL.milliseconds)
 
                 val timeSinceLastMove = System.currentTimeMillis() - lastMovementTime
-                val threshold = rpt.tool.hybridwalk.utils.managers.SharedPreferencesManager.inactivityThreshold
+                val threshold = SharedPreferencesManager.inactivityThreshold
 
                 if (timeSinceLastMove >= threshold) {
                     val todayEpoch = LocalDate.now().toEpochDay()
@@ -266,6 +272,15 @@ class StepTrackerService : Service(), SensorEventListener {
             .build()
 
         manager.notify(2, notification)
+    }
+
+    private fun checkTimeAchievements() {
+        val currentHour = LocalTime.now().hour
+        if (currentHour in 5..8) {
+            SharedPreferencesManager.hasEarlyBirdSteps = true
+        } else if (currentHour !in 2..<23) {
+            SharedPreferencesManager.hasNightOwlSteps = true
+        }
     }
 
     companion object {

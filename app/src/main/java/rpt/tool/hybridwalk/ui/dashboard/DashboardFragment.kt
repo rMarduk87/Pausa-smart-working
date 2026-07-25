@@ -35,6 +35,8 @@ import rpt.tool.hybridwalk.R
 import rpt.tool.hybridwalk.utils.extensions.isIgnoringBatteryOptimizations
 import rpt.tool.hybridwalk.utils.extensions.startStepTrackerService
 import rpt.tool.hybridwalk.utils.extensions.stopStepTrackerService
+import rpt.tool.hybridwalk.utils.managers.RepositoryManager
+import rpt.tool.hybridwalk.utils.managers.SharedPreferencesManager
 import rpt.tool.hybridwalk.utils.view.HybridScaffold
 import rpt.tool.hybridwalk.utils.view.Screen
 
@@ -48,6 +50,20 @@ class DashboardFragment : BaseJetComposeFragment(hideBars = true) {
 
         val todayRecord by viewModel.todayRecord.collectAsStateWithLifecycle()
         val isWfhActive by viewModel.isWfhActive.collectAsStateWithLifecycle()
+
+        val context = LocalContext.current
+
+        LaunchedEffect(Unit) {
+            if(SharedPreferencesManager.showAchievement){
+                SharedPreferencesManager.showAchievement = false
+                RepositoryManager.achievementRepository.addAchievementToTable(
+                    context,
+                    R.raw.hybridwalk_achievement,
+                    R.raw.hybridwalk_achievement_detail
+                )
+            }
+
+        }
 
         MaterialTheme(
             colorScheme = darkColorScheme(
@@ -63,6 +79,10 @@ class DashboardFragment : BaseJetComposeFragment(hideBars = true) {
                         is Screen.Stats -> {
                             safeNavController(R.id.main_activity_nav_host_fragment)
                                 ?.safeNavigate(R.id.action_dashboardFragment_to_statsFragment)
+                        }
+                        is Screen.Achievement -> {
+                            safeNavController(R.id.main_activity_nav_host_fragment)
+                                ?.safeNavigate(R.id.action_dashboardFragment_to_achievementFragment)
                         }
                         is Screen.Settings -> {
                             safeNavController(R.id.main_activity_nav_host_fragment)
@@ -81,7 +101,7 @@ class DashboardFragment : BaseJetComposeFragment(hideBars = true) {
                     DashboardScreen(
                         stepCount = todayRecord.stepCount,
                         stepGoal = todayRecord.stepGoal,
-                        isWfhDay = isWfhActive, // <--- Sostituisci todayRecord.isWfhDay con isWfhActive
+                        isWfhDay = isWfhActive,
                         isGymDay = todayRecord.isGymDay,
                         onWfhToggled = { isWfh -> viewModel.toggleWfh(isWfh) },
                         onGymToggled = { isGym -> viewModel.toggleGym(isGym) }
@@ -106,7 +126,6 @@ fun DashboardScreen(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    // Launcher corretto che aggiorna anche lo stato del ViewModel quando viene concesso il permesso
     val activityRecognitionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -131,9 +150,6 @@ fun DashboardScreen(
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
-
-    // Nota: Rimosso il LaunchedEffect(Unit) automatico all'avvio che veniva bloccato da Android.
-    // La gestione passa interamente all'interazione sicura sul toggle.
 
     val scrollState = rememberScrollState()
 
@@ -179,7 +195,6 @@ fun DashboardScreen(
                         onWfhToggled(true)
                         context.startStepTrackerService()
                     } else {
-                        // L'interazione fisica sul toggle sblocca la richiesta nativa di Android
                         activityRecognitionLauncher.launch(
                             Manifest.permission.ACTIVITY_RECOGNITION)
                     }

@@ -45,7 +45,13 @@ class StatsFragment : BaseJetComposeFragment(hideBars = true) {
                             safeNavController(
                                 rpt.tool.hybridwalk.R.id.main_activity_nav_host_fragment)
                                 ?.safeNavigate(
-                                    rpt.tool.hybridwalk.R.id.action_statsFragment_to_dashBoardFragment)
+                                    rpt.tool.hybridwalk.R.id.action_statsFragment_to_dashboardFragment)
+                        }
+                        is Screen.Achievement -> {
+                            safeNavController(
+                                rpt.tool.hybridwalk.R.id.main_activity_nav_host_fragment)
+                                ?.safeNavigate(
+                                    rpt.tool.hybridwalk.R.id.action_statsFragment_to_achievementFragment)
                         }
                         is Screen.Settings -> {
                             safeNavController(

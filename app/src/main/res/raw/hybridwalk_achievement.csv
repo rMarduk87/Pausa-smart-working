@@ -1,21 +1,28 @@
 id,code,title,description,category,image,color,earned,acquired_date,order
-1,first_steps,R.string.ach_tit_1,R.string.ach_desc_1,Steps,R.string.ach_1,#4ade80,False,,1
+1,steps_100,R.string.ach_tit_34,R.string.ach_desc_34,Steps,R.string.ach_34,#86efac,False,,1
 2,steps_5k,R.string.ach_tit_2,R.string.ach_desc_2,Steps,R.string.ach_2,#22c55e,False,,2
 3,steps_10k,R.string.ach_tit_3,R.string.ach_desc_3,Steps,R.string.ach_3,#16a34a,False,,3
-4,steps_50k,R.string.ach_tit_4,R.string.ach_desc_4,Steps,R.string.ach_4,#15803d,False,,4
-5,steps_100k,R.string.ach_tit_5,R.string.ach_desc_5,Steps,R.string.ach_5,#166534,False,,5
-6,first_wfh,R.string.ach_tit_6,R.string.ach_desc_6,Smart Working,R.string.ach_6,#60a5fa,False,,6
-7,wfh_5_days,R.string.ach_tit_7,R.string.ach_desc_7,Smart Working,R.string.ach_7,#3b82f6,False,,7
-8,wfh_10_days,R.string.ach_tit_8,R.string.ach_desc_8,Smart Working,R.string.ach_8,#2563eb,False,,8
-9,wfh_50_days,R.string.ach_tit_9,R.string.ach_desc_9,Smart Working,R.string.ach_9,#1d4ed8,False,,9
-10,first_gym,R.string.ach_tit_10,R.string.ach_desc_10,Gym,R.string.ach_10,#f87171,False,,10
-11,gym_5_days,R.string.ach_tit_11,R.string.ach_desc_11,Gym,R.string.ach_11,#ef4444,False,,11
-12,gym_10_days,R.string.ach_tit_12,R.string.ach_desc_12,Gym,R.string.ach_12,#dc2626,False,,12
-13,gym_50_days,R.string.ach_tit_13,R.string.ach_desc_13,Gym,R.string.ach_13,#b91c1c,False,,13
-14,streak_3,R.string.ach_tit_14,R.string.ach_desc_14,Streak,R.string.ach_14,#fbbf24,False,,14
-15,streak_7,R.string.ach_tit_15,R.string.ach_desc_15,Streak,R.string.ach_15,#f59e0b,False,,15
-16,streak_30,R.string.ach_tit_16,R.string.ach_desc_16,Streak,R.string.ach_16,#d97706,False,,16
-17,goal_1,R.string.ach_tit_17,R.string.ach_desc_17,Goals,R.string.ach_17,#c084fc,False,,17
-18,goal_10,R.string.ach_tit_18,R.string.ach_desc_18,Goals,R.string.ach_18,#a855f7,False,,18
-19,goal_50,R.string.ach_tit_19,R.string.ach_desc_19,Goals,R.string.ach_19,#9333ea,False,,19
-20,goal_100,R.string.ach_tit_20,R.string.ach_desc_20,Goals,R.string.ach_20,#7e22ce,False,,20
+4,steps_15k,R.string.ach_tit_21,R.string.ach_desc_21,Steps,R.string.ach_21,#065f46,False,,4
+5,steps_20k,R.string.ach_tit_22,R.string.ach_desc_22,Steps,R.string.ach_22,#064e3b,False,,5
+6,wfh_1,R.string.ach_tit_6,R.string.ach_desc_6,Smart Working,R.string.ach_6,#60a5fa,False,,6
+7,wfh_5,R.string.ach_tit_7,R.string.ach_desc_7,Smart Working,R.string.ach_7,#3b82f6,False,,7
+8,wfh_10,R.string.ach_tit_8,R.string.ach_desc_8,Smart Working,R.string.ach_8,#2563eb,False,,8
+9,wfh_50,R.string.ach_tit_9,R.string.ach_desc_9,Smart Working,R.string.ach_9,#1d4ed8,False,,9
+10,gym_1,R.string.ach_tit_10,R.string.ach_desc_10,Gym,R.string.ach_10,#f87171,False,,10
+11,gym_5,R.string.ach_tit_11,R.string.ach_desc_11,Gym,R.string.ach_11,#ef4444,False,,11
+12,streak_3,R.string.ach_tit_14,R.string.ach_desc_14,Streak,R.string.ach_14,#fbbf24,False,,12
+13,streak_7,R.string.ach_tit_15,R.string.ach_desc_15,Streak,R.string.ach_15,#f59e0b,False,,13
+14,streak_30,R.string.ach_tit_16,R.string.ach_desc_16,Streak,R.string.ach_16,#d97706,False,,14
+15,goal_1,R.string.ach_tit_17,R.string.ach_desc_17,Goals,R.string.ach_17,#c084fc,False,,15
+16,goal_5,R.string.ach_tit_23,R.string.ach_desc_23,Goals,R.string.ach_23,#b197fc,False,,16
+17,goal_10,R.string.ach_tit_18,R.string.ach_desc_18,Goals,R.string.ach_18,#a855f7,False,,17
+18,customized_settings,R.string.ach_tit_24,R.string.ach_desc_24,Settings,R.string.ach_24,#94a3b8,False,,18
+19,stats_viewer,R.string.ach_tit_25,R.string.ach_desc_25,Stats,R.string.ach_25,#64748b,False,,19
+20,permissions_ok,R.string.ach_tit_26,R.string.ach_desc_26,System,R.string.ach_26,#475569,False,,20
+21,battery_ok,R.string.ach_tit_27,R.string.ach_desc_27,System,R.string.ach_27,#334155,False,,21
+22,wfh_reminders,R.string.ach_tit_28,R.string.ach_desc_28,Smart Working,R.string.ach_28,#1e293b,False,,22
+23,wfh_pauses,R.string.ach_tit_29,R.string.ach_desc_29,Smart Working,R.string.ach_29,#0f172a,False,,23
+24,early_bird,R.string.ach_tit_32,R.string.ach_desc_32,Lifestyle,R.string.ach_32,#f97316,False,,24
+25,night_owl,R.string.ach_tit_33,R.string.ach_desc_33,Lifestyle,R.string.ach_33,#6366f1,False,,25
+26,milestone_15,R.string.ach_tit_30,R.string.ach_desc_30,Milestones,R.string.ach_30,#fde047,False,,26
+27,milestone_25,R.string.ach_tit_31,R.string.ach_desc_31,Milestones,R.string.ach_31,#facc15,False,,27

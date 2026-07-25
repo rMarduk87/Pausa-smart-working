@@ -1,5 +1,7 @@
 package rpt.tool.hybridwalk.utils.view
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -14,16 +16,30 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import rpt.tool.hybridwalk.R
 import rpt.tool.hybridwalk.utils.data.appmodels.DailyStat
+import rpt.tool.hybridwalk.utils.managers.AchievementManager
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun StatsScreen(data: List<DailyStat>, stepGoal: Int) {
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        AchievementManager.recalculateAll(
+            dailyRecords = null,
+            showDialogEarned = true,
+            userMeta = mapOf("stats_viewer" to true),
+            context = context
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()

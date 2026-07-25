@@ -37,6 +37,8 @@ class AchievementRepository(
     }
 
     suspend fun addAchievementToTable(context: Context, resource: Int, resourceDetail: Int) {
+        val existingAchievements = getAllAchievement().associateBy { it.id }
+
         withContext(Dispatchers.IO) {
             val achievementList = mutableListOf<Achievement>()
             val detailList = mutableListOf<AchievementDetail>()
@@ -50,6 +52,9 @@ class AchievementRepository(
                     lines.drop(1).forEach { riga ->
                         val colonne = riga.split(",")
                         if (colonne.size >= 9) {
+                            val id = colonne[0].cleanValue().toIntOrNull() ?: 0
+                            val existing = existingAchievements[id]
+
                             val rawTitle = colonne[2].cleanValue().removePrefix("R.string.")
                             val rawDesc = colonne[3].cleanValue().removePrefix("R.string.")
                             val rawImg = colonne[5].cleanValue()
@@ -64,7 +69,7 @@ class AchievementRepository(
                                 imgResType, packageName)
 
                             val newAchievement = Achievement(
-                                id = colonne[0].cleanValue().toIntOrNull() ?: 0,
+                                id = id,
                                 code = colonne[1].cleanValue(),
                                 titleID = titleResId,
                                 descriptionValue = descResId,
@@ -72,8 +77,8 @@ class AchievementRepository(
                                 backgroundColor = colonne[6].cleanValue(),
                                 category = colonne[4].cleanValue(),
                                 sortOrder = colonne[9].cleanValue().toIntOrNull() ?: 0,
-                                earned = colonne[7].cleanValue().equals("True", ignoreCase = true),
-                                date = colonne[8].cleanValue().takeIf { it.isNotEmpty() && it != "NULL" }
+                                earned = existing?.earned == 1 || colonne[7].cleanValue().equals("True", ignoreCase = true),
+                                date = existing?.date ?: colonne[8].cleanValue().takeIf { it.isNotEmpty() && it != "NULL" }
                             )
                             achievementList.add(newAchievement)
                         }
@@ -88,6 +93,9 @@ class AchievementRepository(
                     lines.drop(1).forEach { riga ->
                         val colonne = riga.split(",")
                         if (colonne.size >= 8) {
+                            val id = colonne[0].cleanValue().toIntOrNull() ?: 0
+                            val existingDetail = existingAchievements[id]?.detail
+
                             val rawTypeDesc = colonne[3].cleanValue().removePrefix("R.string.")
                             val rawUnitDesc = colonne[5].cleanValue().removePrefix("R.string.")
 
@@ -97,14 +105,14 @@ class AchievementRepository(
                                 "string", packageName)
 
                             val newDetail = AchievementDetail(
-                                id = colonne[0].cleanValue().toIntOrNull() ?: 0,
-                                achievement = colonne[0].cleanValue().toIntOrNull() ?: 0,
+                                id = id,
+                                achievement = id,
                                 description = colonne[1].cleanValue(),
                                 type = AchievementType.fromId(colonne[2].cleanValue().toIntOrNull() ?: 0),
                                 typeDescription = typeDescResId,
                                 unit = UnitType.fromId(colonne[4].cleanValue().toIntOrNull() ?: 0),
                                 unitDescription = unitDescResId,
-                                current = colonne[6].cleanValue().toIntOrNull() ?: 0,
+                                current = existingDetail?.current ?: colonne[6].cleanValue().toIntOrNull() ?: 0,
                                 target = colonne[7].cleanValue().toIntOrNull() ?: 0
                             )
                             detailList.add(newDetail)

@@ -10,7 +10,8 @@ enum class AchievementType(val id: Int, @param:StringRes val descriptionResId: I
     WFH(2, R.string.ach_type_wfh, "wfh"),
     GYM(3, R.string.ach_type_gym, "gym"),
     STREAK(4, R.string.ach_type_streak, "streak"),
-    GOAL(5, R.string.ach_type_goal, "goal");
+    GOAL(5, R.string.ach_type_goal, "goal"),
+    APP(6, R.string.ach_type_app, "app");
 
     companion object {
         fun fromId(id: Int): AchievementType = entries.firstOrNull { it.id == id } ?: STEPS

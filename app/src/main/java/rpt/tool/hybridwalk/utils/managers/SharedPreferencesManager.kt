@@ -35,4 +35,12 @@ object SharedPreferencesManager {
     var showAchievement : Boolean
         get() = sharedPreferences.getBoolean(AppUtils.SHOW_ACHIEVEMENT, false)
         set(value) = sharedPreferences.edit { putBoolean(AppUtils.SHOW_ACHIEVEMENT, value) }
+
+    var hasEarlyBirdSteps: Boolean
+        get() = sharedPreferences.getBoolean("has_early_bird_steps", false)
+        set(value) = sharedPreferences.edit { putBoolean("has_early_bird_steps", value) }
+
+    var hasNightOwlSteps: Boolean
+        get() = sharedPreferences.getBoolean("has_night_owl_steps", false)
+        set(value) = sharedPreferences.edit { putBoolean("has_night_owl_steps", value) }
 }

@@ -55,6 +55,10 @@ class SettingsFragment : BaseJetComposeFragment(hideBars = true) {
                             safeNavController(R.id.main_activity_nav_host_fragment)
                                 ?.safeNavigate(R.id.action_settingsFragment_to_statsFragment)
                         }
+                        is Screen.Achievement -> {
+                            safeNavController(R.id.main_activity_nav_host_fragment)
+                                ?.safeNavigate(R.id.action_settingsFragment_to_achievementFragment)
+                        }
                         else -> {}
                     }
                 }
@@ -69,7 +73,12 @@ class SettingsFragment : BaseJetComposeFragment(hideBars = true) {
                         stepGoal = stepGoal,
                         inactivityThreshold = inactivityThreshold,
                         onStepGoalChanged = viewModel::updateStepGoal,
-                        onInactivityThresholdChanged = viewModel::updateInactivityThreshold
+                        onInactivityThresholdChanged = viewModel::updateInactivityThreshold,
+                        onRecalculateAchievements = { ctx ->
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                viewModel.recalculateAchievements(ctx)
+                            }
+                        }
                     )
                 }
             }
@@ -82,7 +91,8 @@ fun SettingsScreen(
     stepGoal: Int,
     inactivityThreshold: Int,
     onStepGoalChanged: (Int) -> Unit,
-    onInactivityThresholdChanged: (Int) -> Unit
+    onInactivityThresholdChanged: (Int) -> Unit,
+    onRecalculateAchievements: (android.content.Context) -> Unit
 ) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
@@ -120,7 +130,12 @@ fun SettingsScreen(
             range = 2000f..15000f,
             steps = 13, // (15000-2000)/1000 = 13 steps
             displayValue = stringResource(R.string.passi_al_giorno, stepGoal),
-            onValueChange = { onStepGoalChanged(it.toInt()) }
+            onValueChange = { onStepGoalChanged(it.toInt()) },
+            onValueChangeFinished = {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    onRecalculateAchievements(context)
+                }
+            }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -131,7 +146,12 @@ fun SettingsScreen(
             range = 15f..120f,
             steps = 7, // (120-15)/15 = 7 steps
             displayValue = stringResource(R.string.minuti_di_inattività, inactivityThreshold),
-            onValueChange = { onInactivityThresholdChanged(it.toInt()) }
+            onValueChange = { onInactivityThresholdChanged(it.toInt()) },
+            onValueChangeFinished = {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    onRecalculateAchievements(context)
+                }
+            }
         )
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -184,7 +204,8 @@ fun SettingSliderCard(
     range: ClosedFloatingPointRange<Float>,
     steps: Int,
     displayValue: String,
-    onValueChange: (Float) -> Unit
+    onValueChange: (Float) -> Unit,
+    onValueChangeFinished: (() -> Unit)? = null
 ) {
     Card(
         shape = RoundedCornerShape(16.dp),
@@ -213,6 +234,7 @@ fun SettingSliderCard(
                 Slider(
                     value = value,
                     onValueChange = onValueChange,
+                    onValueChangeFinished = onValueChangeFinished,
                     valueRange = range,
                     steps = steps,
                     modifier = Modifier.weight(1f),

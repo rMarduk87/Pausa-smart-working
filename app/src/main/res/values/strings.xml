@@ -21,6 +21,9 @@
     <string name="ultimi_7_giorni">Last 7 days</string>
     <string name="_oggi">Today</string>
     <string name="impostazioni">Settings</string>
+    <string name="obiettivi">Achievements</string>
+    <string name="recalculate">Recalculate</string>
+    <string name="reset_all">Reset All</string>
     <string name="personalizza_la_tua_esperienza">Customize your experience</string>
     <string name="obiettivo_passi_giornaliero">Daily step goal</string>
     <string name="passi_al_giorno">%1$d steps</string>
@@ -48,6 +51,20 @@
     <string name="ach_18" translatable="false">🎯</string>
     <string name="ach_19" translatable="false">🌟</string>
     <string name="ach_20" translatable="false">👑</string>
+    <string name="ach_21" translatable="false">🏅</string>
+    <string name="ach_22" translatable="false">🏆</string>
+    <string name="ach_23" translatable="false">🎯</string>
+    <string name="ach_24" translatable="false">⚙️</string>
+    <string name="ach_25" translatable="false">📊</string>
+    <string name="ach_26" translatable="false">🛡️</string>
+    <string name="ach_27" translatable="false">🔋</string>
+    <string name="ach_28" translatable="false">🔔</string>
+    <string name="ach_29" translatable="false">⏸️</string>
+    <string name="ach_30" translatable="false">⭐</string>
+    <string name="ach_31" translatable="false">✨</string>
+    <string name="ach_32" translatable="false">🌅</string>
+    <string name="ach_33" translatable="false">🌃</string>
+    <string name="ach_34" translatable="false">👣</string>
     <string name="ach_tit_1">First Steps</string>
     <string name="ach_tit_2">Walker</string>
     <string name="ach_tit_3">Marathoner</string>
@@ -68,6 +85,20 @@
     <string name="ach_tit_18">Sharpshooter</string>
     <string name="ach_tit_19">Achievement Collector</string>
     <string name="ach_tit_20">Legend</string>
+    <string name="ach_tit_21">High Performer</string>
+    <string name="ach_tit_22">Elite Walker</string>
+    <string name="ach_tit_23">Aim for the Stars</string>
+    <string name="ach_tit_24">Tailor Made</string>
+    <string name="ach_tit_25">Data Analyst</string>
+    <string name="ach_tit_26">Safe &amp; Secure</string>
+    <string name="ach_tit_27">Full Power</string>
+    <string name="ach_tit_28">Always Ready</string>
+    <string name="ach_tit_29">Smart Breaks</string>
+    <string name="ach_tit_30">Master</string>
+    <string name="ach_tit_31">Grandmaster</string>
+    <string name="ach_tit_32">Early Bird</string>
+    <string name="ach_tit_33">Night Owl</string>
+    <string name="ach_tit_34">Just Starting</string>
     <string name="ach_desc_1">You logged your first 1,000 steps. Great start!</string>
     <string name="ach_desc_2">You reached 5,000 total steps. Keep moving!</string>
     <string name="ach_desc_3">10,000 steps! You’re going the distance.</string>
@@ -88,6 +119,20 @@
     <string name="ach_desc_18">You reached your goal 10 times.</string>
     <string name="ach_desc_19">Goal achieved 50 times.</string>
     <string name="ach_desc_20">100 daily goals completed. Unstoppable!</string>
+    <string name="ach_desc_21">You reached 15,000 steps in a single day!</string>
+    <string name="ach_desc_22">20,000 steps! You are an elite walker.</string>
+    <string name="ach_desc_23">You reached your daily goal 5 times.</string>
+    <string name="ach_desc_24">You customized your goals in the settings.</string>
+    <string name="ach_desc_25">You checked your stats to track your progress.</string>
+    <string name="ach_desc_26">All necessary permissions are granted.</string>
+    <string name="ach_desc_27">Battery optimization is disabled for accurate tracking.</string>
+    <string name="ach_desc_28">You enabled reminders for your WFH days.</string>
+    <string name="ach_desc_29">You used pauses correctly during work.</string>
+    <string name="ach_desc_30">You unlocked 15 achievements. Keep it up!</string>
+    <string name="ach_desc_31">25 achievements unlocked! You are a master.</string>
+    <string name="ach_desc_32">You logged steps early in the morning.</string>
+    <string name="ach_desc_33">You stayed active even late at night.</string>
+    <string name="ach_desc_34">You reached your first 100 steps!</string>
     <string name="ach_des_1">Reach 1,000 total steps.</string>
     <string name="ach_des_2">Reach 5,000 total steps.</string>
     <string name="ach_des_3">Reach 10,000 total steps.</string>
@@ -108,6 +153,23 @@
     <string name="ach_des_18">Reach your goal 10 times.</string>
     <string name="ach_des_19">Reach your goal 50 times.</string>
     <string name="ach_des_20">Reach your goal 100 times.</string>
+    <string name="ach_des_21">Reach 15,000 steps in one day.</string>
+    <string name="ach_des_22">Reach 20,000 steps in one day.</string>
+    <string name="ach_des_23">Reach your goal 5 times.</string>
+    <string name="ach_des_24">Change your step goal or inactivity threshold.</string>
+    <string name="ach_des_25">View the Stats screen.</string>
+    <string name="ach_des_26">Grant all required permissions.</string>
+    <string name="ach_des_27">Disable battery optimization.</string>
+    <string name="ach_des_28">Enable WFH reminders.</string>
+    <string name="ach_des_29">Take pauses during WFH sessions.</string>
+    <string name="ach_des_30">Unlock 15 achievements.</string>
+    <string name="ach_des_31">Unlock 25 achievements.</string>
+    <string name="ach_des_32">Log steps between 5:00 and 8:00 AM.</string>
+    <string name="ach_des_33">Log steps between 11:00 PM and 2:00 AM.</string>
+    <string name="ach_des_34">Reach 100 total steps.</string>
+    <string name="ach_type_app">app usage</string>
+    <string name="unit_type_unlocked">unlocked</string>
+    <string name="unit_type_milestones">achievements</string>
     <string name="ach_type_steps">total steps</string>
     <string name="ach_type_wfh">WFH days</string>
     <string name="ach_type_gym">gym days</string>

@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_dashboardFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_achievementFragment"
+            app:destination="@id/achievementFragment" />
     </fragment>
 
     <fragment
@@ -24,6 +27,12 @@
         <action
             android:id="@+id/action_statsFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_statsFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+        <action
+            android:id="@+id/action_statsFragment_to_achievementFragment"
+            app:destination="@id/achievementFragment" />
     </fragment>
 
     <fragment
@@ -36,9 +45,24 @@
         <action
             android:id="@+id/action_settingsFragment_to_statsFragment"
             app:destination="@id/statsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_achievementFragment"
+            app:destination="@id/achievementFragment" />
     </fragment>
 
-    <action
-        android:id="@+id/action_statsFragment_to_dashBoardFragment"
-        app:destination="@id/dashboardFragment" />
+    <fragment
+        android:id="@+id/achievementFragment"
+        android:name="rpt.tool.hybridwalk.ui.achievement.AchievementFragment"
+        android:label="AchievementFragment">
+        <action
+            android:id="@+id/action_achievementFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+        <action
+            android:id="@+id/action_achievementFragment_to_statsFragment"
+            app:destination="@id/statsFragment" />
+        <action
+            android:id="@+id/action_achievementFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+
 </navigation>
