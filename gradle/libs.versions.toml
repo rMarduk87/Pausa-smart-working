@@ -10,6 +10,9 @@ glanceMaterial3 = "1.1.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
+kotlinxCoroutinesTest = "1.11.0"
+turbine = "1.2.1"
+androidxTestCore = "1.7.0"
 appcompat = "1.7.0"
 lifecycleViewmodelCompose = "2.8.7"
 material = "1.12.0"
@@ -56,6 +59,9 @@ androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscree
 androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version = "2.9.0" }
 navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version = "2.7.7" }
 rptbase = { module = "com.github.rMarduk87:RPTBase", version.ref = "rptbase" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+androidx-test-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "androidxTestCore" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 [plugins]

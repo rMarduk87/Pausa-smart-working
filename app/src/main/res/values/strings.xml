@@ -237,6 +237,9 @@
     <string name="streak_desc_3">A full week of fire! You are making your mark.</string>
     <string name="streak_desc_4">You broke the sedentary lifestyle. The path is the right one!</string>
     <string name="streak_desc_5">The first step is the most important. Start moving!</string>
+    <string name="achievement_reset">Achievements reset</string>
+    <string name="reset_achievement_title">Reset Achievements</string>
+    <string name="reset_achievement_warning">This action will clear all your achievements. \n\nYou can use the \'Recalculate\' button to recover badges related to your steps, but achievements related to your actions (e.g., Stats or Settings) will need to be unlocked manually again.</string>
     <string-array name="stand_up_reminders">
         <item>Time to stretch your legs! Do 2 minutes of stretching.</item>
         <item>Coffee break or a glass of water? Get up from your desk for a moment.</item>

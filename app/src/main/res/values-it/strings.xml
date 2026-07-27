@@ -202,6 +202,9 @@
     <string name="streak_desc_3">Una settimana intera di fuoco! Stai lasciando il segno.</string>
     <string name="streak_desc_4">Hai rotto la sedentarietà. La strada è quella giusta!</string>
     <string name="streak_desc_5">Il primo passo è il più importante. Comincia a muoverti!</string>
+    <string name="achievement_reset">Obiettivi ripristinati</string>
+    <string name="reset_achievement_title">Resetta Obiettivi</string>
+    <string name="reset_achievement_warning">Questa azione cancellerà tutti i tuoi obiettivi. \n\nPuoi usare il tasto \'Ricalcola\' per recuperare i badge relativi ai passi, ma gli obiettivi relativi alle tue azioni (es. Statistiche o Impostazioni) dovranno essere sbloccati di nuovo manualmente.</string>
     <string-array name="stand_up_reminders">
         <item>È l\'ora di sgranchirsi le gambe! Fai 2 minuti di stretching.</item>
         <item>Pausa caffè o bicchiere d\'acqua? Alzati dalla scrivania per un momento.</item>

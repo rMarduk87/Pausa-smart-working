@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
@@ -42,6 +43,42 @@ class AchievementFragment : BaseJetComposeFragment(hideBars = true),
 
         val coroutineScope = rememberCoroutineScope()
         val context = LocalContext.current
+
+        var showResetDialog by remember { mutableStateOf(false) }
+
+        if (showResetDialog) {
+            AlertDialog(
+                onDismissRequest = { showResetDialog = false },
+                title = { Text(text = stringResource(R.string.reset_achievement_title)) },
+                text = { Text(text = stringResource(R.string.reset_achievement_warning)) },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            coroutineScope.launch {
+                                AchievementManager.deleteAllAchievement()
+                                Toast.makeText(
+                                    context, getString(
+                                        R.string.achievement_reset
+                                    ),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            showResetDialog = false
+                        }
+                    ) {
+                        Text(text = stringResource(R.string.reset_all))
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showResetDialog = false }) {
+                        Text(text = stringResource(R.string.cancel))
+                    }
+                },
+                containerColor = colorResource(R.color.navy_dark_alt),
+                titleContentColor = Color.White,
+                textContentColor = Color.White.copy(alpha = 0.7f)
+            )
+        }
 
         DisposableEffect(Unit) {
             AchievementManager.setListener(this@AchievementFragment)
@@ -99,14 +136,12 @@ class AchievementFragment : BaseJetComposeFragment(hideBars = true),
                         lockedList = lockedList,
                         onRecalculate = {
                             coroutineScope.launch {
-                                AchievementManager.recalculateAll(emptyList(), false, emptyMap(), context)
+                                AchievementManager.recalculateAll(null,
+                                    false, emptyMap(), context)
                             }
                         },
                         onReset = {
-                            coroutineScope.launch {
-                                AchievementManager.deleteAllAchievement()
-                                Toast.makeText(context, "Obiettivi ripristinati", Toast.LENGTH_SHORT).show()
-                            }
+                            showResetDialog = true
                         }
                     )
                 }
