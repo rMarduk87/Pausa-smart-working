@@ -17,7 +17,7 @@ import rpt.tool.hybridwalk.HybridWalkApplication
 import rpt.tool.hybridwalk.R
 import rpt.tool.hybridwalk.utils.AppUtils
 import rpt.tool.hybridwalk.utils.data.appmodels.AchievementComplex
-import rpt.tool.hybridwalk.utils.data.appmodels.DailyRecord // Assicurati che l'import sia corretto
+import rpt.tool.hybridwalk.utils.data.appmodels.DailyRecord 
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.graphics.toColorInt
 import kotlinx.coroutines.Dispatchers

@@ -16,6 +16,7 @@ import android.hardware.SensorManager
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import androidx.glance.appwidget.updateAll
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -31,6 +32,9 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.isActive
 import rpt.com.base.log.d
 import rpt.tool.hybridwalk.MainActivity
+import rpt.tool.hybridwalk.utils.managers.StreakManager
+import rpt.tool.hybridwalk.utils.receiver.MidnightResetReceiver
+import rpt.tool.hybridwalk.utils.view.widget.HybridWalkWidget
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.math.sqrt
 
@@ -45,18 +49,20 @@ class StepTrackerService : Service(), SensorEventListener {
     private var lastSensorValue: Int = -1
     private var lastMovementTime: Long = System.currentTimeMillis()
 
-    // Variabili dedicate al filtro dell'accelerometro (fallback emulatore / dispositivi privi di pedometro)
     private var lastStepAccTime: Long = 0
-    private val STEP_TIME_THRESHOLD_MS = 300L // Finestra minima di tempo tra un passo e l'altro (debounce)
-    private val ACCEL_THRESHOLD = 3.0f//11.5f     // Soglia di accelerazione minima per considerare l'impatto di un passo
+    private val STEP_TIME_THRESHOLD_MS = 300L
+    private val ACCEL_THRESHOLD = 3.0f
 
     private var inactivityJob: Job? = null
     private val CHECK_INTERVAL = 5L * 60L * 1000L
 
+    private var widgetUpdateCounter = 0
+    private val WIDGET_UPDATE_THRESHOLD = 25
+
+
     override fun onCreate() {
         super.onCreate()
 
-        // 1. Il servizio DEVE dichiararsi Foreground subito
         val notification = createNotification()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             startForeground(
@@ -70,7 +76,6 @@ class StepTrackerService : Service(), SensorEventListener {
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
-        // 2. Tentiamo prima di usare il contapassi hardware nativo
         stepSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
 
         if (stepSensor != null) {
@@ -81,7 +86,6 @@ class StepTrackerService : Service(), SensorEventListener {
             )
             d("HybridWalkDebug", "Registrato sensore hardware: TYPE_STEP_COUNTER")
         } else {
-            // 3. Fallback sull'accelerometro se il contapassi hardware non esiste (es. emulatori)
             accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
             if (accelerometerSensor != null) {
                 isUsingAccelerometerFallback = true
@@ -109,7 +113,6 @@ class StepTrackerService : Service(), SensorEventListener {
         if (event == null) return
 
         if (!isUsingAccelerometerFallback && event.sensor.type == Sensor.TYPE_STEP_COUNTER) {
-            // --- GESTIONE CONTAPASSI HARDWARE REALE ---
             val currentSensorValue = event.values[0].toInt()
             d("HybridWalkDebug", "Sensore hardware attivo! Valore letto: $currentSensorValue")
 
@@ -124,26 +127,36 @@ class StepTrackerService : Service(), SensorEventListener {
                 lastMovementTime = System.currentTimeMillis()
                 checkTimeAchievements()
                 val todayEpoch = LocalDate.now().toEpochDay()
+
                 serviceScope.launch {
                     RepositoryManager.hybridWalkRepository.incrementSteps(todayEpoch, deltaSteps)
+
+                    val updatedRecord = RepositoryManager.hybridWalkRepository.getRecordByDate(todayEpoch).firstOrNull()
+                    if (updatedRecord != null) {
+                        StreakManager.evaluateStreak(updatedRecord.stepCount, updatedRecord.stepGoal)
+                    }
+
+                    widgetUpdateCounter += deltaSteps
+                    if (widgetUpdateCounter >= WIDGET_UPDATE_THRESHOLD) {
+                        widgetUpdateCounter = 0
+                        HybridWalkWidget().updateAll(applicationContext)
+                    }
                 }
             }
 
             lastSensorValue = currentSensorValue
 
         } else if (isUsingAccelerometerFallback && event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
-            // --- GESTIONE FALLBACK ACCELEROMETRO (Emulatore / Dispositivi senza pedometro) ---
+
             val x = event.values[0]
             val y = event.values[1]
             val z = event.values[2]
 
-            // Calcolo della magnitudo vettoriale sottraendo la forza di gravità (~9.81)
             val acceleration = sqrt((x * x + y * y + z * z).toDouble()).toFloat()
             val netAcceleration = kotlin.math.abs(acceleration - 9.80665f)
 
             if (netAcceleration > ACCEL_THRESHOLD) {
                 val currentTime = System.currentTimeMillis()
-                // Controllo del debounce temporale per evitare falsi positivi da scuotimenti rapidi
                 if (currentTime - lastStepAccTime > STEP_TIME_THRESHOLD_MS) {
                     lastStepAccTime = currentTime
                     lastMovementTime = currentTime
@@ -152,8 +165,20 @@ class StepTrackerService : Service(), SensorEventListener {
                     d("HybridWalkDebug", "Passo simulato da accelerometro rilevato! Magnitudo: $netAcceleration")
 
                     val todayEpoch = LocalDate.now().toEpochDay()
+
                     serviceScope.launch {
                         RepositoryManager.hybridWalkRepository.incrementSteps(todayEpoch, 1)
+
+                        val updatedRecord = RepositoryManager.hybridWalkRepository.getRecordByDate(todayEpoch).firstOrNull()
+                        if (updatedRecord != null) {
+                            StreakManager.evaluateStreak(updatedRecord.stepCount, updatedRecord.stepGoal)
+                        }
+
+                        widgetUpdateCounter += 1
+                        if (widgetUpdateCounter >= WIDGET_UPDATE_THRESHOLD) {
+                            widgetUpdateCounter = 0
+                            HybridWalkWidget().updateAll(applicationContext)
+                        }
                     }
                 }
             }
@@ -170,7 +195,7 @@ class StepTrackerService : Service(), SensorEventListener {
                     NotificationManager
             val channel = NotificationChannel(
                 channelId,
-                getString(R.string.tracciamento_passi),
+                getString(R.string.step_tracking),
                 NotificationManager.IMPORTANCE_LOW
             )
             manager.createNotificationChannel(channel)
@@ -178,7 +203,7 @@ class StepTrackerService : Service(), SensorEventListener {
 
         return NotificationCompat.Builder(this, channelId)
             .setContentTitle(getString(R.string.hybridwalk))
-            .setContentText(getString(R.string.tracciamento_attivo_in_background))
+            .setContentText(getString(R.string.tracking_active_background))
             .setSmallIcon(R.mipmap.ic_launcher_foreground)
             .setOngoing(true)
             .build()
@@ -213,11 +238,11 @@ class StepTrackerService : Service(), SensorEventListener {
 
             val channel = NotificationChannel(
                 channelId,
-                getString(R.string.promemoria_movimento),
+                getString(R.string.movement_reminder),
                 NotificationManager.IMPORTANCE_HIGH
             ).apply {
                 description = getString(
-                    R.string.ti_ricorda_di_alzarti_se_stai_fermo_per_troppo_tempo
+                    R.string.stand_up_reminder_desc
                 )
                 enableVibration(true)
             }
@@ -230,10 +255,15 @@ class StepTrackerService : Service(), SensorEventListener {
             while (isActive) {
                 delay(CHECK_INTERVAL.milliseconds)
 
+                val now = LocalTime.now()
+                val dayOfWeek = LocalDate.now().dayOfWeek.value
+                val isWorkingHours = now.hour in 9..17 && dayOfWeek in 1..5
+
+                val isWfhActive = SharedPreferencesManager.isWfh
                 val timeSinceLastMove = System.currentTimeMillis() - lastMovementTime
                 val threshold = SharedPreferencesManager.inactivityThreshold
 
-                if (timeSinceLastMove >= threshold) {
+                if (timeSinceLastMove >= threshold && isWfhActive && isWorkingHours) {
                     val todayEpoch = LocalDate.now().toEpochDay()
                     val todayRecord = RepositoryManager.hybridWalkRepository
                         .getRecordByDate(todayEpoch).firstOrNull()
@@ -242,9 +272,9 @@ class StepTrackerService : Service(), SensorEventListener {
 
                     if (!isGymDay) {
                         sendStandUpNotification()
-                    }
 
-                    lastMovementTime = System.currentTimeMillis()
+                        lastMovementTime = System.currentTimeMillis()
+                    }
                 }
             }
         }
@@ -259,12 +289,14 @@ class StepTrackerService : Service(), SensorEventListener {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val notification = NotificationCompat.Builder(this,
-            "hybridwalk_alerts_channel")
+        val messages = resources.getStringArray(R.array.stand_up_reminders)
+        val randomMessage = messages.random()
+
+        val notification = NotificationCompat.Builder(this, "hybridwalk_alerts_channel")
             .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle(getString(R.string.ora_di_sgranchirsi_le_gambe))
-            .setContentText(getString(
-                R.string.sedentario))
+            .setContentTitle(getString(R.string.active_break))
+            .setContentText(randomMessage)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(randomMessage))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_REMINDER)
             .setAutoCancel(true)

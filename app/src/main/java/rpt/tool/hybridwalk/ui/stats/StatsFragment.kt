@@ -21,10 +21,10 @@ import rpt.com.base.navigation.safeNavigate
 import rpt.tool.hybridwalk.R
 import rpt.tool.hybridwalk.utils.managers.AchievementManager
 import rpt.tool.hybridwalk.utils.managers.SharedPreferencesManager
-import rpt.tool.hybridwalk.utils.view.HybridScaffold
-import rpt.tool.hybridwalk.utils.view.Screen
+import rpt.tool.hybridwalk.utils.view.component.HybridScaffold
+import rpt.tool.hybridwalk.utils.view.component.Screen
 import androidx.core.graphics.toColorInt
-import rpt.tool.hybridwalk.utils.view.StatsScreen
+import rpt.tool.hybridwalk.utils.view.component.StatsScreen
 
 class StatsFragment : BaseJetComposeFragment(hideBars = true) {
 
@@ -76,6 +76,8 @@ class StatsFragment : BaseJetComposeFragment(hideBars = true) {
                             ?.safeNavigate(R.id.action_statsFragment_to_achievementFragment)
                         is Screen.Settings -> safeNavController(R.id.main_activity_nav_host_fragment)
                             ?.safeNavigate(R.id.action_statsFragment_to_settingsFragment)
+                        is Screen.Streak -> safeNavController(R.id.main_activity_nav_host_fragment)
+                            ?.safeNavigate(R.id.action_statsFragment_to_streakFragment)
                         else -> {}
                     }
                 }

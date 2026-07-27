@@ -20,9 +20,9 @@ import rpt.com.base.navigation.safeNavigate
 import rpt.tool.hybridwalk.R
 import rpt.tool.hybridwalk.utils.managers.AchievementManager
 import rpt.tool.hybridwalk.utils.managers.SharedPreferencesManager
-import rpt.tool.hybridwalk.utils.view.AchievementScreen
-import rpt.tool.hybridwalk.utils.view.HybridScaffold
-import rpt.tool.hybridwalk.utils.view.Screen
+import rpt.tool.hybridwalk.utils.view.component.AchievementScreen
+import rpt.tool.hybridwalk.utils.view.component.HybridScaffold
+import rpt.tool.hybridwalk.utils.view.component.Screen
 import androidx.core.graphics.toColorInt
 
 class AchievementFragment : BaseJetComposeFragment(hideBars = true),
@@ -65,7 +65,7 @@ class AchievementFragment : BaseJetComposeFragment(hideBars = true),
             )
         ) {
             HybridScaffold(
-                currentScreen = Screen.Achievement, // Aggiungi questa route in Screen.kt
+                currentScreen = Screen.Achievement, 
                 onTabSelected = { screen ->
                     when (screen) {
                         is Screen.Dashboard -> {
@@ -79,6 +79,10 @@ class AchievementFragment : BaseJetComposeFragment(hideBars = true),
                         is Screen.Settings -> {
                             safeNavController(R.id.main_activity_nav_host_fragment)
                                 ?.safeNavigate(R.id.action_achievementFragment_to_settingsFragment)
+                        }
+                        is Screen.Streak -> {
+                            safeNavController(R.id.main_activity_nav_host_fragment)
+                                ?.safeNavigate(R.id.action_achievementFragment_to_streakFragment)
                         }
                         else -> {}
                     }
@@ -95,7 +99,6 @@ class AchievementFragment : BaseJetComposeFragment(hideBars = true),
                         lockedList = lockedList,
                         onRecalculate = {
                             coroutineScope.launch {
-                                // Usa una empty list temporanea o i record effettivi
                                 AchievementManager.recalculateAll(emptyList(), false, emptyMap(), context)
                             }
                         },
@@ -112,7 +115,6 @@ class AchievementFragment : BaseJetComposeFragment(hideBars = true),
     }
 
     override fun onAchievementEarned(id: Int) {
-        // Gestito dal dialog del Manager
     }
 
     override fun onDataChanged() {

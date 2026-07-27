@@ -5,13 +5,11 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import rpt.tool.hybridwalk.utils.services.MidnightResetReceiver
+import rpt.tool.hybridwalk.utils.receiver.MidnightResetReceiver
 import rpt.tool.hybridwalk.utils.services.StepTrackerService
 import java.util.Calendar
-import android.net.Uri
 import android.os.PowerManager
 import android.provider.Settings
-import androidx.core.content.ContextCompat
 import rpt.com.base.log.d
 
 fun Context.startStepTrackerService() {

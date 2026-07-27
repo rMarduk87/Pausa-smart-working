@@ -3,9 +3,9 @@
     <item
         android:id="@+id/dashboardFragment"
         android:icon="@android:drawable/ic_menu_my_calendar"
-        android:title="@string/oggi" />
+        android:title="@string/today" />
     <item
         android:id="@+id/statsFragment"
         android:icon="@android:drawable/ic_menu_sort_by_size"
-        android:title="@string/andamento" />
+        android:title="@string/progress" />
 </menu>

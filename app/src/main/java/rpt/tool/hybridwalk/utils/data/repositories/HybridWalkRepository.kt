@@ -51,4 +51,28 @@ class HybridWalkRepository(
         )
         insertOrUpdate(newRecord)
     }
+
+    suspend fun updateGymState(epochDay: Long, isGym: Boolean) {
+        val currentRecord = getRecordByDate(epochDay).firstOrNull()
+        val newRecord = DailyRecord(
+            dateEpochDay = epochDay,
+            stepCount = currentRecord?.stepCount ?: 0,
+            stepGoal = currentRecord?.stepGoal ?: SharedPreferencesManager.stepGoal,
+            isWfhDay = currentRecord?.isWfhDay ?: false,
+            isGymDay = isGym
+        )
+        insertOrUpdate(newRecord)
+    }
+
+    suspend fun updateWfhState(epochDay: Long, isWfh: Boolean) {
+        val currentRecord = getRecordByDate(epochDay).firstOrNull()
+        val newRecord = DailyRecord(
+            dateEpochDay = epochDay,
+            stepCount = currentRecord?.stepCount ?: 0,
+            stepGoal = currentRecord?.stepGoal ?: SharedPreferencesManager.stepGoal,
+            isWfhDay = isWfh,
+            isGymDay = currentRecord?.isGymDay ?: false
+        )
+        insertOrUpdate(newRecord)
+    }
 }

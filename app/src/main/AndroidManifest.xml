@@ -40,15 +40,26 @@
             android:exported="false"
             android:foregroundServiceType="health" />
 
-        <receiver android:name=".utils.services.MidnightResetReceiver" android:exported="false" />
+        <receiver android:name=".utils.receiver.MidnightResetReceiver" android:exported="false" />
 
         <receiver
-            android:name=".utils.services.BootReceiver"
+            android:name=".utils.receiver.BootReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".utils.receiver.WidgetUpdateReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/hybridwalk_widget_info" />
         </receiver>
 
     </application>

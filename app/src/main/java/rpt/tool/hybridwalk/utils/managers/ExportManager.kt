@@ -12,10 +12,8 @@ object ExportManager {
 
     fun writeCsvToUri(context: Context, uri: Uri, records: List<DailyRecord>) {
         context.contentResolver.openOutputStream(uri)?.bufferedWriter()?.use { writer ->
-            // Intestazione CSV
             writer.write("Data,Passi,Obiettivo,Smart Working,Giorno Scarico (Palestra)\n")
 
-            // Dati
             records.sortedBy { it.dateEpochDay }.forEach { record ->
                 val dateStr = LocalDate.ofEpochDay(record.dateEpochDay).toString()
                 val wfh = if (record.isWfhDay) "Si" else "No"
@@ -30,19 +28,17 @@ object ExportManager {
         val paint = Paint()
 
         var pageInfo = PdfDocument.PageInfo.Builder(595, 842,
-            1).create() // Formato A4
+            1).create() 
         var page = pdfDocument.startPage(pageInfo)
         var canvas = page.canvas
         var yPos = 50f
 
-        // Titolo
         paint.textSize = 24f
         paint.isFakeBoldText = true
-        paint.color = "#81B29A".toColorInt() // Colore primario app
+        paint.color = "#81B29A".toColorInt() 
         canvas.drawText("Report Salute - HybridWalk", 50f, yPos, paint)
         yPos += 40f
 
-        // Intestazioni Colonne
         paint.textSize = 14f
         paint.color = android.graphics.Color.BLACK
         canvas.drawText("Data", 50f, yPos, paint)
@@ -53,9 +49,7 @@ object ExportManager {
 
         paint.isFakeBoldText = false
 
-        // Righe Dati
         records.sortedBy { it.dateEpochDay }.forEach { record ->
-            // Gestione salto pagina
             if (yPos > 800f) {
                 pdfDocument.finishPage(page)
                 pageInfo = PdfDocument.PageInfo.Builder(595, 842,
@@ -74,7 +68,6 @@ object ExportManager {
         }
         pdfDocument.finishPage(page)
 
-        // Salva il file PDF nell'Uri scelto dall'utente
         context.contentResolver.openOutputStream(uri)?.use { outputStream ->
             pdfDocument.writeTo(outputStream)
         }

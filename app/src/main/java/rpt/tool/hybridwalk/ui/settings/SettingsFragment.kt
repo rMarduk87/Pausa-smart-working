@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
@@ -32,8 +33,8 @@ import rpt.com.base.navigation.safeNavController
 import rpt.com.base.navigation.safeNavigate
 import rpt.tool.hybridwalk.R
 import rpt.tool.hybridwalk.utils.extensions.createSafeBatterySettingsIntent
-import rpt.tool.hybridwalk.utils.view.HybridScaffold
-import rpt.tool.hybridwalk.utils.view.Screen
+import rpt.tool.hybridwalk.utils.view.component.HybridScaffold
+import rpt.tool.hybridwalk.utils.view.component.Screen
 import androidx.core.graphics.toColorInt
 
 class SettingsFragment : BaseJetComposeFragment(hideBars = true) {
@@ -48,7 +49,6 @@ class SettingsFragment : BaseJetComposeFragment(hideBars = true) {
 
         val context = LocalContext.current
 
-        // Launcher per Esportazione Documenti
         val csvExportLauncher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.CreateDocument("text/csv")
         ) { uri ->
@@ -69,7 +69,6 @@ class SettingsFragment : BaseJetComposeFragment(hideBars = true) {
             }
         }
 
-        // Colore primario dinamico
         val primaryColor = try {
             Color(selectedColorHex.toColorInt())
         } catch (e: Exception) {
@@ -93,6 +92,8 @@ class SettingsFragment : BaseJetComposeFragment(hideBars = true) {
                             ?.safeNavigate(R.id.action_settingsFragment_to_statsFragment)
                         is Screen.Achievement -> safeNavController(R.id.main_activity_nav_host_fragment)
                             ?.safeNavigate(R.id.action_settingsFragment_to_achievementFragment)
+                        is Screen.Streak -> safeNavController(R.id.main_activity_nav_host_fragment)
+                            ?.safeNavigate(R.id.action_settingsFragment_to_streakFragment)
                         else -> {}
                     }
                 }
@@ -144,7 +145,6 @@ fun SettingsScreen(
         contract = ActivityResultContracts.StartActivityForResult()
     ) {}
 
-    // Colori selezionabili per il tema (es. Verde, Blu, Arancione, Rosso, Viola, Rosa)
     val colorOptions = listOf("#81B29A", "#3B82F6", "#F59E0B", "#EF4444", "#8B5CF6", "#EC4899")
 
     Column(
@@ -157,22 +157,21 @@ fun SettingsScreen(
         Spacer(modifier = Modifier.height(32.dp))
 
         Text(
-            text = stringResource(R.string.impostazioni),
+            text = stringResource(R.string.settings),
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground
         )
         Text(
-            text = stringResource(R.string.personalizza_la_tua_esperienza),
+            text = stringResource(R.string.customize_experience),
             fontSize = 16.sp,
             color = Color.Gray
         )
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // --- SEZIONE: SELEZIONE COLORE TEMA ---
         Text(
-            text = stringResource(R.string.colore_tema),
+            text = stringResource(R.string.theme_color),
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurface,
@@ -220,13 +219,12 @@ fun SettingsScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // --- SEZIONE: SLIDER OBIETTIVI ---
         SettingSliderCard(
-            title = stringResource(R.string.obiettivo_passi_giornaliero),
+            title = stringResource(R.string.daily_step_goal),
             value = stepGoal.toFloat(),
             range = 2000f..15000f,
             steps = 13,
-            displayValue = stringResource(R.string.passi_al_giorno, stepGoal),
+            displayValue = stringResource(R.string.steps_per_day, stepGoal),
             onValueChange = { onStepGoalChanged(it.toInt()) },
             onValueChangeFinished = { onRecalculateAchievements(context) }
         )
@@ -234,11 +232,11 @@ fun SettingsScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         SettingSliderCard(
-            title = stringResource(R.string.promemoria_inattività),
+            title = stringResource(R.string.inactivity_reminder),
             value = inactivityThreshold.toFloat(),
             range = 15f..120f,
             steps = 7,
-            displayValue = stringResource(R.string.minuti_di_inattività,
+            displayValue = stringResource(R.string.inactivity_minutes,
                 inactivityThreshold),
             onValueChange = { onInactivityThresholdChanged(it.toInt()) },
             onValueChangeFinished = { onRecalculateAchievements(context) }
@@ -246,9 +244,8 @@ fun SettingsScreen(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // --- SEZIONE: RISPARMIO BATTERIA ---
         Text(
-            text = stringResource(R.string.risparmio_batteria),
+            text = stringResource(R.string.battery_saving),
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurface,
@@ -270,7 +267,7 @@ fun SettingsScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = stringResource(R.string.gestisci_ottimizzazione_batteria),
+                    text = stringResource(R.string.manage_battery_optimization),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
                     color = MaterialTheme.colorScheme.onSurface,
@@ -286,9 +283,8 @@ fun SettingsScreen(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // --- SEZIONE: ESPORTAZIONE DATI ---
         Text(
-            text = stringResource(R.string.esporta_dati),
+            text = stringResource(R.string.export_data),
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurface,
@@ -312,8 +308,8 @@ fun SettingsScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Icon(
-                        imageVector = Icons.Default.List,
-                        contentDescription = stringResource(R.string.esporta_csv),
+                        imageVector = Icons.AutoMirrored.Filled.List,
+                        contentDescription = stringResource(R.string.export_csv),
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(32.dp)
                     )
@@ -341,8 +337,8 @@ fun SettingsScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Share,
-                        contentDescription = stringResource(R.string.esporta_pdf),
-                        tint = Color(0xFFEF4444), // Rosso
+                        contentDescription = stringResource(R.string.export_pdf),
+                        tint = Color(0xFFEF4444),
                         modifier = Modifier.size(32.dp)
                     )
                     Spacer(modifier = Modifier.height(8.dp))

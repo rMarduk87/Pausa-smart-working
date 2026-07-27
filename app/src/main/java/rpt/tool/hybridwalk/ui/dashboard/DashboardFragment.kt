@@ -40,8 +40,8 @@ import rpt.tool.hybridwalk.utils.extensions.stopStepTrackerService
 import rpt.tool.hybridwalk.utils.managers.AchievementManager
 import rpt.tool.hybridwalk.utils.managers.RepositoryManager
 import rpt.tool.hybridwalk.utils.managers.SharedPreferencesManager
-import rpt.tool.hybridwalk.utils.view.HybridScaffold
-import rpt.tool.hybridwalk.utils.view.Screen
+import rpt.tool.hybridwalk.utils.view.component.HybridScaffold
+import rpt.tool.hybridwalk.utils.view.component.Screen
 import androidx.core.graphics.toColorInt
 
 class DashboardFragment : BaseJetComposeFragment(hideBars = true) {
@@ -55,6 +55,10 @@ class DashboardFragment : BaseJetComposeFragment(hideBars = true) {
         val todayRecord by viewModel.todayRecord.collectAsStateWithLifecycle()
         val isWfhActive by viewModel.isWfhActive.collectAsStateWithLifecycle()
 
+        val dailyChallenge by viewModel.dailyChallenge.collectAsStateWithLifecycle()
+        val isChallengeCompleted by viewModel.isChallengeCompleted.collectAsStateWithLifecycle()
+        val challengeCompletionDate by viewModel.challengeCompletionDate.collectAsStateWithLifecycle()
+
         val context = LocalContext.current
 
         LaunchedEffect(Unit) {
@@ -66,7 +70,6 @@ class DashboardFragment : BaseJetComposeFragment(hideBars = true) {
                     R.raw.hybridwalk_achievement_detail
                 )
             }
-
         }
 
         LaunchedEffect(Unit) {
@@ -102,6 +105,10 @@ class DashboardFragment : BaseJetComposeFragment(hideBars = true) {
                             safeNavController(R.id.main_activity_nav_host_fragment)
                                 ?.safeNavigate(R.id.action_dashboardFragment_to_settingsFragment)
                         }
+                        is Screen.Streak -> {
+                            safeNavController(R.id.main_activity_nav_host_fragment)
+                                ?.safeNavigate(R.id.action_dashboardFragment_to_streakFragment)
+                        }
                         else -> {}
                     }
                 }
@@ -117,8 +124,12 @@ class DashboardFragment : BaseJetComposeFragment(hideBars = true) {
                         stepGoal = todayRecord.stepGoal,
                         isWfhDay = isWfhActive,
                         isGymDay = todayRecord.isGymDay,
+                        dailyChallenge = dailyChallenge,
+                        isChallengeCompleted = isChallengeCompleted,
+                        challengeCompletionDate = challengeCompletionDate,
                         onWfhToggled = { isWfh -> viewModel.toggleWfh(isWfh) },
-                        onGymToggled = { isGym -> viewModel.toggleGym(isGym) }
+                        onGymToggled = { isGym -> viewModel.toggleGym(isGym) },
+                        onChallengeCompleted = { viewModel.completeChallenge() }
                     )
                 }
             }
@@ -133,13 +144,45 @@ fun DashboardScreen(
     stepGoal: Int,
     isWfhDay: Boolean,
     isGymDay: Boolean,
+    dailyChallenge: String,
+    isChallengeCompleted: Boolean,
+    challengeCompletionDate: String,
     onWfhToggled: (Boolean) -> Unit,
-    onGymToggled: (Boolean) -> Unit
+    onGymToggled: (Boolean) -> Unit,
+    onChallengeCompleted: () -> Unit
 ) {
 
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val scope = rememberCoroutineScope()
+
+    var showChallengeDialog by remember { mutableStateOf(false) }
+
+    if (showChallengeDialog) {
+        AlertDialog(
+            onDismissRequest = { showChallengeDialog = false },
+            title = { Text(text = stringResource(R.string.flash_challenge)) },
+            text = { Text(text = stringResource(R.string.complete_challenge_question)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        onChallengeCompleted()
+                        showChallengeDialog = false
+                    }
+                ) {
+                    Text(text = stringResource(R.string.confirm))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showChallengeDialog = false }) {
+                    Text(text = stringResource(R.string.cancel))
+                }
+            },
+            containerColor = MaterialTheme.colorScheme.surface,
+            titleContentColor = MaterialTheme.colorScheme.onSurface,
+            textContentColor = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
 
     val activityRecognitionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
@@ -187,26 +230,61 @@ fun DashboardScreen(
         Spacer(modifier = Modifier.height(32.dp))
 
         Text(
-            text = stringResource(R.string.oggi),
+            text = stringResource(R.string.today),
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground
         )
         Text(
-            text = stringResource(R.string.mantieni_il_ritmo),
+            text = stringResource(R.string.keep_pace),
             fontSize = 16.sp,
             color = Color.Gray
         )
 
-        Spacer(modifier = Modifier.height(48.dp))
+        if (dailyChallenge.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(24.dp))
+            Card(
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)),
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { if (!isChallengeCompleted) showChallengeDialog = true }
+            ) {
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = if (isChallengeCompleted) "✅" else "⚡",
+                        fontSize = 24.sp,
+                        modifier = Modifier.padding(end = 12.dp)
+                    )
+                    Column {
+                        Text(
+                            text = if (isChallengeCompleted) stringResource(R.string.challenge_passed) else stringResource(R.string.flash_challenge),
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary,
+                            fontSize = 14.sp
+                        )
+                        Text(
+                            text = if (isChallengeCompleted) stringResource(R.string.completed_on, challengeCompletionDate) else dailyChallenge,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            fontSize = 14.sp,
+                            modifier = Modifier.padding(top = 2.dp)
+                        )
+                    }
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(32.dp))
 
         StepProgressIndicator(stepCount = stepCount, stepGoal = stepGoal)
 
         Spacer(modifier = Modifier.height(48.dp))
 
         ToggleSettingCard(
-            title = stringResource(R.string.modalit_smart_working),
-            description = stringResource(R.string.traccia_i_passi),
+            title = stringResource(R.string.wfh_mode),
+            description = stringResource(R.string.track_steps_desc),
             isChecked = isWfhDay,
             onCheckedChange = { isChecked ->
                 if (isChecked) {
@@ -232,8 +310,8 @@ fun DashboardScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         ToggleSettingCard(
-            title = stringResource(R.string.giorno_di_scarico_palestra),
-            description = stringResource(R.string.disattiva_i_promemoria_per_oggi),
+            title = stringResource(R.string.rest_gym_day),
+            description = stringResource(R.string.disable_reminders_today),
             isChecked = isGymDay,
             onCheckedChange = onGymToggled
         )
@@ -254,13 +332,13 @@ fun BatteryWarningCard() {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = stringResource(R.string.attenzione_il_contapassi_potrebbe_fermarsi),
+                text = stringResource(R.string.battery_warning_title),
                 color = MaterialTheme.colorScheme.onErrorContainer,
                 style = MaterialTheme.typography.titleMedium
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = stringResource(R.string.telefoni_ottimizzazione),
+                text = stringResource(R.string.battery_optimization_instructions),
                 color = MaterialTheme.colorScheme.onErrorContainer,
                 style = MaterialTheme.typography.bodyMedium
             )
@@ -301,7 +379,7 @@ fun StepProgressIndicator(stepCount: Int, stepGoal: Int) {
                 color = MaterialTheme.colorScheme.onBackground
             )
             Text(
-                text = stringResource(R.string.passi, stepGoal),
+                text = stringResource(R.string.steps_format, stepGoal),
                 fontSize = 16.sp,
                 color = Color.Gray
             )

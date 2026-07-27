@@ -1,0 +1,6 @@
+- [x] Update `AppUtils.kt` with daily challenge completion constants
+- [x] Update `SharedPreferencesManager.kt` with completion properties
+- [x] Add strings for challenge completion to `strings.xml` and `values-it/strings.xml`
+- [x] Update `DashboardViewModel.kt` to manage challenge completion state
+- [x] Update `DashboardFragment.kt` to handle card clicks and show the completion dialog
+- [x] Verify build with `./gradlew :app:compileDebugKotlin`

@@ -1,36 +1,38 @@
 <resources>
     <string name="app_name">HybridWalk</string>
-    <string name="oggi">Today</string>
-    <string name="mantieni_il_ritmo">Keep the pace</string>
-    <string name="modalit_smart_working">Smart Working Mode</string>
-    <string name="traccia_i_passi">Track your steps and remember to stand up</string>
-    <string name="giorno_di_scarico_palestra">Rest Day / Gym</string>
-    <string name="disattiva_i_promemoria_per_oggi">Disable reminders for today</string>
-    <string name="passi">%1$d steps</string>
-    <string name="tracciamento_passi">Step tracking</string>
+    <string name="today">Today</string>
+    <string name="keep_pace">Keep the pace</string>
+    <string name="wfh_mode">Smart Working Mode</string>
+    <string name="track_steps_desc">Track your steps and remember to stand up</string>
+    <string name="rest_gym_day">Rest Day / Gym</string>
+    <string name="disable_reminders_today">Disable reminders for today</string>
+    <string name="steps_format">%1$d steps</string>
+    <string name="step_tracking">Step tracking</string>
     <string name="hybridwalk">HybridWalk</string>
-    <string name="tracciamento_attivo_in_background">Tracking active in background</string>
-    <string name="promemoria_movimento">Movement reminders</string>
-    <string name="ti_ricorda_di_alzarti_se_stai_fermo_per_troppo_tempo">Reminds you to stand up if you stay inactive for too long</string>
-    <string name="ora_di_sgranchirsi_le_gambe">Time to stretch your legs! 🚶‍♂️</string>
-    <string name="sedentario">You’ve been sitting for 60 minutes. Get up and grab a glass of water.</string>
-    <string name="attenzione_il_contapassi_potrebbe_fermarsi">Warning: the step counter may stop</string>
-    <string name="il_sistema_operativo_potrebbe_chiudere_l_app">The system may close the app to save battery. Tap here to disable optimization for HybridWalk.</string>
-    <string name="telefoni_ottimizzazione">To ensure proper tracking, go to Settings &gt; Apps &gt; HybridWalk &gt; Battery and select "Unrestricted" (or "Don’t optimize").</string>
-    <string name="andamento">Progress</string>
-    <string name="ultimi_7_giorni">Last 7 days</string>
-    <string name="_oggi">Today</string>
-    <string name="impostazioni">Settings</string>
-    <string name="obiettivi">Achievements</string>
+    <string name="tracking_active_background">Tracking active in background</string>
+    <string name="movement_reminder">Movement reminders</string>
+    <string name="stand_up_reminder_desc">Reminds you to stand up if you stay inactive for too long</string>
+    <string name="time_to_stretch">Time to stretch your legs! 🚶‍♂️</string>
+    <string name="sedentary_alert">You’ve been sitting for 60 minutes. Get up and grab a glass of water.</string>
+    <string name="battery_warning_title">Warning: the step counter may stop</string>
+    <string name="battery_warning_desc">The system may close the app to save battery. Tap here to disable optimization for HybridWalk.</string>
+    <string name="battery_optimization_instructions">To ensure proper tracking, go to Settings &gt; Apps &gt; HybridWalk &gt; Battery and select "Unrestricted" (or "Don’t optimize").</string>
+    <string name="progress">Progress</string>
+    <string name="last_7_days">Last 7 days</string>
+    <string name="today_label">Today</string>
+    <string name="settings">Settings</string>
+    <string name="achievements">Achievements</string>
     <string name="recalculate">Recalculate</string>
     <string name="reset_all">Reset All</string>
-    <string name="personalizza_la_tua_esperienza">Customize your experience</string>
-    <string name="obiettivo_passi_giornaliero">Daily step goal</string>
-    <string name="passi_al_giorno">%1$d steps</string>
-    <string name="promemoria_inattività">Inactivity reminder</string>
-    <string name="minuti_di_inattività">%1$d minutes</string>
-    <string name="risparmio_batteria">Battery saving</string>
-    <string name="gestisci_ottimizzazione_batteria">Manage battery optimization</string>
+    <string name="unlocked_label">Unlocked (%1$d)</string>
+    <string name="locked_label">Locked (%1$d)</string>
+    <string name="customize_experience">Customize your experience</string>
+    <string name="daily_step_goal">Daily step goal</string>
+    <string name="steps_per_day">%1$d steps</string>
+    <string name="inactivity_reminder">Inactivity reminder</string>
+    <string name="inactivity_minutes">%1$d minutes</string>
+    <string name="battery_saving">Battery saving</string>
+    <string name="manage_battery_optimization">Manage battery optimization</string>
     <string name="ach_1" translatable="false">👟</string>
     <string name="ach_2" translatable="false">🚶</string>
     <string name="ach_3" translatable="false">🏃</string>
@@ -197,14 +199,55 @@
     <string name="less">Less</string>
     <string name="more">More</string>
     <string name="avg_steps_context">Average Steps per Context</string>
-    <string name="smart_working_label">Smart Working \uD83D\uDCBB</string>
+    <string name="wfh_label">Smart Working \uD83D\uDCBB</string>
     <string name="standard_day_label">Standard Day \uD83C\uDFE2</string>
-    <string name="rest_day_gym_label">Rest Day (Gym) \uD83C\uDFCB\uFE0F</string>
+    <string name="rest_gym_day_label">Rest Day (Gym) \uD83C\uDFCB\uFE0F</string>
     <string name="steps_label"> steps</string>
-    <string name="esportazione_ok">Export completed successfully</string>
-    <string name="esportazione_ko">Error during export</string>
-    <string name="colore_tema">Color Theme</string>
-    <string name="esporta_dati">Export Data</string>
-    <string name="esporta_csv">Export CSV</string>
-    <string name="esporta_pdf">Export PDF</string>
+    <string name="export_success">Export completed successfully</string>
+    <string name="export_error">Error during export</string>
+    <string name="theme_color">Color Theme</string>
+    <string name="export_data">Export Data</string>
+    <string name="export_csv">Export CSV</string>
+    <string name="export_pdf">Export PDF</string>
+    <string name="active_break">Active Break ⏰</string>
+    <string name="flash_challenge">Flash Challenge</string>
+    <string name="challenge_passed">Challenge passed!</string>
+    <string name="complete_challenge_question">Did you complete today\'s flash challenge?</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="completed_on">Completed on: %1$s</string>
+    <string name="streak_titles"><![CDATA[Streak & Titles]]></string>
+    <string name="streak_nav">Streak</string>
+    <string name="daily_consistency">Your daily consistency</string>
+    <string name="consecutive_fire_days">Consecutive fire days</string>
+    <string name="days_format">%1$d days</string>
+    <string name="available_format">%1$d available</string>
+    <string name="streak_freeze">Streak Freeze 🧊</string>
+    <string name="streak_protection_freeze">🧊 Streak Protection (Freeze)</string>
+    <string name="streak_3_days_desc">Complete 3 perfect days in a row to earn a \'Streak-freeze\' and save your progress if you can\'t move one day.</string>
+    <string name="perfect_days_bonus_progress">Bonus progress: %1$d / 3 perfect days</string>
+    <string name="your_current_title">Your Current Title</string>
+    <string name="streak_tit_1">🏆 Fitness Legend</string>
+    <string name="streak_tit_2">🦅 Serial Walker</string>
+    <string name="streak_tit_3">⚡ War Machine</string>
+    <string name="streak_tit_4">🔥 On the Move</string>
+    <string name="streak_tit_5">💻 Desk Beginner</string>
+    <string name="streak_desc_1">You have shown superhuman consistency. No obstacle stops you!</string>
+    <string name="streak_desc_2">Your consistency is now a habit of iron. Great job!</string>
+    <string name="streak_desc_3">A full week of fire! You are making your mark.</string>
+    <string name="streak_desc_4">You broke the sedentary lifestyle. The path is the right one!</string>
+    <string name="streak_desc_5">The first step is the most important. Start moving!</string>
+    <string-array name="stand_up_reminders">
+        <item>Time to stretch your legs! Do 2 minutes of stretching.</item>
+        <item>Coffee break or a glass of water? Get up from your desk for a moment.</item>
+        <item>Take your eyes off the screen and walk 100 steps in the room.</item>
+        <item>Too much time sitting. A short movement will give you more focus!</item>
+    </string-array>
+    <string-array name="daily_challenges">
+        <item>Walk 2,000 steps before lunch.</item>
+        <item>Complete 3 active breaks during work.</item>
+        <item>Log a perfect day without ever ignoring reminders.</item>
+        <item>Walk 500 steps in a row without interruptions.</item>
+        <item>Drink 2 extra glasses of water today.</item>
+    </string-array>
 </resources>

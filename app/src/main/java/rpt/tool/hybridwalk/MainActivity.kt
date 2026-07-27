@@ -20,7 +20,6 @@ class MainActivity : BaseActivity() {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
 
-        // Modern Edge-to-Edge approach
         androidx.core.view.WindowCompat.setDecorFitsSystemWindows(window,
             false)
         window.statusBarColor = Color.TRANSPARENT

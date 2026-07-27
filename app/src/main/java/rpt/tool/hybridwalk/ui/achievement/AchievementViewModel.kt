@@ -21,7 +21,6 @@ class AchievementViewModel : ViewModel() {
 
     fun loadAchievements() {
         viewModelScope.launch(Dispatchers.IO) {
-            // Sostituisci con il repository corretto per gli achievement in HybridWalk
             val earned = RepositoryManager.achievementRepository.getEarnedAchievements()
             val locked = RepositoryManager.achievementRepository.getLockedAchievements()
 

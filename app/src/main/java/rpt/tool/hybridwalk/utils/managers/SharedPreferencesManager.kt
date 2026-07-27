@@ -47,4 +47,20 @@ object SharedPreferencesManager {
     var primaryColorHex: String
         get() = sharedPreferences.getString(AppUtils.PRIMARY_COLOR, "#81B29A") ?: "#81B29A"
         set(value) = sharedPreferences.edit { putString(AppUtils.PRIMARY_COLOR, value) }
+
+    var dailyChallengeId: Int
+        get() = sharedPreferences.getInt(AppUtils.DAILY_CHALLENGE_ID, -1)
+        set(value) = sharedPreferences.edit { putInt(AppUtils.DAILY_CHALLENGE_ID, value) }
+
+    var dailyChallengeDateEpoch: Long
+        get() = sharedPreferences.getLong(AppUtils.DAILY_CHALLENGE_DATE, 0L)
+        set(value) = sharedPreferences.edit { putLong(AppUtils.DAILY_CHALLENGE_DATE, value) }
+
+    var isDailyChallengeCompleted: Boolean
+        get() = sharedPreferences.getBoolean(AppUtils.DAILY_CHALLENGE_COMPLETED, false)
+        set(value) = sharedPreferences.edit { putBoolean(AppUtils.DAILY_CHALLENGE_COMPLETED, value) }
+
+    var dailyChallengeCompletionDate: String
+        get() = sharedPreferences.getString(AppUtils.DAILY_CHALLENGE_COMPLETION_DATE, "") ?: ""
+        set(value) = sharedPreferences.edit { putString(AppUtils.DAILY_CHALLENGE_COMPLETION_DATE, value) }
 }

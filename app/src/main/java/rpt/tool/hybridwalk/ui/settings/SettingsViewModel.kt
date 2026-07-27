@@ -3,6 +3,7 @@ package rpt.tool.hybridwalk.ui.settings
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.glance.appwidget.updateAll
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -11,11 +12,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import rpt.tool.hybridwalk.HybridWalkApplication
 import rpt.tool.hybridwalk.R
 import rpt.tool.hybridwalk.utils.managers.AchievementManager
 import rpt.tool.hybridwalk.utils.managers.ExportManager
 import rpt.tool.hybridwalk.utils.managers.RepositoryManager
 import rpt.tool.hybridwalk.utils.managers.SharedPreferencesManager
+import rpt.tool.hybridwalk.utils.view.widget.HybridWalkWidget
 
 class SettingsViewModel : ViewModel() {
 
@@ -26,13 +29,15 @@ class SettingsViewModel : ViewModel() {
             SharedPreferencesManager.inactivityThreshold / (60 * 1000)).toInt())
     val inactivityThreshold = _inactivityThreshold.asStateFlow()
 
-    // Stato reattivo per il colore d'accento
     private val _selectedColor = MutableStateFlow(SharedPreferencesManager.primaryColorHex)
     val selectedColor = _selectedColor.asStateFlow()
 
     fun updateStepGoal(newGoal: Int) {
         SharedPreferencesManager.stepGoal = newGoal
         _stepGoal.value = newGoal
+        viewModelScope.launch {
+            HybridWalkWidget().updateAll(HybridWalkApplication.instance)
+        }
     }
 
     fun updateInactivityThreshold(minutes: Int) {
@@ -41,10 +46,12 @@ class SettingsViewModel : ViewModel() {
         _inactivityThreshold.value = minutes
     }
 
-    // Funzione per aggiornare il colore
     fun updatePrimaryColor(hexColor: String) {
         SharedPreferencesManager.primaryColorHex = hexColor
         _selectedColor.value = hexColor
+        viewModelScope.launch {
+            HybridWalkWidget().updateAll(HybridWalkApplication.instance)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -64,7 +71,6 @@ class SettingsViewModel : ViewModel() {
     fun exportData(context: Context, uri: android.net.Uri, format: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                // Recupera i dati (adatta la chiamata al tuo Repository effettivo)
                 val records = RepositoryManager.hybridWalkRepository.getAllRecords().first()
 
                 if (format == "csv") {
@@ -87,14 +93,14 @@ class SettingsViewModel : ViewModel() {
 
                 withContext(Dispatchers.Main) {
                     android.widget.Toast.makeText(context,
-                        context.getString(R.string.esportazione_ok),
+                        context.getString(R.string.export_success),
                         android.widget.Toast.LENGTH_LONG).show()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
                     android.widget.Toast.makeText(context,
-                        context.getString(R.string.esportazione_ko),
+                        context.getString(R.string.export_error),
                         android.widget.Toast.LENGTH_SHORT).show()
                 }
             }

@@ -1,36 +1,38 @@
 <resources>
     <string name="app_name">HybridWalk</string>
-    <string name="oggi">Oggi</string>
-    <string name="mantieni_il_ritmo">Mantieni il ritmo</string>
-    <string name="modalit_smart_working">Modalità Smart Working</string>
-    <string name="traccia_i_passi">Traccia i passi e ricorda di alzarti</string>
-    <string name="giorno_di_scarico_palestra">Giorno di Scarico / Palestra</string>
-    <string name="disattiva_i_promemoria_per_oggi">Disattiva i promemoria per oggi</string>
-    <string name="passi">/ %1$d passi</string>
-    <string name="tracciamento_passi">Tracciamento Passi</string>
+    <string name="today">Oggi</string>
+    <string name="keep_pace">Mantieni il ritmo</string>
+    <string name="wfh_mode">Modalità Smart Working</string>
+    <string name="track_steps_desc">Traccia i passi e ricorda di alzarti</string>
+    <string name="rest_gym_day">Giorno di Scarico / Palestra</string>
+    <string name="disable_reminders_today">Disattiva i promemoria per oggi</string>
+    <string name="steps_format">/ %1$d passi</string>
+    <string name="step_tracking">Tracciamento Passi</string>
     <string name="hybridwalk">HybridWalk</string>
-    <string name="tracciamento_attivo_in_background">Tracciamento attivo in background</string>
-    <string name="promemoria_movimento">Promemoria Movimento</string>
-    <string name="ti_ricorda_di_alzarti_se_stai_fermo_per_troppo_tempo">Ti ricorda di alzarti se stai fermo per troppo tempo</string>
-    <string name="ora_di_sgranchirsi_le_gambe">Ora di sgranchirsi le gambe! 🚶‍♂️</string>
-    <string name="sedentario">Sei seduto da 60 minuti. Alzati per bere un bicchiere d\'acqua.</string>
-    <string name="attenzione_il_contapassi_potrebbe_fermarsi">Attenzione: Il contapassi potrebbe fermarsi</string>
-    <string name="il_sistema_operativo_potrebbe_chiudere_l_app">Il sistema operativo potrebbe chiudere l\'app per risparmiare batteria. Tocca qui per disabilitare l\'ottimizzazione per HybridWalk.</string>
-    <string name="telefoni_ottimizzazione">Per assicurarti che il contapassi funzioni correttamente, vai nelle Impostazioni del telefono > App > HybridWalk > Batteria, e seleziona \'Senza restrizioni\' (o \'Non ottimizzare\').</string>
-    <string name="andamento">Andamento</string>
-    <string name="ultimi_7_giorni">Ultimi 7 giorni</string>
-    <string name="_oggi">Oggi</string>
-    <string name="impostazioni">Impostazioni</string>
-    <string name="obiettivi">Obiettivi</string>
+    <string name="tracking_active_background">Tracciamento attivo in background</string>
+    <string name="movement_reminder">Promemoria Movimento</string>
+    <string name="stand_up_reminder_desc">Ti ricorda di alzarti se stai fermo per troppo tempo</string>
+    <string name="time_to_stretch">Ora di sgranchirsi le gambe! 🚶‍♂️</string>
+    <string name="sedentary_alert">Sei seduto da 60 minuti. Alzati per bere un bicchiere d\'acqua.</string>
+    <string name="battery_warning_title">Attenzione: Il contapassi potrebbe fermarsi</string>
+    <string name="battery_warning_desc">Il sistema operativo potrebbe chiudere l\'app per risparmiare batteria. Tocca qui per disabilitare l\'ottimizzazione per HybridWalk.</string>
+    <string name="battery_optimization_instructions">Per assicurarti che il contapassi funzioni correttamente, vai nelle Impostazioni del telefono > App > HybridWalk > Batteria, e seleziona \'Senza restrizioni\' (o \'Non ottimizzare\').</string>
+    <string name="progress">Andamento</string>
+    <string name="last_7_days">Ultimi 7 giorni</string>
+    <string name="today_label">Oggi</string>
+    <string name="settings">Impostazioni</string>
+    <string name="achievements">Obiettivi</string>
     <string name="recalculate">Ricalcola</string>
     <string name="reset_all">Reset</string>
-    <string name="personalizza_la_tua_esperienza">Personalizza la tua esperienza</string>
-    <string name="obiettivo_passi_giornaliero">Obiettivo passi giornaliero</string>
-    <string name="passi_al_giorno">%1$d passi</string>
-    <string name="promemoria_inattività">Promemoria inattività</string>
-    <string name="minuti_di_inattività">%1$d minuti</string>
-    <string name="risparmio_batteria">Risparmio batteria</string>
-    <string name="gestisci_ottimizzazione_batteria">Gestisci ottimizzazione batteria</string>
+    <string name="unlocked_label">Sbloccati (%1$d)</string>
+    <string name="locked_label">Bloccati (%1$d)</string>
+    <string name="customize_experience">Personalizza la tua esperienza</string>
+    <string name="daily_step_goal">Obiettivo passi giornaliero</string>
+    <string name="steps_per_day">%1$d passi</string>
+    <string name="inactivity_reminder">Promemoria inattività</string>
+    <string name="inactivity_minutes">%1$d minuti</string>
+    <string name="battery_saving">Risparmio batteria</string>
+    <string name="manage_battery_optimization">Gestisci ottimizzazione batteria</string>
     <string name="ach_tit_1">Primi Passi</string>
     <string name="ach_tit_2">Camminatore</string>
     <string name="ach_tit_3">Maratoneta</string>
@@ -156,21 +158,61 @@
     <string name="awesome">FANTASTICO</string>
     <string name="img">img</string>
 
-    <!-- Stats Screen -->
     <string name="stats_title">Statistiche</string>
     <string name="stats_subtitle">Analizza i tuoi progressi</string>
     <string name="last_3_months">Ultimi 3 Mesi</string>
     <string name="less">Meno</string>
     <string name="more">Di più</string>
     <string name="avg_steps_context">Media Passi per Contesto</string>
-    <string name="smart_working_label">Smart Working \uD83D\uDCBB</string>
+    <string name="wfh_label">Smart Working \uD83D\uDCBB</string>
     <string name="standard_day_label">Giornata Standard \uD83C\uDFE2</string>
-    <string name="rest_day_gym_label">Giorno di Scarico (Palestra) \uD83C\uDFCB\uFE0F</string>
+    <string name="rest_gym_day_label">Giorno di Scarico (Palestra) \uD83C\uDFCB\uFE0F</string>
     <string name="steps_label"> passi</string>
-    <string name="esportazione_ok">Esportazione completata con successo</string>
-    <string name="esportazione_ko">Errore durante l\'esportazione</string>
-    <string name="colore_tema">Colore Tema</string>
-    <string name="esporta_dati">Esporta Dati</string>
-    <string name="esporta_csv">Esporta CSV</string>
-    <string name="esporta_pdf">Esporta PDF</string>
+    <string name="export_success">Esportazione completata con successo</string>
+    <string name="export_error">Errore durante l\'esportazione</string>
+    <string name="theme_color">Colore Tema</string>
+    <string name="export_data">Esporta Dati</string>
+    <string name="export_csv">Esporta CSV</string>
+    <string name="export_pdf">Esporta PDF</string>
+    <string name="active_break">Pausa Attiva ⏰</string>
+    <string name="flash_challenge">Sfida Flash</string>
+    <string name="challenge_passed">Sfida superata!</string>
+    <string name="complete_challenge_question">Hai completato la sfida flash di oggi?</string>
+    <string name="confirm">Conferma</string>
+    <string name="cancel">Annulla</string>
+    <string name="completed_on">Completata il: %1$s</string>
+    <string name="streak_titles"><![CDATA[Striscia & Titoli]]></string>
+    <string name="streak_nav">Striscia</string>
+    <string name="daily_consistency">La tua costanza quotidiana</string>
+    <string name="consecutive_fire_days">Giorni di fuoco consecutivi</string>
+    <string name="days_format">%1$d giorni</string>
+    <string name="available_format">%1$d disponibili</string>
+    <string name="streak_freeze">Streak Freeze 🧊</string>
+    <string name="streak_protection_freeze">🧊 Protezione Striscia (Freeze)</string>
+    <string name="streak_3_days_desc">Completa 3 giorni perfetti di fila per guadagnare un \'Congela-striscia\' e salvare i tuoi progressi se un giorno non riesci a muoverti.</string>
+    <string name="perfect_days_bonus_progress">Progresso bonus: %1$d / 3 giorni perfetti</string>
+    <string name="your_current_title">Il tuo Titolo Attuale</string>
+    <string name="streak_tit_1">🏆 Leggenda del Fitness</string>
+    <string name="streak_tit_2">🦅 Camminatore Seriale</string>
+    <string name="streak_tit_3">⚡ Macchina da Guerra</string>
+    <string name="streak_tit_4">🔥 In Movimento</string>
+    <string name="streak_tit_5">💻 Principiante da Scrivania</string>
+    <string name="streak_desc_1">Hai dimostrato una costanza sovrumana. Nessun ostiscoto ti ferma!</string>
+    <string name="streak_desc_2">La tua costanza è ormai un\'abitudine di ferro. Ottimo lavoro!</string>
+    <string name="streak_desc_3">Una settimana intera di fuoco! Stai lasciando il segno.</string>
+    <string name="streak_desc_4">Hai rotto la sedentarietà. La strada è quella giusta!</string>
+    <string name="streak_desc_5">Il primo passo è il più importante. Comincia a muoverti!</string>
+    <string-array name="stand_up_reminders">
+        <item>È l\'ora di sgranchirsi le gambe! Fai 2 minuti di stretching.</item>
+        <item>Pausa caffè o bicchiere d\'acqua? Alzati dalla scrivania per un momento.</item>
+        <item>Stacca gli occhi dallo schermo e fai 100 passi nella stanza.</item>
+        <item>Troppo tempo seduto. Un breve movimento ti darà più concentrazione!</item>
+    </string-array>
+    <string-array name="daily_challenges">
+        <item>Fai 2.000 passi prima di pranzo.</item>
+        <item>Completa 3 pause attive durante il lavoro.</item>
+        <item>Registra un giorno perfetto senza mai ignorare i promemoria.</item>
+        <item>Fai 500 passi di fila senza interruzioni.</item>
+        <item>Bevi 2 bicchieri d\'acqua extra oggi.</item>
+    </string-array>
 </resources>

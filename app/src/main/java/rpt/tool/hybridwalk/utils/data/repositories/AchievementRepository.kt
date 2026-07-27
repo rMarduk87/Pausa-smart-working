@@ -45,7 +45,6 @@ class AchievementRepository(
 
             val packageName = context.packageName
 
-            // Parse Achievements
             context.resources.openRawResource(resource).use { inputStream ->
                 val reader = BufferedReader(InputStreamReader(inputStream))
                 reader.useLines { lines ->
@@ -86,7 +85,6 @@ class AchievementRepository(
                 }
             }
 
-            // Parse Achievement Details
             context.resources.openRawResource(resourceDetail).use { inputStream ->
                 val reader = BufferedReader(InputStreamReader(inputStream))
                 reader.useLines { lines ->

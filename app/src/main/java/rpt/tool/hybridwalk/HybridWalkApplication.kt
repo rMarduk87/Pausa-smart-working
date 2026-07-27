@@ -32,7 +32,6 @@ class HybridWalkApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         _instance = this
-        //Init log
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         } else {

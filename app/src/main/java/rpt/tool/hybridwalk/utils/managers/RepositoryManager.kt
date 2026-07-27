@@ -5,6 +5,7 @@ import rpt.tool.hybridwalk.HybridWalkApplication
 import rpt.tool.hybridwalk.utils.data.database.AppDatabase
 import rpt.tool.hybridwalk.utils.data.repositories.AchievementRepository
 import rpt.tool.hybridwalk.utils.data.repositories.HybridWalkRepository
+import rpt.tool.hybridwalk.utils.data.repositories.StreakRepository
 
 object RepositoryManager {
 
@@ -19,5 +20,9 @@ object RepositoryManager {
 
     val achievementRepository: AchievementRepository by lazy {
         AchievementRepository(db.achievementDao())
+    }
+
+    val streakRepository: StreakRepository by lazy {
+        StreakRepository(db.streakDao())
     }
 }
