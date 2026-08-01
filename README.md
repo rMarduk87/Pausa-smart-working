@@ -1,10 +1,12 @@
-# 🚶‍♂️ HybridWalk
+# 🚶‍♂️ HybridWalk - Contapassi
 
 <img width="256" height="256" alt="play_store_512" src="https://github.com/user-attachments/assets/513d33c0-fcf8-47ed-a99b-f5c6efdc4d9b" />
 
 *Mantieni il ritmo, anche da casa.*
 
-### 🖼️ Screenshot & Preview
+------------------------------------------------------------------------
+
+### 🖼️ Preview
 
 <table>
   <tr>
@@ -65,9 +67,18 @@ Segna i giorni in cui ti alleni intensamente.
 - Rileva assenza di movimento (60—90 min)
 - Notifiche leggere per micro-pause
 
+### 🔥 Strisce e Gamification (Streak)
+- Monitoraggio della costanza giornaliera ("Striscia di Fuoco")
+- Titoli dinamici sbloccabili in base ai progressi
+- Sistema di recupero con i "Streak Freeze"
+
+### 🏆 Achievement e Obiettivi Temporali
+- Riconoscimenti per i traguardi raggiunti (es. Early Bird e Night Owl)
+- Sfide flash quotidiane per spezzare la routine
+
 ### 📊 Dashboard Minimalista
 - Progresso giornaliero
-- Grafico settimanale
+- Grafico settimanale e Mappa Termica
 - Nessuna metrica inutile
 
 ------------------------------------------------------------------------
@@ -101,19 +112,37 @@ pressione.
 
 - Sync Google Fit (opzionale)
 - Insight avanzati
-- Supporto Wear OS
+
+------------------------------------------------------------------------
+
+## 📸 Screenshot
+
+<table>
+  <tr>
+    <td align="center"><img width="250" alt="Screenshot 2026-08-01 6" src="https://github.com/user-attachments/assets/40c0bea4-c7cd-4f8e-b399-6ddab822b1b2" /></td>
+    <td align="center"><img width="250" alt="Screenshot 2026-08-01 5" src="https://github.com/user-attachments/assets/eeca9b00-7893-4741-b619-71d000ff6de6" /></td>
+    <td align="center"><img width="250" alt="Screenshot 2026-08-01 4" src="https://github.com/user-attachments/assets/96dc374f-a269-4baa-a253-4ed86e8e3496" /></td>
+  </tr>
+  <tr>
+    <td align="center"><img width="250" alt="Screenshot 2026-08-01 3" src="https://github.com/user-attachments/assets/e808070e-11cb-45da-a184-72985afc7534" /></td>
+    <td align="center"><img width="250" alt="Screenshot 2026-08-01 2" src="https://github.com/user-attachments/assets/a7428b84-a080-471a-9acf-0f9d0bb674bf" /></td>
+    <td align="center"><img width="250" alt="Screenshot 2026-08-01 1" src="https://github.com/user-attachments/assets/85597af2-c5fc-4e7d-9024-d6c6e10f09d9" /></td>
+  </tr>
+</table>
 
 ------------------------------------------------------------------------
 
 ## 📥 Installazione
 
-Coming soon su Google Play.
+<a href="https://play.google.com/store/apps/details?id=rpt.tool.hybridwalk&pli=1">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" width="200" alt="Scarica su Google Play">
+</a>
 
 ------------------------------------------------------------------------
 
 ## 🤝 Contributi
 
-Benvenuti!
+Icons by Freepik -> https://www.magnific.com/app
 
 ------------------------------------------------------------------------
 
