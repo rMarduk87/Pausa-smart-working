@@ -1,0 +1,10 @@
+- [x] Update version catalog (`libs.versions.toml`)
+    - [x] Update `composeBom` to `2026.06.01`
+    - [x] Update `ksp` to `2.3.10` (Already at 2.3.10, compatible with 2.4.10)
+- [x] Update `app/build.gradle.kts`
+    - [x] Apply `kotlin-compose` plugin
+    - [x] Remove `kotlinAndroid` plugin (no longer required with AGP 9.0+)
+- [x] Synchronize and Build
+    - [x] Run Gradle Sync
+    - [x] Run `./gradlew :app:compileDebugKotlin`
+- [x] Verify DashboardFragment in IDE

@@ -1,0 +1,12 @@
+- [x] Add keys to `AppUtils.kt`
+- [x] Update `SharedPreferencesManager.kt` with new settings
+- [x] Add strings to `strings.xml`
+- [x] Update `Screen.kt` and `HybridScaffold`
+- [x] Update `main_nav_graph.xml` with new destination and actions
+- [x] Update `RepositoryManager.kt` to use dynamic step goal
+- [x] Update `StepTrackerService.kt` to use dynamic inactivity threshold
+- [x] Implement `SettingsViewModel.kt`
+- [x] Implement `SettingsFragment.kt`
+- [x] Update `DashboardFragment.kt` navigation
+- [x] Update `StatsFragment.kt` navigation
+- [x] Verify build and functionality

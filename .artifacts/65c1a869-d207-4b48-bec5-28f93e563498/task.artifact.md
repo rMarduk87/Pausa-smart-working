@@ -1,0 +1,4 @@
+- [x] Remove redundant `BottomNavigationView` from `activity_main.xml`
+- [x] Add `verticalScroll` to `DashboardScreen` in `DashboardFragment.kt`
+- [x] Add `verticalScroll` to `StatsScreen` in `StatsScreen.kt`
+- [x] Verify fix in the app

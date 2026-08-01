@@ -1,0 +1,256 @@
+<resources>
+    <string name="app_name">HybridWalk</string>
+    <string name="today">Today</string>
+    <string name="keep_pace">Keep the pace</string>
+    <string name="wfh_mode">Smart Working Mode</string>
+    <string name="track_steps_desc">Track your steps and remember to stand up</string>
+    <string name="rest_gym_day">Rest Day / Gym</string>
+    <string name="disable_reminders_today">Disable reminders for today</string>
+    <string name="steps_format">%1$d steps</string>
+    <string name="step_tracking">Step tracking</string>
+    <string name="hybridwalk">HybridWalk</string>
+    <string name="tracking_active_background">Tracking active in background</string>
+    <string name="movement_reminder">Movement reminders</string>
+    <string name="stand_up_reminder_desc">Reminds you to stand up if you stay inactive for too long</string>
+    <string name="time_to_stretch">Time to stretch your legs! 🚶‍♂️</string>
+    <string name="sedentary_alert">You’ve been sitting for 60 minutes. Get up and grab a glass of water.</string>
+    <string name="battery_warning_title">Warning: the step counter may stop</string>
+    <string name="battery_warning_desc">The system may close the app to save battery. Tap here to disable optimization for HybridWalk.</string>
+    <string name="battery_optimization_instructions">To ensure proper tracking, go to Settings &gt; Apps &gt; HybridWalk &gt; Battery and select "Unrestricted" (or "Don’t optimize").</string>
+    <string name="progress">Progress</string>
+    <string name="last_7_days">Last 7 days</string>
+    <string name="today_label">Today</string>
+    <string name="settings">Settings</string>
+    <string name="achievements">Achievements</string>
+    <string name="recalculate">Recalculate</string>
+    <string name="reset_all">Reset All</string>
+    <string name="unlocked_label">Unlocked (%1$d)</string>
+    <string name="locked_label">Locked (%1$d)</string>
+    <string name="customize_experience">Customize your experience</string>
+    <string name="daily_step_goal">Daily step goal</string>
+    <string name="steps_per_day">%1$d steps</string>
+    <string name="inactivity_reminder">Inactivity reminder</string>
+    <string name="inactivity_minutes">%1$d minutes</string>
+    <string name="battery_saving">Battery saving</string>
+    <string name="manage_battery_optimization">Manage battery optimization</string>
+    <string name="ach_1" translatable="false">👟</string>
+    <string name="ach_2" translatable="false">🚶</string>
+    <string name="ach_3" translatable="false">🏃</string>
+    <string name="ach_4" translatable="false">🔥</string>
+    <string name="ach_5" translatable="false">⚡</string>
+    <string name="ach_6" translatable="false">💻</string>
+    <string name="ach_7" translatable="false">🏠</string>
+    <string name="ach_8" translatable="false">☕</string>
+    <string name="ach_9" translatable="false">🛋️</string>
+    <string name="ach_10" translatable="false">🏋️</string>
+    <string name="ach_11" translatable="false">💪</string>
+    <string name="ach_12" translatable="false">🏅</string>
+    <string name="ach_13" translatable="false">🏆</string>
+    <string name="ach_14" translatable="false">📅</string>
+    <string name="ach_15" translatable="false">📆</string>
+    <string name="ach_16" translatable="false">🗓️</string>
+    <string name="ach_17" translatable="false">🎯</string>
+    <string name="ach_18" translatable="false">🎯</string>
+    <string name="ach_19" translatable="false">🌟</string>
+    <string name="ach_20" translatable="false">👑</string>
+    <string name="ach_21" translatable="false">🏅</string>
+    <string name="ach_22" translatable="false">🏆</string>
+    <string name="ach_23" translatable="false">🎯</string>
+    <string name="ach_24" translatable="false">⚙️</string>
+    <string name="ach_25" translatable="false">📊</string>
+    <string name="ach_26" translatable="false">🛡️</string>
+    <string name="ach_27" translatable="false">🔋</string>
+    <string name="ach_28" translatable="false">🔔</string>
+    <string name="ach_29" translatable="false">⏸️</string>
+    <string name="ach_30" translatable="false">⭐</string>
+    <string name="ach_31" translatable="false">✨</string>
+    <string name="ach_32" translatable="false">🌅</string>
+    <string name="ach_33" translatable="false">🌃</string>
+    <string name="ach_34" translatable="false">👣</string>
+    <string name="ach_35" translatable="false">📊</string>
+    <string name="ach_36" translatable="false">📄</string>
+    <string name="ach_tit_1">First Steps</string>
+    <string name="ach_tit_2">Walker</string>
+    <string name="ach_tit_3">Marathoner</string>
+    <string name="ach_tit_4">Calorie Burner</string>
+    <string name="ach_tit_5">War Machine</string>
+    <string name="ach_tit_6">Smart Worker</string>
+    <string name="ach_tit_7">Home Office</string>
+    <string name="ach_tit_8">Active Break</string>
+    <string name="ach_tit_9">Remote Worker</string>
+    <string name="ach_tit_10">Rest Day</string>
+    <string name="ach_tit_11">Gym Regular</string>
+    <string name="ach_tit_12">Warrior</string>
+    <string name="ach_tit_13">Fitness Champion</string>
+    <string name="ach_tit_14">Consistency</string>
+    <string name="ach_tit_15">Fire Week</string>
+    <string name="ach_tit_16">Perfect Month</string>
+    <string name="ach_tit_17">Bullseye!</string>
+    <string name="ach_tit_18">Sharpshooter</string>
+    <string name="ach_tit_19">Achievement Collector</string>
+    <string name="ach_tit_20">Legend</string>
+    <string name="ach_tit_21">High Performer</string>
+    <string name="ach_tit_22">Elite Walker</string>
+    <string name="ach_tit_23">Aim for the Stars</string>
+    <string name="ach_tit_24">Tailor Made</string>
+    <string name="ach_tit_25">Data Analyst</string>
+    <string name="ach_tit_26">Safe &amp; Secure</string>
+    <string name="ach_tit_27">Full Power</string>
+    <string name="ach_tit_28">Always Ready</string>
+    <string name="ach_tit_29">Smart Breaks</string>
+    <string name="ach_tit_30">Master</string>
+    <string name="ach_tit_31">Grandmaster</string>
+    <string name="ach_tit_32">Early Bird</string>
+    <string name="ach_tit_33">Night Owl</string>
+    <string name="ach_tit_34">Just Starting</string>
+    <string name="ach_tit_35">CSV Reporter</string>
+    <string name="ach_tit_36">PDF Architect</string>
+    <string name="ach_desc_1">You logged your first 1,000 steps. Great start!</string>
+    <string name="ach_desc_2">You reached 5,000 total steps. Keep moving!</string>
+    <string name="ach_desc_3">10,000 steps! You’re going the distance.</string>
+    <string name="ach_desc_4">50,000 steps! Incredible energy.</string>
+    <string name="ach_desc_5">100,000 total steps! An outstanding milestone.</string>
+    <string name="ach_desc_6">You completed your first work-from-home day.</string>
+    <string name="ach_desc_7">5 active work-from-home days completed.</string>
+    <string name="ach_desc_8">10 work-from-home days logged.</string>
+    <string name="ach_desc_9">50 work-from-home days. Your desk thanks you!</string>
+    <string name="ach_desc_10">First gym/rest day recorded.</string>
+    <string name="ach_desc_11">5 gym days logged. Great habit forming.</string>
+    <string name="ach_desc_12">10 training days completed. Well done!</string>
+    <string name="ach_desc_13">50 gym days. Impressive dedication.</string>
+    <string name="ach_desc_14">3 days in a row hitting your goal!</string>
+    <string name="ach_desc_15">A full week without missing your goal.</string>
+    <string name="ach_desc_16">30 consecutive days. Iron consistency!</string>
+    <string name="ach_desc_17">You reached your daily goal for the first time.</string>
+    <string name="ach_desc_18">You reached your goal 10 times.</string>
+    <string name="ach_desc_19">Goal achieved 50 times.</string>
+    <string name="ach_desc_20">100 daily goals completed. Unstoppable!</string>
+    <string name="ach_desc_21">You reached 15,000 steps in a single day!</string>
+    <string name="ach_desc_22">20,000 steps! You are an elite walker.</string>
+    <string name="ach_desc_23">You reached your daily goal 5 times.</string>
+    <string name="ach_desc_24">You customized your goals in the settings.</string>
+    <string name="ach_desc_25">You checked your stats to track your progress.</string>
+    <string name="ach_desc_26">All necessary permissions are granted.</string>
+    <string name="ach_desc_27">Battery optimization is disabled for accurate tracking.</string>
+    <string name="ach_desc_28">You enabled reminders for your WFH days.</string>
+    <string name="ach_desc_29">You used pauses correctly during work.</string>
+    <string name="ach_desc_30">You unlocked 15 achievements. Keep it up!</string>
+    <string name="ach_desc_31">25 achievements unlocked! You are a master.</string>
+    <string name="ach_desc_32">You logged steps early in the morning.</string>
+    <string name="ach_desc_33">You stayed active even late at night.</string>
+    <string name="ach_desc_34">You reached your first 100 steps!</string>
+    <string name="ach_desc_35">You successfully exported your data in CSV format.</string>
+    <string name="ach_desc_36">You created a professional PDF report of your progress.</string>
+    <string name="ach_des_1">Reach 1,000 total steps.</string>
+    <string name="ach_des_2">Reach 5,000 total steps.</string>
+    <string name="ach_des_3">Reach 10,000 total steps.</string>
+    <string name="ach_des_4">Reach 50,000 total steps.</string>
+    <string name="ach_des_5">Reach 100,000 total steps.</string>
+    <string name="ach_des_6">Log 1 work-from-home day.</string>
+    <string name="ach_des_7">Log 5 work-from-home days.</string>
+    <string name="ach_des_8">Log 10 work-from-home days.</string>
+    <string name="ach_des_9">Log 50 work-from-home days.</string>
+    <string name="ach_des_10">Log 1 gym day.</string>
+    <string name="ach_des_11">Log 5 gym days.</string>
+    <string name="ach_des_12">Log 10 gym days.</string>
+    <string name="ach_des_13">Log 50 gym days.</string>
+    <string name="ach_des_14">Reach your goal for 3 consecutive days.</string>
+    <string name="ach_des_15">Reach your goal for 7 consecutive days.</string>
+    <string name="ach_des_16">Reach your goal for 30 consecutive days.</string>
+    <string name="ach_des_17">Reach your goal once.</string>
+    <string name="ach_des_18">Reach your goal 10 times.</string>
+    <string name="ach_des_19">Reach your goal 50 times.</string>
+    <string name="ach_des_20">Reach your goal 100 times.</string>
+    <string name="ach_des_21">Reach 15,000 steps in one day.</string>
+    <string name="ach_des_22">Reach 20,000 steps in one day.</string>
+    <string name="ach_des_23">Reach your goal 5 times.</string>
+    <string name="ach_des_24">Change your step goal or inactivity threshold.</string>
+    <string name="ach_des_25">View the Stats screen.</string>
+    <string name="ach_des_26">Grant all required permissions.</string>
+    <string name="ach_des_27">Disable battery optimization.</string>
+    <string name="ach_des_28">Enable WFH reminders.</string>
+    <string name="ach_des_29">Take pauses during WFH sessions.</string>
+    <string name="ach_des_30">Unlock 15 achievements.</string>
+    <string name="ach_des_31">Unlock 25 achievements.</string>
+    <string name="ach_des_32">Log steps between 5:00 and 8:00 AM.</string>
+    <string name="ach_des_33">Log steps between 11:00 PM and 2:00 AM.</string>
+    <string name="ach_des_34">Reach 100 total steps.</string>
+    <string name="ach_des_35">Export data to CSV.</string>
+    <string name="ach_des_36">Export data to PDF.</string>
+    <string name="ach_type_app">app usage</string>
+    <string name="unit_type_unlocked">unlocked</string>
+    <string name="unit_type_milestones">achievements</string>
+    <string name="ach_type_steps">total steps</string>
+    <string name="ach_type_wfh">WFH days</string>
+    <string name="ach_type_gym">gym days</string>
+    <string name="ach_type_streak">streak days</string>
+    <string name="ach_type_goal">goals achieved</string>
+    <string name="unit_type_steps">steps</string>
+    <string name="unit_type_days">days</string>
+    <string name="unit_type_sessions">sessions</string>
+    <string name="unit_type_goals">goals</string>
+    <string name="achievement_balloon">As you walk, work remotely, and stay active, you’ll unlock amazing achievements! Tap here to check your progress.</string>
+    <string name="unlocked">UNLOCKED!</string>
+    <string name="awesome">AWESOME</string>
+    <string name="img">img</string>
+    <string name="stats_title">Statistics</string>
+    <string name="stats_subtitle">Analyze your progress</string>
+    <string name="last_3_months">Last 3 Months</string>
+    <string name="less">Less</string>
+    <string name="more">More</string>
+    <string name="avg_steps_context">Average Steps per Context</string>
+    <string name="wfh_label">Smart Working \uD83D\uDCBB</string>
+    <string name="standard_day_label">Standard Day \uD83C\uDFE2</string>
+    <string name="rest_gym_day_label">Rest Day (Gym) \uD83C\uDFCB\uFE0F</string>
+    <string name="steps_label"> steps</string>
+    <string name="export_success">Export completed successfully</string>
+    <string name="export_error">Error during export</string>
+    <string name="theme_color">Color Theme</string>
+    <string name="export_data">Export Data</string>
+    <string name="export_csv">Export CSV</string>
+    <string name="export_pdf">Export PDF</string>
+    <string name="active_break">Active Break ⏰</string>
+    <string name="flash_challenge">Flash Challenge</string>
+    <string name="challenge_passed">Challenge passed!</string>
+    <string name="complete_challenge_question">Did you complete today\'s flash challenge?</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="completed_on">Completed on: %1$s</string>
+    <string name="streak_titles"><![CDATA[Streak & Titles]]></string>
+    <string name="streak_nav">Streak</string>
+    <string name="daily_consistency">Your daily consistency</string>
+    <string name="consecutive_fire_days">Consecutive fire days</string>
+    <string name="days_format">%1$d days</string>
+    <string name="available_format">%1$d available</string>
+    <string name="streak_freeze">Streak Freeze 🧊</string>
+    <string name="streak_protection_freeze">🧊 Streak Protection (Freeze)</string>
+    <string name="streak_3_days_desc">Complete 3 perfect days in a row to earn a \'Streak-freeze\' and save your progress if you can\'t move one day.</string>
+    <string name="perfect_days_bonus_progress">Bonus progress: %1$d / 3 perfect days</string>
+    <string name="your_current_title">Your Current Title</string>
+    <string name="streak_tit_1">🏆 Fitness Legend</string>
+    <string name="streak_tit_2">🦅 Serial Walker</string>
+    <string name="streak_tit_3">⚡ War Machine</string>
+    <string name="streak_tit_4">🔥 On the Move</string>
+    <string name="streak_tit_5">💻 Desk Beginner</string>
+    <string name="streak_desc_1">You have shown superhuman consistency. No obstacle stops you!</string>
+    <string name="streak_desc_2">Your consistency is now a habit of iron. Great job!</string>
+    <string name="streak_desc_3">A full week of fire! You are making your mark.</string>
+    <string name="streak_desc_4">You broke the sedentary lifestyle. The path is the right one!</string>
+    <string name="streak_desc_5">The first step is the most important. Start moving!</string>
+    <string name="achievement_reset">Achievements reset</string>
+    <string name="reset_achievement_title">Reset Achievements</string>
+    <string name="reset_achievement_warning">This action will clear all your achievements. \n\nYou can use the \'Recalculate\' button to recover badges related to your steps, but achievements related to your actions (e.g., Stats or Settings) will need to be unlocked manually again.</string>
+    <string-array name="stand_up_reminders">
+        <item>Time to stretch your legs! Do 2 minutes of stretching.</item>
+        <item>Coffee break or a glass of water? Get up from your desk for a moment.</item>
+        <item>Take your eyes off the screen and walk 100 steps in the room.</item>
+        <item>Too much time sitting. A short movement will give you more focus!</item>
+    </string-array>
+    <string-array name="daily_challenges">
+        <item>Walk 2,000 steps before lunch.</item>
+        <item>Complete 3 active breaks during work.</item>
+        <item>Log a perfect day without ever ignoring reminders.</item>
+        <item>Walk 500 steps in a row without interruptions.</item>
+        <item>Drink 2 extra glasses of water today.</item>
+    </string-array>
+</resources>

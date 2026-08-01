@@ -1,0 +1,3 @@
+- `[x]` Update `gradle/libs.versions.toml` with latest Compose BOM version
+- `[x]` Add Compose BOM to `implementation` in `app/build.gradle.kts`
+- `[x]` Verify build with `./gradlew :app:assembleDebug`

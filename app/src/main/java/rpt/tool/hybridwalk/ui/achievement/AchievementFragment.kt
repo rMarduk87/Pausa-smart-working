@@ -1,0 +1,160 @@
+package rpt.tool.hybridwalk.ui.achievement
+
+
+import android.os.Build
+import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.launch
+import rpt.com.base.BaseJetComposeFragment
+import rpt.com.base.navigation.safeNavController
+import rpt.com.base.navigation.safeNavigate
+import rpt.tool.hybridwalk.R
+import rpt.tool.hybridwalk.utils.managers.AchievementManager
+import rpt.tool.hybridwalk.utils.managers.SharedPreferencesManager
+import rpt.tool.hybridwalk.utils.view.component.AchievementScreen
+import rpt.tool.hybridwalk.utils.view.component.HybridScaffold
+import rpt.tool.hybridwalk.utils.view.component.Screen
+import androidx.core.graphics.toColorInt
+
+class AchievementFragment : BaseJetComposeFragment(hideBars = true),
+    AchievementManager.AchievementListener {
+
+    private lateinit var sharedViewModel: AchievementViewModel
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    @Composable
+    override fun BaseJetCompose() {
+
+        val viewModel: AchievementViewModel = viewModel()
+        sharedViewModel = viewModel
+
+        val earnedList by viewModel.earnedAchievements.collectAsStateWithLifecycle()
+        val lockedList by viewModel.lockedAchievements.collectAsStateWithLifecycle()
+
+        val coroutineScope = rememberCoroutineScope()
+        val context = LocalContext.current
+
+        var showResetDialog by remember { mutableStateOf(false) }
+
+        if (showResetDialog) {
+            AlertDialog(
+                onDismissRequest = { showResetDialog = false },
+                title = { Text(text = stringResource(R.string.reset_achievement_title)) },
+                text = { Text(text = stringResource(R.string.reset_achievement_warning)) },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            coroutineScope.launch {
+                                AchievementManager.deleteAllAchievement()
+                                Toast.makeText(
+                                    context, getString(
+                                        R.string.achievement_reset
+                                    ),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            showResetDialog = false
+                        }
+                    ) {
+                        Text(text = stringResource(R.string.reset_all))
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showResetDialog = false }) {
+                        Text(text = stringResource(R.string.cancel))
+                    }
+                },
+                containerColor = colorResource(R.color.navy_dark_alt),
+                titleContentColor = Color.White,
+                textContentColor = Color.White.copy(alpha = 0.7f)
+            )
+        }
+
+        DisposableEffect(Unit) {
+            AchievementManager.setListener(this@AchievementFragment)
+            viewModel.loadAchievements()
+            onDispose {
+                AchievementManager.setListener(null)
+            }
+        }
+
+        val dynamicPrimary = try {
+            Color(SharedPreferencesManager.primaryColorHex.toColorInt())
+        } catch (e: Exception) {
+            colorResource(R.color.primary_default)
+        }
+
+        MaterialTheme(
+            colorScheme = darkColorScheme(
+                primary = dynamicPrimary,
+                background = colorResource(R.color.background_dark),
+                surface = colorResource(R.color.surface_dark)
+            )
+        ) {
+            HybridScaffold(
+                currentScreen = Screen.Achievement, 
+                onTabSelected = { screen ->
+                    when (screen) {
+                        is Screen.Dashboard -> {
+                            safeNavController(R.id.main_activity_nav_host_fragment)
+                                ?.safeNavigate(R.id.action_achievementFragment_to_dashboardFragment)
+                        }
+                        is Screen.Stats -> {
+                            safeNavController(R.id.main_activity_nav_host_fragment)
+                                ?.safeNavigate(R.id.action_achievementFragment_to_statsFragment)
+                        }
+                        is Screen.Settings -> {
+                            safeNavController(R.id.main_activity_nav_host_fragment)
+                                ?.safeNavigate(R.id.action_achievementFragment_to_settingsFragment)
+                        }
+                        is Screen.Streak -> {
+                            safeNavController(R.id.main_activity_nav_host_fragment)
+                                ?.safeNavigate(R.id.action_achievementFragment_to_streakFragment)
+                        }
+                        else -> {}
+                    }
+                }
+            ) { paddingValues ->
+                Surface(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    AchievementScreen(
+                        earnedList = earnedList,
+                        lockedList = lockedList,
+                        onRecalculate = {
+                            coroutineScope.launch {
+                                AchievementManager.recalculateAll(null,
+                                    false, emptyMap(), context)
+                            }
+                        },
+                        onReset = {
+                            showResetDialog = true
+                        }
+                    )
+                }
+            }
+        }
+    }
+
+    override fun onAchievementEarned(id: Int) {
+    }
+
+    override fun onDataChanged() {
+        if (::sharedViewModel.isInitialized) {
+            sharedViewModel.loadAchievements()
+        }
+    }
+}
