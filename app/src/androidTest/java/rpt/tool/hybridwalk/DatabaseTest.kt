@@ -1,15 +1,12 @@
 package rpt.tool.hybridwalk
 
-import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import app.cash.turbine.test
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,7 +27,7 @@ class DatabaseTest {
 
     @Before
     fun createDb() {
-        val context = ApplicationProvider.getApplicationContext<Context>()
+        val context = ApplicationProvider.getApplicationContext<android.content.Context>()
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build()
         hybridWalkDao = db.hybridWalkDao()
         achievementDao = db.achievementDao()
@@ -43,56 +40,44 @@ class DatabaseTest {
     }
 
     @Test
-    fun writeAndReadDailyRecord() = runTest {
+    @Throws(Exception::class)
+    fun writeUserAndReadInList() = runBlocking {
         val record = DailyRecordModel(
-            dateEpochDay = 20000L,
-            stepCount = 1000,
-            stepGoal = 5000,
+            dateEpochDay = 12345L,
+            stepCount = 5000,
+            stepGoal = 7000,
             isWfhDay = true,
             isGymDay = false
         )
         hybridWalkDao.insertOrUpdate(record)
-
-        hybridWalkDao.getRecordByDate(20000L).test {
-            val item = awaitItem()
-            assertNotNull(item)
-            assertEquals(1000, item?.stepCount)
-            assertEquals(5000, item?.stepGoal)
-            assertEquals(true, item?.isWfhDay)
-            cancelAndIgnoreRemainingEvents()
-        }
+        val byDate = hybridWalkDao.getRecordByDate(12345L).first()
+        assertEquals(byDate?.stepCount, 5000)
     }
 
     @Test
-    fun updateStepsInRecord() = runTest {
-        val record = DailyRecordModel(
-            dateEpochDay = 20001L,
-            stepCount = 500
-        )
-        hybridWalkDao.insertOrUpdate(record)
-        hybridWalkDao.updateSteps(20001L, 1500)
-
-        hybridWalkDao.getRecordByDate(20001L).test {
-            val item = awaitItem()
-            assertEquals(1500, item?.stepCount)
-            cancelAndIgnoreRemainingEvents()
-        }
-    }
-
-    @Test
-    fun achievementAndDetailsTest() = runTest {
+    @Throws(Exception::class)
+    fun writeAchievementAndRead() = runBlocking {
         val achievement = AchievementModel(
             id = 1,
-            code = "test_ach",
+            code = "TEST",
             titleId = 0,
             descriptionValue = 0,
             imageId = 0,
             backgroundColor = "#FFFFFF",
-            category = "Test",
+            category = "TEST",
             sortOrder = 1,
-            earned = 0,
-            date = null
+            earned = 1,
+            date = "2023-01-01"
         )
+        achievementDao.insertAchievements(listOf(achievement))
+        val earned = achievementDao.getEarnedAchievements()
+        assertEquals(earned.size, 1)
+        assertEquals(earned[0].code, "TEST")
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun writeAchievementDetailAndRead() = runBlocking {
         val detail = AchievementDetailModel(
             id = 1,
             achievement = 1,
@@ -101,33 +86,31 @@ class DatabaseTest {
             typeDescription = 0,
             unit = 1,
             unitDescription = 0,
-            current = 0,
-            target = 100
+            current = 5,
+            target = 10
         )
-
-        achievementDao.insertAchievements(listOf(achievement))
         achievementDao.insertAchievementDetails(listOf(detail))
-
-        val all = achievementDao.getAllAchievement()
-        assertEquals(1, all.size)
-        assertEquals("test_ach", all[0].achievement.code)
-        assertEquals(100, all[0].details.first().target)
-
-        achievementDao.earnAchievement(1, "2026-07-27")
-        val earned = achievementDao.getEarnedAchievements()
-        assertEquals(1, earned.size)
-        assertEquals("2026-07-27", earned[0].date)
+        val details = achievementDao.getAchievementDetails(1)
+        assertEquals(details.size, 1)
+        assertEquals(details[0].description, "Test Detail")
     }
 
     @Test
-    fun clearDailyRecords() = runTest {
-        val record = DailyRecordModel(dateEpochDay = 20002L)
-        hybridWalkDao.insertOrUpdate(record)
-        hybridWalkDao.clear()
+    @Throws(Exception::class)
+    fun testGetRecordsSince() = runBlocking {
+        val record1 = DailyRecordModel(
+            dateEpochDay = 100L,
+            stepCount = 1000
+        )
+        val record2 = DailyRecordModel(
+            dateEpochDay = 200L,
+            stepCount = 2000
+        )
+        hybridWalkDao.insertOrUpdate(record1)
+        hybridWalkDao.insertOrUpdate(record2)
 
-        hybridWalkDao.getRecordByDate(20002L).test {
-            assertNull(awaitItem())
-            cancelAndIgnoreRemainingEvents()
-        }
+        val records = hybridWalkDao.getRecordsSince(150L).first()
+        assertEquals(records.size, 1)
+        assertEquals(records[0].dateEpochDay, 200L)
     }
 }

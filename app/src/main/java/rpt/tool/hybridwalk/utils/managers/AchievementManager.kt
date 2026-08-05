@@ -17,13 +17,14 @@ import rpt.tool.hybridwalk.HybridWalkApplication
 import rpt.tool.hybridwalk.R
 import rpt.tool.hybridwalk.utils.AppUtils
 import rpt.tool.hybridwalk.utils.data.appmodels.AchievementComplex
-import rpt.tool.hybridwalk.utils.data.appmodels.DailyRecord 
+import rpt.tool.hybridwalk.utils.data.appmodels.DailyRecord
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.graphics.toColorInt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import rpt.tool.hybridwalk.utils.managers.SharedPreferencesManager
 import rpt.tool.hybridwalk.utils.extensions.isIgnoringBatteryOptimizations
 
 class AchievementManager {

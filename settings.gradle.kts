@@ -25,3 +25,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "HybridWalk"
 include(":app")
+include(":wear")
+include(":shared")
