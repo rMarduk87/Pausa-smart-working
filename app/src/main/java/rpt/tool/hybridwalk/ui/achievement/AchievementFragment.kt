@@ -102,7 +102,7 @@ class AchievementFragment : BaseJetComposeFragment(hideBars = true),
             )
         ) {
             HybridScaffold(
-                currentScreen = Screen.Achievement, 
+                currentScreen = Screen.Achievement,
                 onTabSelected = { screen ->
                     when (screen) {
                         is Screen.Dashboard -> {

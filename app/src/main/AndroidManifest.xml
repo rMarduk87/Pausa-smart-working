@@ -40,6 +40,15 @@
             android:exported="false"
             android:foregroundServiceType="health" />
 
+        <service
+        android:name=".utils.services.PhoneWearableListenerService"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
+            <data android:scheme="wear" android:host="*" android:pathPrefix="/" />
+        </intent-filter>
+    </service>
+
         <receiver android:name=".utils.receiver.MidnightResetReceiver" android:exported="false" />
 
         <receiver

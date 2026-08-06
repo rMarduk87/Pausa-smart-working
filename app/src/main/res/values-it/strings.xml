@@ -206,4 +206,12 @@
         <item>Fai 500 passi di fila senza interruzioni.</item>
         <item>Bevi 2 bicchieri d\'acqua extra oggi.</item>
     </string-array>
+    <string name="record_label">Record</string>
+    <string name="achievement_unlocked_on">Sbloccato il %1$s</string>
+    <string name="achievement_progress_format">%1$d / %2$d %3$s</string>
+    <string name="percentage_format">%1$d%%</string>
+    <string name="wfh_active">WFH Attivo</string>
+    <string name="wfh_off">WFH Off</string>
+    <string name="gym_day">Palestra</string>
+    <string name="rest_off">Scarico Off</string>
 </resources>

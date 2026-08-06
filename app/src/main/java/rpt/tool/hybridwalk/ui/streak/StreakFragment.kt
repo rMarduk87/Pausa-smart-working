@@ -134,7 +134,7 @@ fun StreakScreen(
                     .padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "🔥", fontSize = 64.sp)
+                Text(text = stringResource(R.string.streak_fire_emoji), fontSize = 64.sp)
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "$currentStreak",
@@ -159,7 +159,7 @@ fun StreakScreen(
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(text = "Record", fontSize = 12.sp, color = Color.Gray)
+                        Text(text = stringResource(R.string.record_label), fontSize = 12.sp, color = Color.Gray)
                         Text(text = stringResource(R.string.days_format, maxStreak),
                             fontSize = 16.sp, fontWeight =
                             FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)

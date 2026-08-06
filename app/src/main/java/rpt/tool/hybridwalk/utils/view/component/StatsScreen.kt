@@ -107,7 +107,7 @@ fun StatsScreen(
         ComparisonCard(
             title = stringResource(R.string.standard_day_label),
             avgSteps = comparisonStats.avgNormal,
-            color = Color(0xFF60A5FA) 
+            color = Color(0xFF60A5FA)
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -115,7 +115,7 @@ fun StatsScreen(
         ComparisonCard(
             title = stringResource(R.string.rest_gym_day_label),
             avgSteps = comparisonStats.avgGym,
-            color = Color(0xFFF87171) 
+            color = Color(0xFFF87171)
         )
     }
 }
@@ -150,7 +150,7 @@ fun HeatmapGrid(heatmapData: List<HeatmapDay>) {
 }
 
 fun getHeatmapColor(intensity: Float, baseColor: Color): Color {
-    if (intensity <= 0f) return Color(0xFF3F3F46) 
+    if (intensity <= 0f) return Color(0xFF3F3F46)
 
     return baseColor.copy(alpha = 0.3f + (0.7f * intensity))
 }

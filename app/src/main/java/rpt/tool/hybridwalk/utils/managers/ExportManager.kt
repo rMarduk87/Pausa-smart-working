@@ -28,14 +28,14 @@ object ExportManager {
         val paint = Paint()
 
         var pageInfo = PdfDocument.PageInfo.Builder(595, 842,
-            1).create() 
+            1).create()
         var page = pdfDocument.startPage(pageInfo)
         var canvas = page.canvas
         var yPos = 50f
 
         paint.textSize = 24f
         paint.isFakeBoldText = true
-        paint.color = "#81B29A".toColorInt() 
+        paint.color = "#81B29A".toColorInt()
         canvas.drawText("Report Salute - HybridWalk", 50f, yPos, paint)
         yPos += 40f
 

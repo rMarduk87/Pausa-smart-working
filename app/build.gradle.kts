@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.androidx.core.splashscreen)
     implementation(project(":shared"))
+    implementation(libs.play.services.wearable.v2001)
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)

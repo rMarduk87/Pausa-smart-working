@@ -26,4 +26,3 @@ class StreakRepository(
         streakDao.clear()
     }
 }
-

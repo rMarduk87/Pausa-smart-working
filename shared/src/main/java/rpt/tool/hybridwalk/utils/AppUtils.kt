@@ -32,5 +32,8 @@ class AppUtils {
         const val DAILY_CHALLENGE_COMPLETED : String ="daily_challenge_completed"
         const val DAILY_CHALLENGE_COMPLETION_DATE : String ="daily_challenge_completion_date"
 
+        const val STEP_OFFSET : String = "step_offset"
+        const val LAST_SAVED_DATE : String = "last_saved_date"
+        const val IS_GOAL_ALREADY_NOTIFIED : String = "is_goal_already_notified"
     }
 }

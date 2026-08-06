@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">HybridWalk</string>
+    <string name="wfh_emoji" translatable="false">💻</string>
+    <string name="gym_emoji" translatable="false">🏋️‍♂️</string>
+    <string name="steps_goal_format">/ %1$d steps</string>
+    <string name="smart_working">Smart Working</string>
+    <string name="rest_day">Rest Day</string>
+    <string name="settings">Settings</string>
+    <string name="theme_color">Theme Color</string>
+    <string name="daily_step_goal">Step Goal</string>
 </resources>
