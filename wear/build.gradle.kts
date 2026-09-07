@@ -12,7 +12,7 @@ android {
         applicationId = "rpt.tool.hybridwalk"
         minSdk = 30
         targetSdk = 36
-        versionCode = 2
+        versionCode = 101
         versionName = "1.0"
 
     }
