@@ -12,6 +12,7 @@ import androidx.work.WorkManager
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import rpt.tool.hybridwalk.utils.managers.SharedPreferencesManager
 import rpt.tool.hybridwalk.utils.workers.AchievementWorker
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -37,6 +38,8 @@ class HybridWalkApplication : Application() {
         } else {
             FirebaseCrashlytics.getInstance().isCrashlyticsCollectionEnabled = true
         }
+
+        SharedPreferencesManager.init(this)
 
         scheduleAchievementWorker(this)
     }

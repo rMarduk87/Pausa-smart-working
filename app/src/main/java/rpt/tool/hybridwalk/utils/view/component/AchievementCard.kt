@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
 import rpt.tool.hybridwalk.utils.data.appmodels.AchievementComplex
 import androidx.compose.ui.res.stringResource
+import rpt.tool.hybridwalk.R
 
 @Composable
 fun AchievementCard(achievement: AchievementComplex, isEarned: Boolean) {
@@ -80,7 +81,9 @@ fun AchievementCard(achievement: AchievementComplex, isEarned: Boolean) {
 
                     if (isEarned && !achievement.date.isNullOrEmpty()) {
                         Text(
-                            text = "Sbloccato il ${achievement.date}",
+                            text = stringResource(R.string.achievement_unlocked_on,
+                                achievement.date!!
+                            ),
                             fontSize = 12.sp,
                             fontWeight = FontWeight.SemiBold,
                             color = baseColor,
@@ -105,13 +108,13 @@ fun AchievementCard(achievement: AchievementComplex, isEarned: Boolean) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "$current / $target ${stringResource(
-                        achievement.detail.typeDescription)}",
+                    text = stringResource(R.string.achievement_progress_format,
+                        current, target, stringResource(achievement.detail.typeDescription)),
                     fontSize = 12.sp,
                     color = Color.Gray
                 )
                 Text(
-                    text = "${(progress * 100).toInt()}%",
+                    text = stringResource(R.string.percentage_format, (progress * 100).toInt()),
                     fontSize = 12.sp,
                     color = Color.Gray
                 )

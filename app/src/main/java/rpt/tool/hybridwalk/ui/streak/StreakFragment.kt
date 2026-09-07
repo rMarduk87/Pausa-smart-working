@@ -7,6 +7,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -133,7 +134,7 @@ fun StreakScreen(
                     .padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "🔥", fontSize = 64.sp)
+                Text(text = stringResource(R.string.streak_fire_emoji), fontSize = 64.sp)
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "$currentStreak",
@@ -147,14 +148,18 @@ fun StreakScreen(
                     color = Color.Gray
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                Divider(color = Color.Gray.copy(alpha = 0.2f))
+                HorizontalDivider(
+                    Modifier,
+                    DividerDefaults.Thickness,
+                    color = Color.Gray.copy(alpha = 0.2f)
+                )
                 Spacer(modifier = Modifier.height(16.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(text = "Record", fontSize = 12.sp, color = Color.Gray)
+                        Text(text = stringResource(R.string.record_label), fontSize = 12.sp, color = Color.Gray)
                         Text(text = stringResource(R.string.days_format, maxStreak),
                             fontSize = 16.sp, fontWeight =
                             FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)

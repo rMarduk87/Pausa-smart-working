@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import rpt.tool.hybridwalk.HybridWalkApplication
 import rpt.tool.hybridwalk.R
+import rpt.tool.hybridwalk.utils.AppUtils
 import rpt.tool.hybridwalk.utils.data.appmodels.DailyRecord
 import rpt.tool.hybridwalk.utils.managers.RepositoryManager
 import rpt.tool.hybridwalk.utils.managers.SharedPreferencesManager
@@ -73,7 +74,7 @@ class DashboardViewModel() : ViewModel() {
     }
 
     fun completeChallenge() {
-        val completionDate = rpt.tool.hybridwalk.utils.AppUtils.getCurrentDate()
+        val completionDate = AppUtils.getCurrentDate()
         SharedPreferencesManager.isDailyChallengeCompleted = true
         SharedPreferencesManager.dailyChallengeCompletionDate = completionDate
         _isChallengeCompleted.value = true

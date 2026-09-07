@@ -35,7 +35,7 @@ class HybridWalkWidget : GlanceAppWidget() {
         val stepCount = todayRecord?.stepCount ?: 0
         val stepGoal = todayRecord?.stepGoal ?: SharedPreferencesManager.stepGoal
 
-        val isWfh = SharedPreferencesManager.isWfh 
+        val isWfh = SharedPreferencesManager.isWfh
         val isGym = todayRecord?.isGymDay ?: false
 
         val achievements = RepositoryManager.achievementRepository.getAllAchievement()
@@ -51,6 +51,7 @@ class HybridWalkWidget : GlanceAppWidget() {
 
         provideContent {
             WidgetUI(
+                context = context,
                 stepCount = stepCount,
                 stepGoal = stepGoal,
                 isWfh = isWfh,
@@ -65,6 +66,7 @@ class HybridWalkWidget : GlanceAppWidget() {
 
 @Composable
 fun WidgetUI(
+    context: Context,
     stepCount: Int,
     stepGoal: Int,
     isWfh: Boolean,
@@ -78,7 +80,7 @@ fun WidgetUI(
     Column(
         modifier = GlanceModifier
             .fillMaxSize()
-            .background(Color(0xFF1E1E24)) 
+            .background(Color(0xFF1E1E24))
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -88,13 +90,13 @@ fun WidgetUI(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                provider = ImageProvider(R.drawable.ic_launcher_foreground), 
+                provider = ImageProvider(R.drawable.ic_launcher_foreground),
                 contentDescription = "Logo",
                 modifier = GlanceModifier.size(24.dp)
             )
             Spacer(modifier = GlanceModifier.width(8.dp))
             Text(
-                text = "Oggi",
+                text = context.getString(R.string.today_label),
                 style = TextStyle(color = androidx.glance.unit.ColorProvider(Color.White), fontSize = 16.sp, fontWeight = FontWeight.Bold)
             )
             Spacer(modifier = GlanceModifier.defaultWeight())
@@ -115,7 +117,7 @@ fun WidgetUI(
             )
         )
         Text(
-            text = "/ $stepGoal passi",
+            text = context.getString(R.string.steps_format, stepGoal),
             style = TextStyle(color = androidx.glance.unit.ColorProvider(Color.Gray), fontSize = 12.sp)
         )
 
@@ -126,7 +128,7 @@ fun WidgetUI(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(
-                text = if (isWfh) "WFH Attivo" else "WFH Off",
+                text = if (isWfh) context.getString(R.string.wfh_active) else context.getString(R.string.wfh_off),
                 onClick = actionRunCallback<ToggleWfhAction>(),
                 colors = androidx.glance.ButtonDefaults.buttonColors(
                     backgroundColor = androidx.glance.unit.ColorProvider(if (isWfh) primaryColor else Color.DarkGray),
@@ -138,7 +140,7 @@ fun WidgetUI(
             Spacer(modifier = GlanceModifier.width(8.dp))
 
             Button(
-                text = if (isGym) "Palestra" else "Scarico Off",
+                text = if (isGym) context.getString(R.string.gym_day) else context.getString(R.string.rest_off),
                 onClick = actionRunCallback<ToggleGymAction>(),
                 colors = androidx.glance.ButtonDefaults.buttonColors(
                     backgroundColor = androidx.glance.unit.ColorProvider(if (isGym) Color(0xFFF87171) else Color.DarkGray),

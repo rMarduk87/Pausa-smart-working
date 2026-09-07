@@ -1,0 +1,14 @@
+<resources>
+    <string name="ach_type_app">utilizzo app</string>
+    <string name="ach_type_steps">passi totali</string>
+    <string name="ach_type_wfh">giorni in WFH</string>
+    <string name="ach_type_gym">giorni in palestra</string>
+    <string name="ach_type_streak">giorni consecutivi</string>
+    <string name="ach_type_goal">obiettivi raggiunti</string>
+    <string name="unit_type_steps">passi</string>
+    <string name="unit_type_days">giorni</string>
+    <string name="unit_type_sessions">sessioni</string>
+    <string name="unit_type_goals">obiettivi</string>
+    <string name="unit_type_milestones">obiettivi</string>
+    <string name="unit_type_unlocked">sbloccato</string>
+</resources>

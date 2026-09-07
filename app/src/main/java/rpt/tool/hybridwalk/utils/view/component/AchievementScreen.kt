@@ -71,7 +71,7 @@ fun AchievementScreen(
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                             Text(
-                                text = " / $totalCount",
+                                text = stringResource(R.string.slash_separator_format, totalCount),
                                 fontSize = 18.sp,
                                 color = Color.Gray,
                                 modifier = Modifier.padding(start = 4.dp, bottom = 4.dp)

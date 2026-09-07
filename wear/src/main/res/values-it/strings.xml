@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">HybridWalk</string>
+    <string name="steps_goal_format">/ %1$d passi</string>
+    <string name="smart_working">Smart Working</string>
+    <string name="rest_day">Giorno di Scarico</string>
+    <string name="settings">Impostazioni</string>
+    <string name="theme_color">Colore Tema</string>
+    <string name="daily_step_goal">Obiettivo Passi</string>
+</resources>
